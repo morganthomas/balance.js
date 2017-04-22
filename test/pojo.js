@@ -83,5 +83,6 @@ describe('isPONJO', function() {
     expect(isPONJO({ x: 'foo', y: 7 })).to.be.false;
     expect(isPONJO([{ x: 5 }, function() { return 5; }])).to.be.false;
     expect(isPONJO(new Promise(function(resolve) { resolve(2); }))).to.be.false;
+    expect(isPONJO([0.0, Infinity, 3.0])).to.be.false;
   });
 });
