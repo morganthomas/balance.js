@@ -1,5 +1,5 @@
 {
-  "name": "doc-op.js",
+  "name": "balance.js",
   "version": "0.0.0",
   "description": "A document layout engine.",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/morganthomas/doc-op.js.git"
+    "url": "git+https://github.com/morganthomas/balance.js.git"
   },
   "author": "Morgan Thomas",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/morganthomas/doc-op.js/issues"
+    "url": "https://github.com/morganthomas/balance.js/issues"
   },
-  "homepage": "https://github.com/morganthomas/doc-op.js#readme",
+  "homepage": "https://github.com/morganthomas/balance.js#readme",
   "devDependencies": {
     "babel-preset-env": "^1.4.0",
     "babel-register": "^6.24.1",
