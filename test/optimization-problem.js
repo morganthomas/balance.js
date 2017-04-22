@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { mapScalars } from '../src/pojo.js';
+import { flattenPOJO } from '../src/flatten-pojo.js';
 import { solveOptimizationProblem } from '../src/optimization-problem.js';
 
 describe('solveOptimizationProblem', function() {
@@ -46,6 +47,16 @@ describe('solveOptimizationProblem', function() {
 
     let solution = solveOptimizationProblem(problem, constraints);
 
-    expect(solution).to.eql({ x: 0.0, y: 0.0, z: [0.0, 0.0] });
+    let idealSolution = {
+      x: 0.0,
+      y: 0.0,
+      z: [0.0, 0.0],
+    };
+
+    let error = flattenPOJO(solution)
+        .map((x) => Math.abs(x))
+        .reduce((a,b) => a + b, 0);
+
+    expect(error).to.be.below(0.0001);
   });
 });
