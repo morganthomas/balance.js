@@ -56,4 +56,8 @@ A set S is "a POJO congruency class (POJO-CC)" if for some POJO p, S is the POJO
 similarly define the phrases "a PONJO congruency class (PONJO-CC)" and "a PONuNJO congruency class
 (PONuNJO-CC)."
 
+An interesting fact about PONJO-CCs is that each of them forms a (finite-dimensional, Euclidean)
+vector space, when idealizing away issues such as rounding error and the existence of non-numeric
+number values like Infinity in JavaScript.
+
 */
