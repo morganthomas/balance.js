@@ -4,7 +4,7 @@
 
 === Scalars ===
 
-A "scalar" is any instance of the following types: number, string, boolean, null, undefined.
+A "scalar" is any instance of any of the following types: number, string, boolean, null, undefined.
 
 === POJO ===
 
