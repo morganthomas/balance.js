@@ -58,6 +58,8 @@ similarly define the phrases "a PONJO congruency class (PONJO-CC)" and "a PONuNJ
 
 An interesting fact about PONJO-CCs is that each of them forms a (finite-dimensional, Euclidean)
 vector space, when idealizing away issues such as rounding error and the existence of non-numeric
-number values like Infinity in JavaScript.
+number values like Infinity in JavaScript. In PONJO-CC vector spaces, vector addition is performed
+pointwise on the scalar parts of the object, and scalar multiplication is performed across all scalar 
+parts of the object.
 
 */
