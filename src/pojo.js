@@ -21,13 +21,16 @@ An object y is "part of" a POJO x iff one of these conditions holds:
 
 === PONJO and PONuNJO ===
 
-A PONJO is a Plain Old Numeric JavaScript Object. A PONJO is a POJO where all scalar values (i.e., non-array non-objects) that are part of the object are numbers.
+A PONJO is a Plain Old Numeric JavaScript Object. A PONJO is a POJO where all scalar values
+(i.e., non-array non-objects) that are part of the object are numbers.
 
-A PONuNJO is a Plain Old Nullable Numeric JavaScript Object. A PONuNJO is a POJO where all scalar values (i.e., non-array non-objects) that are part of the objects are either numbers or null.
+A PONuNJO is a Plain Old Nullable Numeric JavaScript Object. A PONuNJO is a POJO where all
+scalar values (i.e., non-array non-objects) that are part of the objects are either numbers or null.
 
 === POJO congruency ===
 
-Congruent POJOs are POJOs which share exactly the same recursive structure. POJO congruency is defined recursively as follows:
+Congruent POJOs are POJOs which share exactly the same recursive structure. POJO congruency is
+defined recursively as follows:
 
 1. If x and y are scalar values (i.e., non-array, non-objects), then x is congruent to y.
 2. Let n be a non-negative integer. Suppose that t1,...,tn and u1,...,un are sequences of POJOs,
@@ -36,6 +39,15 @@ Congruent POJOs are POJOs which share exactly the same recursive structure. POJO
    and u1,...,un are sequences of POJOs. Suppose for each 0 <= i <= n, ti is congruent to ui. Then
    { k1: v1, ..., kn: vn } is congruent to { k1: u1, ..., kn: un }.
 
-Since PONJOS and PONuNJOs are POJOs, we can use the same definition to speak of the congruency of PONJOs and PONuNJOs.
+Since PONJOS and PONuNJOs are POJOs, we can use the same definition to speak of the congruency of
+PONJOs and PONuNJOs.
+
+Given any POJO p, we define the "POJO congruency class (or POJO-CC) of p" to be the (infinite) set of 
+all POJOs which are congruent to p.
+
+Similarly, given any PONJO p, we define the "PONJO congruency class (or PONJO-CC) of p" to be the
+(infinite) set of all PONJOs which are congruent to p.
+
+Given any PONuNJO p, we define the "PONuNJO congruence class (or PONuNJO-CC) of p" in the same way.
 
 */
