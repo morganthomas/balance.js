@@ -1,3 +1,1 @@
-describe('pojo', function() {
-  console.log('test');
-});
+import './pojo.js';
