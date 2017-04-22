@@ -273,5 +273,6 @@ export {
   mapScalars,
   scalarMultiplyPONuNJO,
   scalarMultiplyPONJO,
+  zipPOJOs,
   addPONuNJOs,
 };
