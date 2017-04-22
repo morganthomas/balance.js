@@ -12,6 +12,6 @@ unflattenPOJO(referencePojo, array)
     pojo is a POJO
     array is (deep-equal to) the result of calling flattenPOJO on some POJO congruent to pojo
   Outputs a POJO newPojo which is congruent to pojo, such that flattenPOJO(newPojo) outputs
-  an array deep-equal to array
+  an array deep-equal to array.
 
 */
