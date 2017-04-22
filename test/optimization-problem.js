@@ -13,14 +13,16 @@ describe('solveOptimizationProblem', function() {
         },
 
         valueAt(input) {
-          return input.x * input.x + input.y * input.y + input.z[0] * input.z[1];
+          return input.x * input.x + input.y * input.y +
+            input.z[0] * input.z[0] * input.z[1] * input.z[1];
         },
 
         gradientAt(input) {
           return {
             x: 2 * input.x,
             y: 2 * input.y,
-            z: [input.z[1], input.z[0]]
+            z: [2 * input.z[1] * input.z[1] * input.z[0], 
+                2 * input.z[0] * input.z[0] * input.z[1]]
           };
         },
       },
