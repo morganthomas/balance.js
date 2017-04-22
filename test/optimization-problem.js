@@ -57,7 +57,7 @@ describe('solveOptimizationProblem', function() {
         .map((x) => Math.abs(x))
         .reduce((a,b) => a + b, 0);
 
-    expect(error).to.be.below(0.0001);
+    expect(error).to.be.below(0.000001);
     expect(solution).to.satisfy(
       (s) => POJOsAreStructurallyCongruent(s, idealSolution));
   });
