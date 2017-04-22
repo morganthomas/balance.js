@@ -229,6 +229,11 @@ function scalarMultiplyPONJO(a, ponjo) {
   return mapScalars(x => a * x, ponjo);
 }
 
+// ASSUMES ponunjo1 and ponunjo2 are PONuNJOs
+function addPONuNJOs(ponunjo1, ponunjo2) {
+  
+}
+
 export {
   isScalar,
   isRealNumber,
@@ -241,4 +246,5 @@ export {
   mapScalars,
   scalarMultiplyPONuNJO,
   scalarMultiplyPONJO,
+  addPONuNJOs,
 };

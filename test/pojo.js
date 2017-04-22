@@ -7,6 +7,7 @@ import {
   POJOsAreStructurallyCongruent,
   scalarMultiplyPONuNJO,
   scalarMultiplyPONJO,
+  addPONuNJOs,
 } from '../src/pojo.js';
 
 describe('isScalar', function() {
@@ -153,5 +154,11 @@ describe('scalarMultiplyPONJO', function() {
     expect(scalarMultiplyPONJO(2.0, { x: 3.0 })).to.eql({ x: 6.0 });
     expect(scalarMultiplyPONJO(-3.0, [1.0, 0.0, { x: -1.0, y: -3.0 }])).to.eql(
       [-3.0, -0.0, { x: 3.0, y: 9.0 }]);
+  });
+});
+
+describe('addPONuNJOs', function() {
+  it('should give the expected answers', function() {
+
   });
 });
