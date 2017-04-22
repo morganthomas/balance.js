@@ -229,8 +229,8 @@ function scalarMultiplyPONJO(a, ponjo) {
   return mapScalars(x => a * x, ponjo);
 }
 
-// ASSUMES ponunjo1 and ponunjo2 are PONuNJOs
-function addPONuNJOs(ponunjo1, ponunjo2) {
+// ASSUMES it is passed at least one argument and all its arguments are structurally congruent PONuNJOs
+function addPONuNJOs() {
   
 }
 

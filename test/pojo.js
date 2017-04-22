@@ -122,7 +122,9 @@ describe('POJOsAreStructurallyCongruent', function() {
     expect(POJOsAreStructurallyCongruent({}, {})).to.be.true;
     expect(POJOsAreStructurallyCongruent({ x : 5 }, { x: null })).to.be.true;
     expect(POJOsAreStructurallyCongruent([1, 3, 5], ["foo", 3, null])).to.be.true;
-    expect(POJOsAreStructurallyCongruent({ x: { y: [null, undefined], z: null } }, { x: { y: ['foo', 5], z: 'bar' } })).to.be.true;
+    expect(POJOsAreStructurallyCongruent(
+      { x: { y: [null, undefined], z: null } },
+      { x: { y: ['foo', 5], z: 'bar' } })).to.be.true;
   });
 
   it('should categorize non-congruent pairs as non-congruent', function() {
@@ -143,8 +145,8 @@ describe('scalarMultiplyPONuNJO', function() {
     expect(scalarMultiplyPONuNJO(2.0, null)).to.equal(null);
     expect(scalarMultiplyPONuNJO(2.0, 2.0)).to.equal(4.0);
     expect(scalarMultiplyPONuNJO(2.0, { x: 3.0 })).to.eql({ x: 6.0 });
-    expect(scalarMultiplyPONuNJO(-3.0, [1.0, 0.0, null, { x: -1.0, y: -3.0 }])).to.eql(
-      [-3.0, -0.0, null, { x: 3.0, y: 9.0 }]);
+    expect(scalarMultiplyPONuNJO(-3.0, [1.0, 0.0, null, { x: -1.0, y: -3.0 }]))
+      .to.eql([-3.0, -0.0, null, { x: 3.0, y: 9.0 }]);
   });
 });
 
@@ -152,13 +154,25 @@ describe('scalarMultiplyPONJO', function() {
   it('should give the expected answers', function() {
     expect(scalarMultiplyPONJO(2.0, 2.0)).to.equal(4.0);
     expect(scalarMultiplyPONJO(2.0, { x: 3.0 })).to.eql({ x: 6.0 });
-    expect(scalarMultiplyPONJO(-3.0, [1.0, 0.0, { x: -1.0, y: -3.0 }])).to.eql(
-      [-3.0, -0.0, { x: 3.0, y: 9.0 }]);
+    expect(scalarMultiplyPONJO(-3.0, [1.0, 0.0, { x: -1.0, y: -3.0 }]))
+      .to.eql([-3.0, -0.0, { x: 3.0, y: 9.0 }]);
   });
 });
 
 describe('addPONuNJOs', function() {
   it('should give the expected answers', function() {
-
+    expect(addPONuNJOs(-5.0)).to.equal(-5.0);
+    expect(addPONuNJOs(3.0, -3.0)).to.equal(0.0);
+    expect(addPONuNJOs(3.0, null)).to.equal(null);
+    expect(addPONuNJOs(1.0, 2.0, 3.0)).to.equal(6.0);
+    expect(addPONuNJOs(1.0, 2.0, null, 3.0)).to.equal(null);
+    expect(addPONuNJOs(null, 3.0)).to.equal(null);
+    expect(addPONuNJOs(null, null)).to.equal(null);
+    expect(addPONuNJOs({ x: 3.0 }, { x: 2.0 })).to.eql({ x: 5.0 });
+    expect(addPONuNJOs(
+      { x: 3.0,  y: 0.0,  z: [1.0, 2.0] },
+      { x: null, y: 0.0,  z: [2.0, 3.0] },
+      { x: 5.0,  y: -5.0, z: [3.0, null] }))
+      .to.eql({ x: null, y: -5.0, z: [6.0, null] });
   });
 });
