@@ -15,3 +15,13 @@ unflattenPOJO(referencePojo, array)
   an array deep-equal to array.
 
 */
+
+function flattenPOJO(pojo) {
+
+}
+
+function unflattenPOJO(referencePojo, array) {
+
+}
+
+export { flattenPOJO, unflattenPOJO };
