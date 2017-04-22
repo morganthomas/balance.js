@@ -60,5 +60,7 @@ describe('solveOptimizationProblem', function() {
     expect(error).to.be.below(0.000001);
     expect(solution).to.satisfy(
       (s) => POJOsAreStructurallyCongruent(s, idealSolution));
+
+    // TODO: nontrivial constraint test cases
   });
 });
