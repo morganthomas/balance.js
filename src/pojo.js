@@ -105,6 +105,10 @@ function isRealNumber(x) {
   return typeof x === 'number' && x !== -Infinity && x !== Infinity && !isNaN(x);
 }
 
+function isNullableRealNumber(x) {
+  return x === null || isRealNumber(x);
+}
+
 /// DANGER: isPOJOlike does not check for cycles in the objects it receives!
 /// It will enter an infinite loop if you pass it a cyclic object!
 function isPOJOlike(scalarPredicate) {
@@ -129,11 +133,14 @@ function isPOJOlike(scalarPredicate) {
 
 const isPOJO = isPOJOlike(isScalar);
 const isPONJO = isPOJOlike(isRealNumber);
+const isPONuNJO = isPOJOlike(isNullableRealNumber);
 
 export {
   isScalar,
   isRealNumber,
+  isNullableRealNumber,
   isPOJOlike,
   isPOJO,
   isPONJO,
+  isPONuNJO,
 };

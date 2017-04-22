@@ -3,6 +3,7 @@ import {
   isScalar,
   isPOJO,
   isPONJO,
+  isPONuNJO,
 } from '../src/pojo.js';
 
 describe('isScalar', function() {
@@ -84,5 +85,27 @@ describe('isPONJO', function() {
     expect(isPONJO([{ x: 5 }, function() { return 5; }])).to.be.false;
     expect(isPONJO(new Promise(function(resolve) { resolve(2); }))).to.be.false;
     expect(isPONJO([0.0, Infinity, 3.0])).to.be.false;
+  });
+});
+
+describe('isPONuNJO', function() {
+  it('should categorize PONuNJOs as PONuNJOs', function() {
+    expect(isPONuNJO(null)).to.be.true;
+    expect(isPONuNJO(5)).to.be.true;
+    expect(isPONuNJO([])).to.be.true;
+    expect(isPONuNJO({})).to.be.true;
+    expect(isPONuNJO({ x: 5 })).to.be.true;
+    expect(isPONuNJO({ x: { y: null, z: [0.0, null, { x: -13.5 }] } })).to.be.true;
+  });
+
+  it('should categorize non-PONuNJOs as non-PONuNJOs', function() {
+    expect(isPONuNJO(Infinity)).to.be.false;
+    expect(isPONuNJO(-Infinity)).to.be.false;
+    expect(isPONuNJO(NaN)).to.be.false;
+    expect(isPONuNJO(undefined)).to.be.false;
+    expect(isPONuNJO({ x: undefined, y: 7 })).to.be.false;
+    expect(isPONuNJO([{ x: 5 }, function() { return 5; }])).to.be.false;
+    expect(isPONuNJO(new Promise(function(resolve) { resolve(2); }))).to.be.false;
+    expect(isPONuNJO([0.0, Infinity, 3.0])).to.be.false;
   });
 });
