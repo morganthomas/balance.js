@@ -93,3 +93,13 @@ zipObjects(f, p1, ..., pn)
   of f from doing the aforementioned operation at the given location.
 
 */
+
+const _scalarTypes = ['undefined', 'boolean', 'number', 'string'];
+
+function isScalar(x) {
+  return x === null || _scalarTypes.indexOf(typeof x) > -1;
+}
+
+export {
+  isScalar
+};

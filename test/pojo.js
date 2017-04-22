@@ -4,5 +4,9 @@ import {
 } from '../src/pojo.js';
 
 describe('isScalar', function() {
-  expect(isScalar(5)).to.be.true;
+  it('should categorize scalars as scalars', function() {
+    expect(isScalar(5)).to.be.true;
+    expect(isScalar(Infinity)).to.be.true;
+    expect(isScalar(undefined)).to.be.true;
+  });
 });
