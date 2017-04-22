@@ -101,6 +101,8 @@ function isScalar(x) {
   return x === null || _scalarTypes.indexOf(typeof x) > -1;
 }
 
+/// DANGER: isPOJO does not check for cycles in the objects it receives!
+/// It will enter an infinite loop if you pass it a cyclic object!
 function isPOJO(x) {
   if (isScalar(x)) {
     return true;
