@@ -72,7 +72,8 @@ The same statement does not make sense about POJO-CCs or PONuNJO-CCs. Neither ty
 POJO-CCs, being infinite sets, can't be directly represented in JavaScript. The best way to represent
 a POJO-CC in JavaScript is by a representative of the congruency class: i.e., one POJO which belongs
 to that congruency class. Given such a representative, one can test any POJO for membership in the
-congruency class. Similar comments apply to PONJO-CCs and PONuNJO-CCs.
+congruency class, by testing it for congruency with the representative. Similar comments apply to
+PONJO-CCs and PONuNJO-CCs.
 
 === POJO-like predicate ===
 
