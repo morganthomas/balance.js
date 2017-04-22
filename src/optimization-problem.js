@@ -20,19 +20,27 @@ where:
 
 */
 
+import assert from 'assert';
 import { uncmin } from 'numeric';
+import { POJOsAreStructurallyCongruent } from './pojo.js';
 import { flattenPOJO, unflattenPOJO } from './flatten-pojo.js';
 
 function solveOptimizationProblem(optimizationProblem, constraints) {
-  let initialGuess = optimizationProblem.initialGuessFunction(constraints);
-  let initialGuessFlat = flattenPOJO(initialGuess);
   let { valueAt, gradientAt, inputClassRepr } = optimizationProblem.objectiveFunction;
+  assert(POJOsAreStructurallyCongruent(constraints, inputClassRepr));
+  let initialGuess = optimizationProblem.initialGuessFunction(constraints);
+  assert(POJOsAreStructurallyCongruent(constraints, inputClassRepr));
+  let initialGuessFlat = flattenPOJO(initialGuess);
   
-  let valueAtFlat = (x) =>
-      valueAt(unflattenPOJO(inputClassRepr, x));
+  let valueAtFlat = function(x) {
+    return valueAt(unflattenPOJO(inputClassRepr, x));
+  };
 
-  let gradientAtFlat = (x) =>
-      flattenPOJO(gradientAt(unflattenPOJO(inputClassRepr, x)));
+  let gradientAtFlat = function(x) {
+    let result = gradientAt(unflattenPOJO(inputClassRepr, x));
+    assert(POJOsAreStructurallyCongruent(result, inputClassRepr));
+    return flattenPOJO(result);
+  };
 
   let solutionFlat = uncmin(
     valueAtFlat,
