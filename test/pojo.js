@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import {
-  isScalar
+  isScalar,
+  isPOJO,
 } from '../src/pojo.js';
 
 describe('isScalar', function() {
@@ -42,8 +43,8 @@ describe('isPOJO', function() {
 
   it('should categorize straightforward non-POJOs as non-POJOs', function() {
     expect(isPOJO(function() { return 4; })).to.be.false;
-    expect([1, function() { return 4; }]).to.be.false;
-    expect([null, { x: new Promise(function(resolve) { resolve(null); }) }]).to.be.false;
+    expect(isPOJO([1, function() { return 4; }])).to.be.false;
+    expect(isPOJO([null, { x: new Promise(function(resolve) { resolve(null); }) }])).to.be.false;
   });
 });
 

@@ -95,11 +95,30 @@ zipObjects(f, p1, ..., pn)
 */
 
 const _scalarTypes = ['undefined', 'boolean', 'number', 'string'];
+const _objectPrototype = Object.getPrototypeOf({});
 
 function isScalar(x) {
   return x === null || _scalarTypes.indexOf(typeof x) > -1;
 }
 
+function isPOJO(x) {
+  if (isScalar(x)) {
+    return true;
+  } else if (x instanceof Array) {
+    return x.every(isPOJO);
+  } else if (Object.getPrototypeOf(x) === _objectPrototype) {
+    for (let key in x) {
+      if (!isPOJO(x[key])) {
+        return false;
+      }
+    }
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export {
-  isScalar
+  isScalar,
+  isPOJO,
 };
