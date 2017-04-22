@@ -19,3 +19,9 @@ where:
       input does not have value null.
 
 */
+
+function solveOptimizationProblem(optimizationProblem, constraints) {
+  
+}
+
+export { solveOptimizationProblem };
