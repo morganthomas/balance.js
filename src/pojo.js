@@ -2,11 +2,15 @@
 
 == Definitions ==
 
+=== Scalars ===
+
+A "scalar" is any instance of the following types: number, string, boolean, null, undefined.
+
 === POJO ===
 
 A POJO is a Plain Old JavaScript Object. Formally, we will define POJOs as follows:
 
-1. Any instance of the following types is a POJO: number, string, boolean, null, undefined.
+1. Any scalar is a POJO.
 2. An array [p1,...,pn] is a POJO iff its elements are all POJOs.
 3. An object { k1: v1, ..., kn: vn } is a POJO iff its keys are all strings and its values
    are all POJOs.
@@ -22,10 +26,10 @@ An object y is "part of" a POJO x iff one of these conditions holds:
 === PONJO and PONuNJO ===
 
 A PONJO is a Plain Old Numeric JavaScript Object. A PONJO is a POJO where all scalar values
-(i.e., non-array non-objects) that are part of the object are numbers.
+that are part of the object are numbers.
 
 A PONuNJO is a Plain Old Nullable Numeric JavaScript Object. A PONuNJO is a POJO where all
-scalar values (i.e., non-array non-objects) that are part of the objects are either numbers or null.
+scalar values that are part of the objects are either numbers or null.
 
 === POJO congruency ===
 
@@ -64,5 +68,21 @@ parts of the object.
 
 The same statement does not make sense about POJO-CCs or PONuNJO-CCs. Neither type of set forms an
 (approximation of a) vector space in any general way that's apparent to me.
+
+== Working with POJOs ==
+
+The following functions help us to work with POJOs:
+
+mapScalars(f, p)
+  Takes a function f and a POJO p. Applies f to all scalar values in p, returning a new POJO
+  which is like p except each scalar value has been replaced with its corresponding return value
+  from f. f must return a POJO for each scalar input.
+
+zipObjects(f, p1, ..., pn)
+  Takes a function f and POJOs p1,...,pn. All of p1,...,pn must be congruent to each other.
+  At each location in the recursive structure of p1 where there is a scalar, f receives as
+  arguments the values of p1,...,pn at that location, and is expected to return a POJO.
+  zipObjects returns the result of replacing each scalar part of p1 with the return value
+  of f from doing the aforementioned operation at the given location.
 
 */
