@@ -46,7 +46,7 @@ defined recursively as follows:
 Since PONJOS and PONuNJOs are POJOs, we can use the same definition to speak of the congruency of
 PONJOs and PONuNJOs.
 
-=== Congruency classes ===
+=== Congruency class ===
 
 Given any POJO p, we define the "POJO congruency class (or POJO-CC) of p" to be the (infinite) set of 
 all POJOs which are congruent to p.
@@ -68,6 +68,13 @@ parts of the object.
 
 The same statement does not make sense about POJO-CCs or PONuNJO-CCs. Neither type of set forms an
 (approximation of a) vector space in any general way that's apparent to me.
+
+=== POJO-like predicate ===
+
+"is a POJO," "is a PONJO," and "is a PONuNJO" are all examples of POJO-like predicates. POJO-like
+predicates are all variations on "is a POJO" which can be produced by substituting different scalar
+predicates. For "is a POJO," the scalar predicate is "is a scalar (i.e. a number, string, boolean,
+null, or undefined)." For "is a PONJO," the scalar predicate is "is a number." And so forth.
 
 == Working with POJOs ==
 
