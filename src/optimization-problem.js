@@ -31,6 +31,7 @@ function solveOptimizationProblem(optimizationProblem, constraints) {
   assert(isPONuNJO(constraints));
   assert(POJOsAreStructurallyCongruent(constraints, domainRepresentative));
   let initialGuess = optimizationProblem.initialGuessFunction(constraints);
+  assert(isPONJO(initialGuess));
   assert(POJOsAreStructurallyCongruent(initialGuess, domainRepresentative));
   let initialGuessFlat = flattenPOJO(initialGuess);
   
