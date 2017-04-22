@@ -137,7 +137,7 @@ describe('POJOsAreStructurallyCongruent', function() {
   });
 });
 
-describe('scalarMultiplyPONuNJOs', function() {
+describe('scalarMultiplyPONuNJO', function() {
   it('should give the expected answers', function() {
     expect(scalarMultiplyPONuNJO(2.0, null)).to.equal(null);
     expect(scalarMultiplyPONuNJO(2.0, 2.0)).to.equal(4.0);
