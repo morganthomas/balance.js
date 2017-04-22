@@ -11,5 +11,6 @@ deserializePOJO(referencePojo, array)
   ASSUMES
     pojo is a POJO
     array is the result of calling serializePOJO on some POJO congruent to pojo
+  Outputs a POJO newPojo which is congruent to pojo, such that serializePOJO(newPojo) outputs array
 
 */
