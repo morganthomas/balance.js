@@ -36,6 +36,12 @@ describe('solveOptimizationProblem', function() {
       z: [null, null]
     };
 
+    expect(problem.initialGuessFunction(constraints)).to.eql({
+      x: 5.0,
+      y: 5.0,
+      z: [5.0, 5.0]
+    });
+
     let solution = solveOptimizationProblem(problem, constraints);
 
     expect(solution).to.eql({ x: 0.0, y: 0.0, z: [0.0, 0.0] });
