@@ -126,5 +126,6 @@ const isPOJO = isPOJOlike(isScalar);
 
 export {
   isScalar,
+  isPOJOlike,
   isPOJO,
 };
