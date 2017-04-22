@@ -62,4 +62,7 @@ number values like Infinity in JavaScript. In PONJO-CC vector spaces, vector add
 pointwise on the scalar parts of the object, and scalar multiplication is performed across all scalar 
 parts of the object.
 
+The same statement does not make sense about POJO-CCs or PONuNJO-CCs. Neither type of set forms a
+vector space in any general way that's apparent to me.
+
 */
