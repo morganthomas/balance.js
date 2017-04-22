@@ -5,7 +5,8 @@ import {
   isPONJO,
   isPONuNJO,
   POJOsAreStructurallyCongruent,
-  scalarMultiply,
+  scalarMultiplyPONuNJO,
+  scalarMultiplyPONJO,
 } from '../src/pojo.js';
 
 describe('isScalar', function() {
@@ -136,11 +137,21 @@ describe('POJOsAreStructurallyCongruent', function() {
   });
 });
 
-describe('scalarMultiply', function() {
+describe('scalarMultiplyPONuNJOs', function() {
   it('should give the expected answers', function() {
-    expect(scalarMultiply(2.0, 2.0)).to.equal(4.0);
-    expect(scalarMultiply(2.0, { x: 3.0 })).to.eql({ x: 6.0 });
-    expect(scalarMultiply(-3.0, [1.0, 0.0, null, { x: -1.0, y: -3.0 }])).to.eql(
+    expect(scalarMultiplyPONuNJO(2.0, null)).to.equal(null);
+    expect(scalarMultiplyPONuNJO(2.0, 2.0)).to.equal(4.0);
+    expect(scalarMultiplyPONuNJO(2.0, { x: 3.0 })).to.eql({ x: 6.0 });
+    expect(scalarMultiplyPONuNJO(-3.0, [1.0, 0.0, null, { x: -1.0, y: -3.0 }])).to.eql(
       [-3.0, -0.0, null, { x: 3.0, y: 9.0 }]);
+  });
+});
+
+describe('scalarMultiplyPONJO', function() {
+  it('should give the expected answers', function() {
+    expect(scalarMultiplyPONJO(2.0, 2.0)).to.equal(4.0);
+    expect(scalarMultiplyPONJO(2.0, { x: 3.0 })).to.eql({ x: 6.0 });
+    expect(scalarMultiplyPONJO(-3.0, [1.0, 0.0, { x: -1.0, y: -3.0 }])).to.eql(
+      [-3.0, -0.0, { x: 3.0, y: 9.0 }]);
   });
 });

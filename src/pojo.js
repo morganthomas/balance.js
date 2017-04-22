@@ -84,19 +84,38 @@ null, or undefined)." For "is a PONJO," the scalar predicate is "is a number." A
 
 == Working with POJOs ==
 
-The following curried functions help us to work with POJOs:
+The following functions help us to work with POJOs:
 
-mapScalars(f)(p)
+mapScalars(f, p)
   Takes a function f and a POJO p. Applies f to all scalar values in p, returning a new POJO
   which is like p except each scalar value has been replaced with its corresponding return value
   from f. f must return a POJO for each scalar input.
 
-zipObjects(f)(p1, ..., pn)
+zipObjects(f, p1, ..., pn)
   Takes a function f and POJOs p1,...,pn. All of p1,...,pn must be congruent to each other.
   At each location in the recursive structure of p1 where there is a scalar, f receives as
   arguments the values of p1,...,pn at that location, and is expected to return a POJO.
   zipObjects returns the result of replacing each scalar part of p1 with the return value
   of f from doing the aforementioned operation at the given location.
+
+== Working with PONJOs and PONuNJOs ==
+
+The following functions help us to work with PONuNJOs:
+
+scalarMultiplyPONuNJOs(a, ponunjo)
+addPONuNJOs(ponunjo1, ponunjo2)
+
+These functions both operate pointwise, and they let null behave infectiously (any calculation
+involving null comes out null).
+
+The following functions help us to work with PONJOs:
+
+scalarMultiplyPONJOs(a, ponjo)
+addPONJOs(ponjo1, ponjo2)
+
+These do the same as the corresponding functions on PONuNJOs, but they lack null handling logic.
+The motivation for these functions on PONJOs is the theory that omitting null checks when working
+on PONJOs can allow for better JIT compiler optimization.
 
 */
 
@@ -199,8 +218,15 @@ function mapScalars(f, pojo) {
 // ASSUMES
 //   a is a real number
 //   ponunjo is a PONuNJO
-function scalarMultiply(a, ponunjo) {
+function scalarMultiplyPONuNJO(a, ponunjo) {
   return mapScalars(x => x === null ? null : a * x, ponunjo);
+}
+
+// ASSUMES
+//   a is a real number
+//   ponjo is a PONJO
+function scalarMultiplyPONJO(a, ponjo) {
+  return mapScalars(x => a * x, ponjo);
 }
 
 export {
@@ -213,5 +239,6 @@ export {
   isPONuNJO,
   POJOsAreStructurallyCongruent,
   mapScalars,
-  scalarMultiply,
+  scalarMultiplyPONuNJO,
+  scalarMultiplyPONJO,
 };
