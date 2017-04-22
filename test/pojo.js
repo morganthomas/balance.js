@@ -5,6 +5,7 @@ import {
   isPONJO,
   isPONuNJO,
   POJOsAreStructurallyCongruent,
+  scalarMultiply,
 } from '../src/pojo.js';
 
 describe('isScalar', function() {
@@ -132,5 +133,14 @@ describe('POJOsAreStructurallyCongruent', function() {
     expect(POJOsAreStructurallyCongruent([1], [1, 2])).to.be.false;
     expect(POJOsAreStructurallyCongruent([1, 2, { x : 5 }], [1, 2, 5])).to.be.false;
     expect(POJOsAreStructurallyCongruent({ x: null }, { x: [] })).to.be.false;
+  });
+});
+
+describe('scalarMultiply', function() {
+  it('should give the expected answers', function() {
+    expect(scalarMultiply(2.0, 2.0)).to.equal(4.0);
+    expect(scalarMultiply(2.0, { x: 3.0 })).to.equal({ x: 6.0 });
+    expect(scalarMultiply(-3.0, [1.0, 0.0, null, { x: -1.0, y: -3.0 }])).to.equal(
+      [-3.0, 0.0, null, { x: 3.0, y: 9.0 }]);
   });
 });

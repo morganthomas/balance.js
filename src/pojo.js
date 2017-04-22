@@ -84,14 +84,14 @@ null, or undefined)." For "is a PONJO," the scalar predicate is "is a number." A
 
 == Working with POJOs ==
 
-The following functions help us to work with POJOs:
+The following curried functions help us to work with POJOs:
 
-mapScalars(f, p)
+mapScalars(f)(p)
   Takes a function f and a POJO p. Applies f to all scalar values in p, returning a new POJO
   which is like p except each scalar value has been replaced with its corresponding return value
   from f. f must return a POJO for each scalar input.
 
-zipObjects(f, p1, ..., pn)
+zipObjects(f)(p1, ..., pn)
   Takes a function f and POJOs p1,...,pn. All of p1,...,pn must be congruent to each other.
   At each location in the recursive structure of p1 where there is a scalar, f receives as
   arguments the values of p1,...,pn at that location, and is expected to return a POJO.
@@ -141,7 +141,7 @@ const isPOJO = isPOJOlike(isScalar);
 const isPONJO = isPOJOlike(isRealNumber);
 const isPONuNJO = isPOJOlike(isNullableRealNumber);
 
-/// ASSUMES that pojo1 and pojo2 are both in fact POJOs.
+/// ASSUMES pojo1 and pojo2 are both POJOs.
 function POJOsAreStructurallyCongruent(pojo1, pojo2) {
   let pojo1IsScalar = isScalar(pojo1);
   let pojo2IsScalar = isScalar(pojo2);
@@ -178,6 +178,20 @@ function POJOsAreStructurallyCongruent(pojo1, pojo2) {
   }
 }
 
+// ASSUMES
+//   pojo is a POJO
+//   f is a function that takes a scalar as input and produces a POJO as output
+function mapScalars(f, pojo) {
+  
+}
+
+// ASSUMES
+//   a is a real number
+//   ponunjo is a PONuNJO
+function scalarMultiply(a, ponunjo) {
+  return mapScalars(x => x === null ? null : a * x, ponunjo);
+}
+
 export {
   isScalar,
   isRealNumber,
@@ -187,4 +201,6 @@ export {
   isPONJO,
   isPONuNJO,
   POJOsAreStructurallyCongruent,
+  mapScalars,
+  scalarMultiply,
 };
