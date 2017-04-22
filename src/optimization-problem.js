@@ -38,7 +38,7 @@ function solveOptimizationProblem(optimizationProblem, constraints) {
     valueAtFlat,
     initialGuessFlat,
     gradientAtFlat
-  );
+  ).solution;
 
   return unflattenPOJO(inputClassRepr, solutionFlat);
 }
