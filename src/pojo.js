@@ -69,6 +69,11 @@ parts of the object.
 The same statement does not make sense about POJO-CCs or PONuNJO-CCs. Neither type of set forms an
 (approximation of a) vector space in any general way that's apparent to me.
 
+POJO-CCs, being infinite sets, can't be directly represented in JavaScript. The best way to represent
+a POJO-CC in JavaScript is by a representative of the congruency class: i.e., one POJO which belongs
+to that congruency class. Given such a representative, one can test any POJO for membership in the
+congruency class. Similar comments apply to PONJO-CCs and PONuNJO-CCs.
+
 === POJO-like predicate ===
 
 "is a POJO," "is a PONJO," and "is a PONuNJO" are all examples of POJO-like predicates. POJO-like
