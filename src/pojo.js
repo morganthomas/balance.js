@@ -135,6 +135,11 @@ const isPOJO = isPOJOlike(isScalar);
 const isPONJO = isPOJOlike(isRealNumber);
 const isPONuNJO = isPOJOlike(isNullableRealNumber);
 
+/// ASSUMES that pojo1 and pojo2 are both in fact POJOs.
+function POJOsAreStructurallyCongruent(pojo1, pojo2) {
+
+}
+
 export {
   isScalar,
   isRealNumber,
@@ -143,4 +148,5 @@ export {
   isPOJO,
   isPONJO,
   isPONuNJO,
+  POJOsAreStructurallyCongruent,
 };

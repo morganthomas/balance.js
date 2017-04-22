@@ -4,6 +4,7 @@ import {
   isPOJO,
   isPONJO,
   isPONuNJO,
+  POJOsAreStructurallyCongruent,
 } from '../src/pojo.js';
 
 describe('isScalar', function() {
@@ -107,5 +108,29 @@ describe('isPONuNJO', function() {
     expect(isPONuNJO([{ x: 5 }, function() { return 5; }])).to.be.false;
     expect(isPONuNJO(new Promise(function(resolve) { resolve(2); }))).to.be.false;
     expect(isPONuNJO([0.0, Infinity, 3.0])).to.be.false;
+  });
+});
+
+describe('POJOsAreStructurallyCongruent', function() {
+  it('should categorize congruent pairs as congruent', function() {
+    expect(POJOsAreStructurallyCongruent(5, 'foo')).to.be.true;
+    expect(POJOsAreStructurallyCongruent(NaN, undefined)).to.be.true;
+    expect(POJOsAreStructurallyCongruent([], [])).to.be.true;
+    expect(POJOsAreStructurallyCongruent({}, {})).to.be.true;
+    expect(POJOsAreStructurallyCongruent({ x : 5 }, { x: null })).to.be.true;
+    expect(POJOsAreStructurallyCongruent([1, 3, 5], ["foo", 3, null])).to.be.true;
+    expect(POJOsAreStructurallyCongruent({ x: { y: [null, undefined], z: null } }, { x: { y: ['foo', 5], z: 'bar' } })).to.be.true;
+  });
+
+  it('should categorize non-congruent pairs as non-congruent', function() {
+    expect(POJOsAreStructurallyCongruent(4, [])).to.be.false;
+    expect(POJOsAreStructurallyCongruent([], null)).to.be.false;
+    expect(POJOsAreStructurallyCongruent({}, Infinity)).to.be.false;
+    expect(POJOsAreStructurallyCongruent({}, [])).to.be.false;
+    expect(POJOsAreStructurallyCongruent({ x: 4 }, { y: 4 })).to.be.false;
+    expect(POJOsAreStructurallyCongruent({ x: 4, y : 4 }, { x : 4 })).to.be.false;
+    expect(POJOsAreStructurallyCongruent([1], [1, 2])).to.be.false;
+    expect(POJOsAreStructurallyCongruent([1, 2, { x : 5 }], [1, 2, 5])).to.be.false;
+    expect(POJOsAreStructurallyCongruent({ x: null }, { x: [] })).to.be.false;
   });
 });
