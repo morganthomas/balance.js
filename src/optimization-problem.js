@@ -22,7 +22,7 @@ where:
 
 import assert from 'assert';
 import { uncmin } from 'numeric';
-import { POJOsAreStructurallyCongruent, isPONJO, isPONuNJO } from './pojo.js';
+import { POJOsAreStructurallyCongruent, isPONJO, isPONuNJO, zipPOJOs } from './pojo.js';
 import { flattenPOJO, unflattenPOJO } from './flatten-pojo.js';
 
 function solveOptimizationProblem(optimizationProblem, constraints) {
@@ -33,6 +33,10 @@ function solveOptimizationProblem(optimizationProblem, constraints) {
   let initialGuess = optimizationProblem.initialGuessFunction(constraints);
   assert(isPONJO(initialGuess));
   assert(POJOsAreStructurallyCongruent(initialGuess, domainRepresentative));
+  assert(flattenPOJO(zipPOJOs(
+    (guess, constraint) => constraint === null || guess === constraint,
+    initialGuess,
+    constraints)).every(t => t));
   let initialGuessFlat = flattenPOJO(initialGuess);
   
   let valueAtFlat = function(x) {
