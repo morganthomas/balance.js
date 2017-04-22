@@ -22,15 +22,16 @@ where:
 
 import assert from 'assert';
 import { uncmin } from 'numeric';
-import { POJOsAreStructurallyCongruent, isPONJO } from './pojo.js';
+import { POJOsAreStructurallyCongruent, isPONJO, isPONuNJO } from './pojo.js';
 import { flattenPOJO, unflattenPOJO } from './flatten-pojo.js';
 
 function solveOptimizationProblem(optimizationProblem, constraints) {
   let { valueAt, gradientAt, inputClassRepr } = optimizationProblem.objectiveFunction;
   assert(isPONJO(inputClassRepr));
+  assert(isPONuNJO(constraints));
   assert(POJOsAreStructurallyCongruent(constraints, inputClassRepr));
   let initialGuess = optimizationProblem.initialGuessFunction(constraints);
-  assert(POJOsAreStructurallyCongruent(constraints, inputClassRepr));
+  assert(POJOsAreStructurallyCongruent(initialGuess, inputClassRepr));
   let initialGuessFlat = flattenPOJO(initialGuess);
   
   let valueAtFlat = function(x) {
