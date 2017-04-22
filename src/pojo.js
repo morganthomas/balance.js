@@ -137,7 +137,39 @@ const isPONuNJO = isPOJOlike(isNullableRealNumber);
 
 /// ASSUMES that pojo1 and pojo2 are both in fact POJOs.
 function POJOsAreStructurallyCongruent(pojo1, pojo2) {
+  let pojo1IsScalar = isScalar(pojo1);
+  let pojo2IsScalar = isScalar(pojo2);
+  let pojo1IsArray = pojo1 instanceof Array;
+  let pojo2IsArray = pojo2 instanceof Array;
 
+  if (pojo1IsScalar && pojo2IsScalar) {
+    return true;
+  } else if (pojo1IsArray && pojo2IsArray && pojo1.length === pojo2.length) {
+    for (let i = 0; i < pojo1.length; i++) {
+      if (!POJOsAreStructurallyCongruent(pojo1[i], pojo2[i])) {
+        return false;
+      }
+    }
+    return true;
+  } else if (!pojo1IsScalar && !pojo2IsScalar && !pojo1IsArray && !pojo2IsArray) {
+    // in this case pojo1 and pojo2 are plain objects, depending on the assumption that they are POJOs.
+    // first check that every key in pojo1 is in pojo2 and that the corresponding values are congruent.
+    for (let key in pojo1) {
+      if (!pojo2.hasOwnProperty(key) || !POJOsAreStructurallyCongruent(pojo1[key], pojo2[key])) {
+        return false;
+      }
+    }
+    // next check that every key in pojo2 is in pojo1.
+    for (let key in pojo2) {
+      if (!pojo1.hasOwnProperty(key)) {
+        return false;
+      }
+    }
+    // and if we make it here we know the objects are structurally congruent.
+    return true;
+  } else {
+    return false;
+  }
 }
 
 export {
