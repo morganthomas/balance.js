@@ -35,9 +35,8 @@ function solveOptimizationProblem(optimizationProblem, constraints) {
       flattenPOJO(gradientAt(unflattenPOJO(inputClassRepr, x)));
 
   let solutionFlat = uncmin(
-    optimizationProblem.objectiveFunction.valueAt,
-    initialGuessFlat,
     valueAtFlat,
+    initialGuessFlat,
     gradientAtFlat
   );
 
