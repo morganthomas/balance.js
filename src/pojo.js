@@ -31,10 +31,10 @@ that are part of the object are real numbers (i.e., their type is 'number' and t
 A PONuNJO is a Plain Old Nullable Numeric JavaScript Object. A PONuNJO is a POJO where all
 scalar values that are part of the objects are either numbers or null.
 
-=== POJO congruency ===
+=== POJO structural congruency ===
 
-Congruent POJOs are POJOs which share exactly the same recursive structure. POJO congruency is
-defined recursively as follows:
+Structurally congruent (or "congruent") POJOs are POJOs which share exactly the same recursive
+structure. POJO congruency is defined recursively as follows:
 
 1. If x and y are scalar values (i.e., non-array, non-objects), then x is congruent to y.
 2. Let n be a non-negative integer. Suppose that t1,...,tn and u1,...,un are sequences of POJOs,
