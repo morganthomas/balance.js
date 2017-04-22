@@ -182,7 +182,18 @@ function POJOsAreStructurallyCongruent(pojo1, pojo2) {
 //   pojo is a POJO
 //   f is a function that takes a scalar as input and produces a POJO as output
 function mapScalars(f, pojo) {
-  
+  if (isScalar(pojo)) {
+    return f(pojo);
+  } else if (pojo instanceof Array) {
+    return pojo.map(subpojo => mapScalars(f, subpojo));
+  } else {
+    // pojo is a plain object, depending on the assumption that it is a pojo
+    var result = {};
+    for (let key in pojo) {
+      result[key] = mapScalars(f, pojo[key]);
+    }
+    return result;
+  }
 }
 
 // ASSUMES

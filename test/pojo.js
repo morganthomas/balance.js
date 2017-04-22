@@ -139,8 +139,8 @@ describe('POJOsAreStructurallyCongruent', function() {
 describe('scalarMultiply', function() {
   it('should give the expected answers', function() {
     expect(scalarMultiply(2.0, 2.0)).to.equal(4.0);
-    expect(scalarMultiply(2.0, { x: 3.0 })).to.equal({ x: 6.0 });
-    expect(scalarMultiply(-3.0, [1.0, 0.0, null, { x: -1.0, y: -3.0 }])).to.equal(
-      [-3.0, 0.0, null, { x: 3.0, y: 9.0 }]);
+    expect(scalarMultiply(2.0, { x: 3.0 })).to.eql({ x: 6.0 });
+    expect(scalarMultiply(-3.0, [1.0, 0.0, null, { x: -1.0, y: -3.0 }])).to.eql(
+      [-3.0, -0.0, null, { x: 3.0, y: 9.0 }]);
   });
 });
