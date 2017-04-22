@@ -118,6 +118,8 @@ on PONJOs can allow for better JIT compiler optimization.
 
 */
 
+import assert from 'assert';
+
 const _scalarTypes = ['undefined', 'boolean', 'number', 'string'];
 const _objectPrototype = Object.getPrototypeOf({});
 
@@ -163,6 +165,8 @@ const isPONuNJO = isPOJOlike(isNullableRealNumber);
 
 /// ASSUMES pojo1 and pojo2 are both POJOs.
 function POJOsAreStructurallyCongruent(pojo1, pojo2) {
+  assert(isPOJO(pojo1));
+  assert(isPOJO(pojo2));
   let pojo1IsScalar = isScalar(pojo1);
   let pojo2IsScalar = isScalar(pojo2);
   let pojo1IsArray = pojo1 instanceof Array;
@@ -202,6 +206,7 @@ function POJOsAreStructurallyCongruent(pojo1, pojo2) {
 //   pojo is a POJO
 //   f is a function that takes a scalar as input and produces a POJO as output
 function mapScalars(f, pojo) {
+  assert(isPOJO(pojo));
   if (isScalar(pojo)) {
     return f(pojo);
   } else if (pojo instanceof Array) {
@@ -220,6 +225,8 @@ function mapScalars(f, pojo) {
 //   a is a real number
 //   ponunjo is a PONuNJO
 function scalarMultiplyPONuNJO(a, ponunjo) {
+  assert(isRealNumber(a));
+  assert(isPONuNJO(ponunjo));
   return mapScalars(x => x === null ? null : a * x, ponunjo);
 }
 
@@ -227,12 +234,18 @@ function scalarMultiplyPONuNJO(a, ponunjo) {
 //   a is a real number
 //   ponjo is a PONJO
 function scalarMultiplyPONJO(a, ponjo) {
+  assert(isRealNumber(a));
+  assert(isPONJO(ponjo));
   return mapScalars(x => a * x, ponjo);
 }
 
 // ASSUMES pojos is a list of at least one POJO, with all POJOs in the list being structurally
 // congruent to each other.
 function zipPOJOs(f, ...pojos) {
+  assert(pojos.every(isPOJO));
+  assert(pojos.length > 0);
+  assert(pojos.every((pojo) => POJOsAreStructurallyCongruent(pojos[0], pojo)));
+
   if (isScalar(pojos[1])) {
     return f(...pojos);
   } else if (pojos[1] instanceof Array) {
@@ -253,6 +266,7 @@ function zipPOJOs(f, ...pojos) {
 
 // ASSUMES it is passed at least one argument and all its arguments are structurally congruent PONuNJOs
 function addPONuNJOs(...ponunjos) {
+  assert(ponunjos.every(isPONuNJO));
   return zipPOJOs(
     (...numbers) => numbers.reduce(
       (a,b) => a === null || b === null ? null : a + b, 
@@ -262,6 +276,7 @@ function addPONuNJOs(...ponunjos) {
 
 // ASSUMES it is passed at least one argument and all its arguments are structurall congruent PONJOs
 function addPONJOs(...ponjos) {
+  assert(ponjos.every(isPONJO));
   return zipPOJOs(
     (...numbers) => numbers.reduce((a,b) => a + b, 0),
     ...ponjos);
