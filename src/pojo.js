@@ -42,6 +42,8 @@ defined recursively as follows:
 Since PONJOS and PONuNJOs are POJOs, we can use the same definition to speak of the congruency of
 PONJOs and PONuNJOs.
 
+=== Congruency classes ===
+
 Given any POJO p, we define the "POJO congruency class (or POJO-CC) of p" to be the (infinite) set of 
 all POJOs which are congruent to p.
 
@@ -49,5 +51,9 @@ Similarly, given any PONJO p, we define the "PONJO congruency class (or PONJO-CC
 (infinite) set of all PONJOs which are congruent to p.
 
 Given any PONuNJO p, we define the "PONuNJO congruence class (or PONuNJO-CC) of p" in the same way.
+
+A set S is "a POJO congruency class (POJO-CC)" if for some POJO p, S is the POJO-CC of p. We can
+similarly define the phrases "a PONJO congruency class (PONJO-CC)" and "a PONuNJO congruency class
+(PONuNJO-CC)."
 
 */
