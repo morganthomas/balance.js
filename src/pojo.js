@@ -156,6 +156,8 @@ function isPOJOlike(scalarPredicate) {
   }
 }
 
+/// DANGER: isPOJO, isPONJO, and isPONuNJO do not check for cycles in the objects they receive!
+/// They will enter an infinite loop if you pass them a cyclic object!
 const isPOJO = isPOJOlike(isScalar);
 const isPONJO = isPOJOlike(isRealNumber);
 const isPONuNJO = isPOJOlike(isNullableRealNumber);
