@@ -46,5 +46,21 @@ describe('isPOJO', function() {
     expect(isPOJO([1, function() { return 4; }])).to.be.false;
     expect(isPOJO([null, { x: new Promise(function(resolve) { resolve(null); }) }])).to.be.false;
   });
+
+  it('should categorize objects with interesting prototypes as non-POJOs', function() {
+    function InterestingCtor() {
+      this.foo = 5;
+    }
+
+    InterestingCtor.prototype = {
+      y: 6
+    };
+
+    var interesting = new InterestingCtor();
+    expect(interesting.foo).to.equal(5);
+    expect(interesting.y).to.equal(6);
+
+    expect(isPOJO(interesting)).to.be.false;
+  });
 });
 
