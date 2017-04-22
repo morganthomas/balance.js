@@ -26,7 +26,7 @@ An object y is "part of" a POJO x iff one of these conditions holds:
 === PONJO and PONuNJO ===
 
 A PONJO is a Plain Old Numeric JavaScript Object. A PONJO is a POJO where all scalar values
-that are part of the object are numbers.
+that are part of the object are real numbers (i.e., their type is 'number' and they are not -Infinity, Infinity, or NaN).
 
 A PONuNJO is a Plain Old Nullable Numeric JavaScript Object. A PONuNJO is a POJO where all
 scalar values that are part of the objects are either numbers or null.
@@ -101,17 +101,22 @@ function isScalar(x) {
   return x === null || _scalarTypes.indexOf(typeof x) > -1;
 }
 
+function isRealNumber(x) {
+  return typeof x === 'number' && x !== -Infinity && x !== Infinity && !isNaN(x);
+}
+
 /// DANGER: isPOJOlike does not check for cycles in the objects it receives!
 /// It will enter an infinite loop if you pass it a cyclic object!
 function isPOJOlike(scalarPredicate) {
-  return function(x) {
+  return function isPOJOlikeInstance(x) {
     if (scalarPredicate(x)) {
       return true;
     } else if (x instanceof Array) {
-      return x.every(isPOJO);
-    } else if (Object.getPrototypeOf(x) === _objectPrototype) {
+      return x.every(isPOJOlikeInstance);
+    } else if (x !== null && x !== undefined &&
+               Object.getPrototypeOf(x) === _objectPrototype) {
       for (let key in x) {
-        if (!isPOJO(x[key])) {
+        if (!isPOJOlikeInstance(x[key])) {
           return false;
         }
       }
@@ -123,9 +128,12 @@ function isPOJOlike(scalarPredicate) {
 }
 
 const isPOJO = isPOJOlike(isScalar);
+const isPONJO = isPOJOlike(isRealNumber);
 
 export {
   isScalar,
+  isRealNumber,
   isPOJOlike,
   isPOJO,
+  isPONJO,
 };

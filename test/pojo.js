@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import {
   isScalar,
   isPOJO,
+  isPONJO,
 } from '../src/pojo.js';
 
 describe('isScalar', function() {
@@ -64,3 +65,23 @@ describe('isPOJO', function() {
   });
 });
 
+describe('isPONJO', function() {
+  it('should categorize PONJOs as PONJOs', function() {
+    expect(isPONJO(5)).to.be.true;
+    expect(isPONJO([])).to.be.true;
+    expect(isPONJO({})).to.be.true;
+    expect(isPONJO({ x: 5 })).to.be.true;
+    expect(isPONJO({ x: { y: 0.13, z: [0.0, { x: -13.5 }] } })).to.be.true;
+  });
+
+  it('should categorize non-PONJOs as non-PONJOs', function() {
+    expect(isPONJO(Infinity)).to.be.false;
+    expect(isPONJO(-Infinity)).to.be.false;
+    expect(isPONJO(NaN)).to.be.false;
+    expect(isPONJO(null)).to.be.false;
+    expect(isPONJO(undefined)).to.be.false;
+    expect(isPONJO({ x: 'foo', y: 7 })).to.be.false;
+    expect(isPONJO([{ x: 5 }, function() { return 5; }])).to.be.false;
+    expect(isPONJO(new Promise(function(resolve) { resolve(2); }))).to.be.false;
+  });
+});
