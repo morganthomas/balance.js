@@ -187,7 +187,7 @@ function mapScalars(f, pojo) {
   } else if (pojo instanceof Array) {
     return pojo.map(subpojo => mapScalars(f, subpojo));
   } else {
-    // pojo is a plain object, depending on the assumption that it is a pojo
+    // pojo is a plain object, depending on the assumption that it is a POJO
     var result = {};
     for (let key in pojo) {
       result[key] = mapScalars(f, pojo[key]);
