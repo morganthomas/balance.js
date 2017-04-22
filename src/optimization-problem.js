@@ -13,10 +13,10 @@ where:
 
  * objectiveFunction is a differentiable scalar field.
  * initialGuessFunction is a function.
-     ASSUMES that as input it gets one PONuNJO congruent to objective.inputClassRepr.
-     As output it produces a PONJO congruent to objective.inputClassRepr, where every
-     number equals the number in the same location in the input if the same location in the
-     nput does not have value null.
+     * Assumes that as input it gets one PONuNJO congruent to objective.inputClassRepr.
+     * As output it produces a PONJO congruent to objective.inputClassRepr, where every
+       number equals the number in the same location in the input if the same location in the
+       nput does not have value null.
 
 */
 
