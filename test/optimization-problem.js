@@ -7,7 +7,7 @@ describe('solveOptimizationProblem', function() {
   it('works on a simple problem', function() {
     let problem = {
       objectiveFunction: {
-        inputClassRepr: {
+        domainRepresentative: {
           x: 0,
           y: 0,
           z: [0,0]
