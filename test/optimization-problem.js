@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { mapScalars } from '../src/pojo.js';
+import { mapScalars, POJOsAreStructurallyCongruent } from '../src/pojo.js';
 import { flattenPOJO } from '../src/flatten-pojo.js';
 import { solveOptimizationProblem } from '../src/optimization-problem.js';
 
@@ -58,5 +58,7 @@ describe('solveOptimizationProblem', function() {
         .reduce((a,b) => a + b, 0);
 
     expect(error).to.be.below(0.0001);
+    expect(solution).to.satisfy(
+      (s) => POJOsAreStructurallyCongruent(s, idealSolution));
   });
 });
