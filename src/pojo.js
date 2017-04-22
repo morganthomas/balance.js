@@ -61,10 +61,9 @@ similarly define the phrases "a PONJO congruency class (PONJO-CC)" and "a PONuNJ
 (PONuNJO-CC)."
 
 An interesting fact about PONJO-CCs is that each of them forms a (finite-dimensional, Euclidean)
-vector space, when idealizing away issues such as rounding error and the existence of non-numeric
-number values like Infinity in JavaScript. In PONJO-CC vector spaces, vector addition is performed
-pointwise on the scalar parts of the object, and scalar multiplication is performed across all scalar 
-parts of the object.
+vector space, when idealizing away issues such as rounding error. In PONJO-CC vector spaces, vector 
+addition is performed pointwise on the scalar parts of the object, and scalar multiplication is 
+performed across all scalar parts of the object.
 
 The same statement does not make sense about POJO-CCs or PONuNJO-CCs. Neither type of set forms an
 (approximation of a) vector space in any general way that's apparent to me.
