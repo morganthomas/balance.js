@@ -260,6 +260,13 @@ function addPONuNJOs(...ponunjos) {
     ...ponunjos);
 }
 
+// ASSUMES it is passed at least one argument and all its arguments are structurall congruent PONJOs
+function addPONJOs(...ponjos) {
+  return zipPOJOs(
+    (...numbers) => numbers.reduce((a,b) => a + b, 0),
+    ...ponjos);
+}
+
 export {
   isScalar,
   isRealNumber,
@@ -274,4 +281,5 @@ export {
   scalarMultiplyPONJO,
   zipPOJOs,
   addPONuNJOs,
+  addPONJOs,
 };

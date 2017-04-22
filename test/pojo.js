@@ -8,6 +8,7 @@ import {
   scalarMultiplyPONuNJO,
   scalarMultiplyPONJO,
   addPONuNJOs,
+  addPONJOs,
 } from '../src/pojo.js';
 
 describe('isScalar', function() {
@@ -174,5 +175,19 @@ describe('addPONuNJOs', function() {
       { x: null, y: 0.0,  z: [2.0, 3.0] },
       { x: 5.0,  y: -5.0, z: [3.0, null] }))
       .to.eql({ x: null, y: -5.0, z: [6.0, null] });
+  });
+});
+
+describe('addPONJOs', function() {
+  it('should give the expected answers', function() {
+    expect(addPONJOs(-5.0)).to.equal(-5.0);
+    expect(addPONJOs(3.0, -3.0)).to.equal(0.0);
+    expect(addPONJOs(1.0, 2.0, 3.0)).to.equal(6.0);
+    expect(addPONJOs({ x: 3.0 }, { x: 2.0 })).to.eql({ x: 5.0 });
+    expect(addPONJOs(
+      { x: 3.0,  y: 0.0,  z: [1.0, 2.0] },
+      { x: 0.0, y: 0.0,  z: [2.0, 3.0] },
+      { x: 5.0,  y: -5.0, z: [3.0, 0.0] }))
+      .to.eql({ x: 8.0, y: -5.0, z: [6.0, 5.0] });
   });
 });
