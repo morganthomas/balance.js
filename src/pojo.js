@@ -101,24 +101,28 @@ function isScalar(x) {
   return x === null || _scalarTypes.indexOf(typeof x) > -1;
 }
 
-/// DANGER: isPOJO does not check for cycles in the objects it receives!
+/// DANGER: isPOJOlike does not check for cycles in the objects it receives!
 /// It will enter an infinite loop if you pass it a cyclic object!
-function isPOJO(x) {
-  if (isScalar(x)) {
-    return true;
-  } else if (x instanceof Array) {
-    return x.every(isPOJO);
-  } else if (Object.getPrototypeOf(x) === _objectPrototype) {
-    for (let key in x) {
-      if (!isPOJO(x[key])) {
-        return false;
+function isPOJOlike(scalarPredicate) {
+  return function(x) {
+    if (scalarPredicate(x)) {
+      return true;
+    } else if (x instanceof Array) {
+      return x.every(isPOJO);
+    } else if (Object.getPrototypeOf(x) === _objectPrototype) {
+      for (let key in x) {
+        if (!isPOJO(x[key])) {
+          return false;
+        }
       }
+      return true;
+    } else {
+      return false;
     }
-    return true;
-  } else {
-    return false;
   }
 }
+
+const isPOJO = isPOJOlike(isScalar);
 
 export {
   isScalar,
