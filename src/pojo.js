@@ -91,7 +91,7 @@ mapScalars(f, p)
   which is like p except each scalar value has been replaced with its corresponding return value
   from f. f must return a POJO for each scalar input.
 
-zipObjects(f, p1, ..., pn)
+zipPOJOs(f, p1, ..., pn)
   Takes a function f and POJOs p1,...,pn. All of p1,...,pn must be congruent to each other.
   At each location in the recursive structure of p1 where there is a scalar, f receives as
   arguments the values of p1,...,pn at that location, and is expected to return a POJO.
@@ -231,9 +231,34 @@ function scalarMultiplyPONJO(a, ponjo) {
   return mapScalars(x => a * x, ponjo);
 }
 
+// ASSUMES pojos is a list of at least one POJO, with all POJOs in the list being structurally
+// congruent to each other.
+function zipPOJOs(f, ...pojos) {
+  if (isScalar(pojos[1])) {
+    return f(...pojos);
+  } else if (pojos[1] instanceof Array) {
+    var result = [];
+    for (let i = 0; i < pojos[1].length; i++) {
+      result.push(zipPOJOs(f, ...pojos.map(pojo => pojo[i])));
+    }
+    return result;
+  } else {
+    // by our assumptions pojos[1], and therefore all pojos, are congruent plain objects
+    var result = {};
+    for (let key in pojos[1]) {
+      result[key] = zipPOJOs(f, ...pojos.map(pojo => pojo[key]));
+    }
+    return result;
+  }
+}
+
 // ASSUMES it is passed at least one argument and all its arguments are structurally congruent PONuNJOs
-function addPONuNJOs() {
-  
+function addPONuNJOs(...ponunjos) {
+  return zipPOJOs(
+    (...numbers) => numbers.reduce(
+      (a,b) => a === null || b === null ? null : a + b, 
+      0),
+    ...ponunjos);
 }
 
 export {
