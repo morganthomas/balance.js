@@ -26,5 +26,12 @@ describe('constrainOptimizationProblem', function() {
       objectiveFunction,
       initialGuessFunction
     };
+
+    let constraintsList = [
+      [],
+      [[['x'], ['y']]],
+      [[['x'], ['z', 0]]],
+      [[['x'], ['y']], [['z', 0], ['z', 1]]],
+    ];
   });
 });
