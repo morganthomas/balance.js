@@ -85,8 +85,8 @@ function prunePOJOrecurse(predicate, pojo, path) {
 // originalPojo.
 //
 // You can call coprunePOJO in two ways: with or without a predicate:
-//   prunePOJO(predicate, originalPojo, prunedPojo)
-//   prunePOJO(originalPojo, prunedPojo)
+//   coprunePOJO(predicate, originalPojo, prunedPojo)
+//   coprunePOJO(originalPojo, prunedPojo)
 //
 // If you don't supply a predicate, this has the same effect as supplying a predicate that always
 // returns true.
