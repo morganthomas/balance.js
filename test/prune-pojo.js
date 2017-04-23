@@ -128,7 +128,11 @@ describe('coprunePOJO', function() {
     });
 
     let tc2predicate = (x, path) =>
-        !(x === null || path === ['d',1] || path === ['c'] || path === ['e',0,'a'] || path === ['f',0,'a']);
+        !(x === null || 
+          deepEquals(path, ['d',1]) || 
+          deepEquals(path, ['c']) || 
+          deepEquals(path, ['e',0,'a']) || 
+          deepEquals(path, ['f',0,'a']));
 
     let tc2original = {
         a: null,
@@ -142,17 +146,17 @@ describe('coprunePOJO', function() {
     let tc2pruned = {
       b: [{ x: 'x', y: true, z: undefined }, 'b'],
       d: [NaN],
-      e: [{ b: { a: 'a' } }, []],
+      e: [{ b: 'a' }, null],
       f: [{ b: 7 }, 13],
     }
 
-    expect(coprunePOJO(tc2predicate, tc2original, tc2pruned)).to.equl({
-        a: null,
-        b: [null, null, { a: null, x: 'x', y: true, z: undefined }, 'b'],
-        c: { a: 5, b: 7 },
-        d: [NaN, 5, null],
-        e: [{ a: { z: 8 }, b: { a: 'a' } }, []],
-        f: [{ a: 8, b: 7 }, 13],
-      });
+    expect(coprunePOJO(tc2predicate, tc2original, tc2pruned)).to.eql({
+      a: null,
+      b: [null, null, { a: null, x: 'x', y: true, z: undefined }, 'b'],
+      c: { a: 5, b: 7 },
+      d: [NaN, 5, null],
+      e: [{ a: { z: 8 }, b: 'a' }, null],
+      f: [{ a: 8, b: 7 }, 13],
+    });
   });
 });
