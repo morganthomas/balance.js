@@ -3,13 +3,13 @@
 This file is for applying equality constraints to optimization problems, in order to produce new
 optimization problems. It defines the following functions:
 
-== constrainOptimizationProblem(optimizationProblem, constraints) ==
+== constrainOptimizationProblem(problem, constraints) ==
 
-'optimizationProblem' is an optimization problem. 'constraints' is a list of equivalence classes. 
+'problem' is an optimization problem. 'constraints' is a list of equivalence classes. 
 An equivalence class, by definition, is an array equiv such that:
  * at most one element of equiv is either a number or a function; and,
  * all other elements of equiv are paths (i.e. arrays of positive integers and/or strings);
-   said paths must exist in optimizationProblem.objectiveFunction.domainRepresentative.
+   said paths must exist in problem.objectiveFunction.domainRepresentative.
 
 No path may occur in two equivalence classes in the constraints array.
 
@@ -19,7 +19,7 @@ optimization problems, two additional properties, both functions:
 
 constrainedProblem.constrainPONuNJO(ponjo)
  * Takes as input a PONuNJO, 'ponjo', which must be structurally congruent to
-   optimizationProblem.objectiveFunction.domainRepresentative.
+   problem.objectiveFunction.domainRepresentative.
  * Produces as output a PONuNJO which is structurally congruent to
    constrainedProblem.objectiveFunction.domainRepresentative.
  * This function converts between the domains of the two optimization problems, by removing
@@ -29,7 +29,7 @@ constrainedProblem.unconstrainPONuNJO(ponjo)
  * Takes as input a PONuNJO, 'ponjo', which must be structurally congruent to
    constrainedProblem.objectiveFunction.domainRepresentative.
  * Produces as output a PONuNJO which is structurally congruent to
-   optimizationProblem.objectiveFunction.domainRepresentative.
+   problem.objectiveFunction.domainRepresentative.
  * This function converts between the domains of the two optimization problems, by adding back in
    fields which are rendered redundant by the constraints.
 
@@ -39,3 +39,7 @@ constrainedProblem.constrainPONuNJO(constrainedProblem.unconstrainPONuNJO(ponjo)
 deep equal to ponjo.
 
 */
+
+function constrainOptimizationProblem(problem, constraints) {
+
+}
