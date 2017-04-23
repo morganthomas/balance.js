@@ -46,7 +46,7 @@ describe('prunePOJO', function() {
   it('even gives the predicate a path to work with', function() {
     expect(
       prunePOJO(
-        (x, path) => deepEquals(path, ['x', 'y']),
+        (x, path) => !deepEquals(path, ['x', 'y']),
         {
           x: { y: 3 },
           z: true
@@ -57,7 +57,7 @@ describe('prunePOJO', function() {
 
     expect(
       prunePOJO(
-        (x, path) => [['a'], ['b','c'], ['c','a',1]].some(p2 => deepEquals(path, p2)),
+        (x, path) => [['a'], ['b','c'], ['c','a',1]].some(p2 => !deepEquals(path, p2)),
         {
           a: 3,
           b: { c: true, d: 'foo' },

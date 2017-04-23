@@ -1,11 +1,7 @@
 import assert from 'assert';
 import { isPOJO, isScalar, POJOsAreStructurallyCongruent } from './pojo.js';
 
-// This function is for removing stuff you don't need from a POJO. It takes a predicate, and
-// tests the predicate against every scalar value in the POJO. It throws out the locations in the
-// POJO with a scalar value for which the predicate returns falsy. It also throws out empty arrays
-// and empty objects. Generally, it throws away everything you don't need, assuming that 'predicate'
-// tests a scalar value to say whether you need that scalar value.
+// This function is for removing stuff you don't need from a POJO. 
 //
 // You can call prunePOJO in two ways: with or without a predicate:
 //   prunePOJO(predicate, pojo)
@@ -14,8 +10,6 @@ import { isPOJO, isScalar, POJOsAreStructurallyCongruent } from './pojo.js';
 // If you don't supply a predicate, this has the same effect as supplying a predicate that always
 // returns true. In this case prunePOJO won't remove any scalar values, and all it will do is
 // remove arrays and objects which at bottom contain no scalars.
-//
-// TODO: allow the predicate to depend on the current path in the object as well as the scalar value.
 function prunePOJO(predicate, pojo) {
   if (typeof predicate !== 'function') {
     pojo = predicate;
@@ -32,9 +26,10 @@ function prunePOJOrecurse(predicate, pojo, path) {
   } else if (pojo instanceof Array) {
     let result = [];
     for (let i = 0; i < pojo.length; i++) {
-      let subPojo = prunePOJOrecurse(predicate, pojo[i], path.concat(i));
+      let subPath = path.concat(i);
+      let subPojo = prunePOJOrecurse(predicate, pojo[i], subPath);
       if (isScalar(subPojo)) {
-        if (predicate(subPojo)) {
+        if (predicate(subPojo, subPath)) {
           result.push(subPojo);
         }
       } else if (subPojo instanceof Array) {
@@ -53,9 +48,10 @@ function prunePOJOrecurse(predicate, pojo, path) {
     // pojo is a plain object, depending on the assumption that it is a POJO
     let result = {};
     for (let key in pojo) {
-      let subPojo = prunePOJOrecurse(predicate, pojo[key], path.concat(key));
+      let subPath = path.concat(key);
+      let subPojo = prunePOJOrecurse(predicate, pojo[key], subPath);
       if (isScalar(subPojo)) {
-        if (predicate(subPojo)) {
+        if (predicate(subPojo, subPath)) {
           result[key] = subPojo;
         }
       } else if (subPojo instanceof Array) {
