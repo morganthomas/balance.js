@@ -10,8 +10,10 @@ import {
   addPONuNJOs,
   addPONJOs,
   deepEquals,
-  pathLookup,
 } from '../src/pojo.js';
+import {
+  pathLookup
+} from '../src/path.js';
 
 describe('isScalar', function() {
   it('should categorize scalars as scalars', function() {
