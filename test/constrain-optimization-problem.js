@@ -5,9 +5,17 @@ import {
   getFieldsToKill 
 } from '../src/constrain-optimization-problem.js';
 
-describe('getFieldsToKill', function() {
+describe('getPathsToPrune', function() {
   it('gives the expected outputs', function() {
-    
+    expect(getPathsToPrune([])).to.eql([]);
+    expect(getPathsToPrune([[[0]]])).to.eql([]);
+    expect(getPathsToPrune([[[0],[3]]])).to.eql([[3]]);
+    expect(getPathsToPrune([[[1],[3],[0]]])).to.eql([[3],[0]]);
+    expect(getPathsToPrune([[[0,0]]])).to.eql([]);
+    expect(getPathsToPrune([[[0],[1,3]]])).to.eql([[1,3]]);
+    expect(getPathsToPrune([[[0],[3]], [[0],[1,3]], [0,0]])).to.eql([[3],[1,3]]);
+    expect(getPathsToPrune([[['a'],[0,'b'],['c','c',13]]])).to.eql([[[0,'b'],['c','c',13]]]);
+    expect(getPathsToPrune([[['a'],0]])).to.eql([['a']]);
   });
 });
 
