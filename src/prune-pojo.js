@@ -56,8 +56,10 @@ function prunePOJO(predicate, pojo) {
 
 // coprunePOJO reverses the process carried out by prunePOJO. It assumes that prunedPojo
 // is structurally congruent to prunePOJO(predicate, originalPojo). It returns a new POJO,
-// call it coprunedPojo, such that prunePOJO(predicate, coprunedPojo) is deep-equal to prunedPojo
-// and coprunedPojo is structurally congruent to originalPojo.
+// call it coprunedPojo, such that prunePOJO(predicate, coprunedPojo) is deep-equal to prunedPojo,
+// coprunedPojo is structurally congruent to originalPojo, and the values for the scalars which
+// are taken out by prunePOJO(predicate, coprunedPojo) are drawn from the same locations in
+// originalPojo.
 function coprunePOJO(predicate, originalPojo, prunedPojo) {
 
 }
