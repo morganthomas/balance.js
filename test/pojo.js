@@ -10,6 +10,7 @@ import {
   addPONuNJOs,
   addPONJOs,
   deepEquals,
+  pathLookup,
 } from '../src/pojo.js';
 
 describe('isScalar', function() {
@@ -213,5 +214,14 @@ describe('deepEquals', function() {
     expect(deepEquals('foo', [0])).to.be.false;
     expect(deepEquals([0.0, { a: 1.0 }], [0.0, { a: 1.1 }])).to.be.false;
     expect(deepEquals(['b','c'],['b','d'])).to.be.false;
+  });
+});
+
+describe('pathLookup', function() {
+  it('should produce the expected results', function() {
+    expect(pathLookup({ x: { y: [0, 2], z: 'foo' } }, ['x', 'y', 1])).to.equal(2);
+    expect(pathLookup([3], [0])).to.equal(3);
+    expect(pathLookup({ x: 3 }, ['x'])).to.equal(3);
+    expect(pathLookup(3, [])).to.equal(3);
   });
 });
