@@ -76,7 +76,7 @@ function prunePOJO(predicate, pojo) {
 // are taken out by prunePOJO(predicate, coprunedPojo) are drawn from the same locations in
 // originalPojo.
 function coprunePOJO(predicate, originalPojo, prunedPojo) {
-
+  
 }
 
 export { prunePOJO, coprunePOJO }

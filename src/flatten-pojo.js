@@ -14,6 +14,10 @@ unflattenPOJO(referencePojo, array)
   Outputs a POJO newPojo which is congruent to pojo, such that flattenPOJO(newPojo) outputs
   an array deep-equal to 'array'.
 
+You can think of these functions as constructively proving that every PONJO-CC is isomorphic as a
+vector space to R^n, the n-dimensional Euclidean space, where n is the number of scalar values in
+a representative of the given PONJO-CC.
+
 */
 
 import {
