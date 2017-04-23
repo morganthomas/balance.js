@@ -14,6 +14,7 @@ where:
  * objectiveFunction is a differentiable scalar field.
  * initialGuessFunction is a function.
      * Assumes that as input it gets one PONuNJO congruent to objective.domainRepresentative.
+       This is its "constraints."
      * As output it produces a PONJO congruent to objective.domainRepresentative, where every
        number equals the number in the same location in the input if the same location in the
        input does not have value null.
