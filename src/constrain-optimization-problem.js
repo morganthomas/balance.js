@@ -23,7 +23,7 @@ constrainedProblem.constrainPONJO(ponjo)
  * Produces as output a PONJO which is structurally congruent to
    constrainedProblem.objectiveFunction.domainRepresentative.
  * This function converts between the domains of the two optimization problems, by removing
-   fields which are rendered redundant by the constraints.
+   fields which are rendered unnecessary by the constraints.
 
 constrainedProblem.unconstrainPONJO(ponjo)
  * Takes as input a PONJO, 'ponjo', which must be structurally congruent to
