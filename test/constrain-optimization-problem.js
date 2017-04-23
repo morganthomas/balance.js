@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { mapScalars } from '../src/pojo.js';
 import {
   constrainOptimizationProblem, 
-  getFieldsToKill 
+  getPathsToPrune
 } from '../src/constrain-optimization-problem.js';
 
 describe('getPathsToPrune', function() {

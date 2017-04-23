@@ -50,11 +50,11 @@ function constrainOptimizationProblem(problem, constraints) {
 
 }
 
-function getFieldsToKill(constraints) {
+function getPathsToPrune(constraints) {
   
 }
 
 export {
   constrainOptimizationProblem,
-  getFieldsToKill
+  getPathsToPrune
 }
