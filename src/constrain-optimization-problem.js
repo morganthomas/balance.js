@@ -77,5 +77,5 @@ function getPathsToPruneFromEquivalenceClass(equivalenceClass) {
 
 export {
   constrainOptimizationProblem,
-  getPathsToPrune
+  getPathsToPrune, // exported for testing purposes; don't recommend using
 }
