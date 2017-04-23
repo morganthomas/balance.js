@@ -17,24 +17,24 @@ The return value is a new optimization problem: call it constrainedProblem. This
 in addition to the properties objectiveFunction and initialGuessFunction required by the definition of
 optimization problems, two additional properties, both functions:
 
-constrainedProblem.constrainPONJO(ponjo)
- * Takes as input a PONJO, 'ponjo', which must be structurally congruent to
+constrainedProblem.constrainPONuNJO(ponjo)
+ * Takes as input a PONuNJO, 'ponjo', which must be structurally congruent to
    optimizationProblem.objectiveFunction.domainRepresentative.
- * Produces as output a PONJO which is structurally congruent to
+ * Produces as output a PONuNJO which is structurally congruent to
    constrainedProblem.objectiveFunction.domainRepresentative.
  * This function converts between the domains of the two optimization problems, by removing
    fields which are rendered unnecessary by the constraints.
 
-constrainedProblem.unconstrainPONJO(ponjo)
- * Takes as input a PONJO, 'ponjo', which must be structurally congruent to
+constrainedProblem.unconstrainPONuNJO(ponjo)
+ * Takes as input a PONuNJO, 'ponjo', which must be structurally congruent to
    constrainedProblem.objectiveFunction.domainRepresentative.
- * Produces as output a PONJO which is structurally congruent to
+ * Produces as output a PONuNJO which is structurally congruent to
    optimizationProblem.objectiveFunction.domainRepresentative.
  * This function converts between the domains of the two optimization problems, by adding back in
    fields which are rendered redundant by the constraints.
 
-unconstrainPONJO is a right inverse of constrainPONJO, meaning that for any PONJO 'ponjo' which is
-structurally congruent to constrainedProblem.objectiveFunction.domainRepresentative,
+unconstrainPONuNJO is a right inverse of constrainPONuNJO on PONJOs, meaning that for any
+PONJO 'ponjo' which is structurally congruent to constrainedProblem.objectiveFunction.domainRepresentative,
 constrainedProblem.constrainPONJO(constrainedProblem.unconstrainPONJO(ponjo)) is
 deep equal to ponjo.
 
