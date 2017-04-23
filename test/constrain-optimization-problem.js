@@ -33,5 +33,18 @@ describe('constrainOptimizationProblem', function() {
       [[['x'], ['z', 0]]],
       [[['x'], ['y']], [['z', 0], ['z', 1]]],
     ];
+
+    let constrainedProblems = constraintsList.map(
+      constraints => constrainOptimizationProblem(problem, constraints));
+
+    let expectedRepresentatives = [
+      { x: 0, z: [0, 0] },
+      { x: 0, y: 0, z: [0] },
+      { x: 0, z: [0] }
+    ];
+
+    constrainedProblems.forEach(
+      (problem, i) => expect(problem.objectiveFunction.domainRepresentative)
+        .to.eql(expectedRepresentatives[i]));
   });
 });
