@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { isPOJO, isScalar } from './pojo.js';
+import { isPOJO, isScalar, POJOsAreStructurallyCongruent } from './pojo.js';
 
 // This function is for removing stuff you don't need from a POJO. It takes a predicate, and
 // tests the predicate against every scalar value in the POJO. It throws out the locations in the
@@ -75,8 +75,23 @@ function prunePOJO(predicate, pojo) {
 // coprunedPojo is structurally congruent to originalPojo, and the values for the scalars which
 // are taken out by prunePOJO(predicate, coprunedPojo) are drawn from the same locations in
 // originalPojo.
+//
+// You can call coprunePOJO in two ways: with or without a predicate:
+//   prunePOJO(predicate, originalPojo, prunedPojo)
+//   prunePOJO(originalPojo, prunedPojo)
+//
+// If you don't supply a predicate, this has the same effect as supplying a predicate that always
+// returns true.
 function coprunePOJO(predicate, originalPojo, prunedPojo) {
-  
+  if (typeof predicate !== 'function') {
+    prunedPojo = originalPojo;
+    originalPojo = predicate;
+    predicate = () => true;
+  }
+
+  assert(isPOJO(originalPojo));
+  assert(isPOJO(prunedPojo));
+  assert(POJOsAreStructurallyCongruent(prunedPojo, prunePOJO(predicate, originalPojo)));
 }
 
 export { prunePOJO, coprunePOJO }
