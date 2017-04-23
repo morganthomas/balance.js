@@ -35,7 +35,7 @@ constrainedProblem.unconstrainPONuNJO(ponjo)
 
 unconstrainPONuNJO is a right inverse of constrainPONuNJO on PONJOs, meaning that for any
 PONJO 'ponjo' which is structurally congruent to constrainedProblem.objectiveFunction.domainRepresentative,
-constrainedProblem.constrainPONJO(constrainedProblem.unconstrainPONJO(ponjo)) is
+constrainedProblem.constrainPONuNJO(constrainedProblem.unconstrainPONuNJO(ponjo)) is
 deep equal to ponjo.
 
 */
