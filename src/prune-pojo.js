@@ -1,3 +1,4 @@
+import assert from 'assert';
 import { isPOJO, isScalar } from './pojo.js';
 
 // This function is for removing stuff you don't need from a POJO. It takes a predicate, and
@@ -44,7 +45,7 @@ function prunePOJO(predicate, pojo) {
         }
       } else {
         // subPojo is a plain object, depending on the assumption that it is a POJO
-        if (Object.keys(subPojo.length > 0)) {
+        if (Object.keys(subPojo).length > 0) {
           result[key] = subPojo;
         }
       }
