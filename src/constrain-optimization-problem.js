@@ -7,9 +7,15 @@ optimization problems. It defines the following functions:
 
 'problem' is an optimization problem. 'constraints' is a list of equivalence classes. 
 An equivalence class, by definition, is an array equiv such that:
- * at most one element of equiv is either a number or a function; and,
+ * at most one element of equiv, not the first element, is either a number or a function; and,
  * all other elements of equiv are paths (i.e. arrays of positive integers and/or strings);
    said paths must exist in problem.objectiveFunction.domainRepresentative.
+ * we say that the first element of the equivalence class is the 'representative' of the class.
+
+All paths in an equivalence class besides the representative will be eliminated in the constrained
+problem. If a number or function is included in the equivalence class, then all paths in the
+equivalence class are eliminated in the constrained problem, and their common value is either
+the given constant number or the result of applying the given function to the constrained vector.
 
 No path may occur in two equivalence classes in the constraints array.
 
@@ -43,3 +49,4 @@ deep equal to ponjo.
 function constrainOptimizationProblem(problem, constraints) {
 
 }
+
