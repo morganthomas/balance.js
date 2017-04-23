@@ -6,6 +6,14 @@ import { isPOJO, isScalar } from './pojo.js';
 // POJO with a scalar value for which the predicate returns falsy. It also throws out empty arrays
 // and empty objects. Generally, it throws away everything you don't need, assuming that 'predicate'
 // tests a scalar value to say whether you need that scalar value.
+//
+// You can call prunePOJO in two ways: with or without a predicate:
+//   prunePOJO(predicate, pojo)
+//   prunePOJO(pojo)
+//
+// If you don't supply a predicate, this has the same effect as supplying a predicate that always
+// returns true. In this case prunePOJO won't remove any scalar values, and all it will do is
+// remove arrays and objects which at bottom contain no scalars.
 function prunePOJO(predicate, pojo) {
   if (typeof predicate !== 'function') {
     pojo = predicate;
