@@ -160,3 +160,24 @@ describe('coprunePOJO', function() {
     });
   });
 });
+
+const testPojos = [
+  4,
+  undefined,
+  NaN,
+  [],
+  {},
+  [0],
+  [[]],
+  [[[]]],
+  { x: null },
+  { x: undefined },
+  { x: { x: { } } },
+  { y: [0, "foo", { y: true, a: [] }], b: undefined, a: [5.52, [1.0, [], 2.0], 0.004],  c: -0.0 },
+];
+
+describe('prunePOJO and coprunePOJO', function() {
+  it('behave like inverses of each other', function() {
+
+  });
+});
