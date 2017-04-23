@@ -123,7 +123,7 @@ describe('coprunePOJO', function() {
       e: 'baz',
       f: '',
       g: [],
-      h: [0.0, 8.0, 'blench', { a: null, e: undefined, f: { } }],
+      h: [0.0, 8.0, 'bletch', { a: null, e: undefined, f: { } }],
       i: { x: { x: { y: [], z: { } } } }
     });
   });
