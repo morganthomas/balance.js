@@ -57,7 +57,7 @@ describe('prunePOJO', function() {
 
     expect(
       prunePOJO(
-        (x, path) => [['a'], ['b','c'], ['c','a',1]].some(p2 => !deepEquals(path, p2)),
+        (x, path) => !([['a'], ['b','c'], ['c','a',1]].some(p2 => deepEquals(path, p2))),
         {
           a: 3,
           b: { c: true, d: 'foo' },
