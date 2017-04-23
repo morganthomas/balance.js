@@ -1,6 +1,15 @@
 import { expect } from 'chai';
 import { mapScalars } from '../src/pojo.js';
-import { constrainOptimizationProblem } from '../src/constrain-optimization-problem.js';
+import {
+  constrainOptimizationProblem, 
+  getFieldsToKill 
+} from '../src/constrain-optimization-problem.js';
+
+describe('getFieldsToKill', function() {
+  it('gives the expected outputs', function() {
+    
+  });
+});
 
 describe('constrainOptimizationProblem', function() {
   it('gives the expected output on a simple case', function() {

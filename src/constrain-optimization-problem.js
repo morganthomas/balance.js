@@ -47,6 +47,14 @@ deep equal to ponjo.
 */
 
 function constrainOptimizationProblem(problem, constraints) {
+
+}
+
+function getFieldsToKill(constraints) {
   
 }
 
+export {
+  constrainOptimizationProblem,
+  getFieldsToKill
+}
