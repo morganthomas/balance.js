@@ -9,6 +9,7 @@ import {
   scalarMultiplyPONJO,
   addPONuNJOs,
   addPONJOs,
+  deepEquals,
 } from '../src/pojo.js';
 
 describe('isScalar', function() {
@@ -189,5 +190,26 @@ describe('addPONJOs', function() {
       { x: 0.0, y: 0.0,  z: [2.0, 3.0] },
       { x: 5.0,  y: -5.0, z: [3.0, 0.0] }))
       .to.eql({ x: 8.0, y: -5.0, z: [6.0, 5.0] });
+  });
+});
+
+describe('deepEquals', function() {
+  it('should call equals equals', function() {
+    expect(deepEquals(0.0, -0.0)).to.be.true;
+    expect(deepEquals(null, null)).to.be.true;
+    expect(deepEquals(NaN, NaN)).to.be.true;
+    expect(deepEquals(Infinity, Infinity)).to.be.true;
+    expect(deepEquals(undefined, undefined)).to.be.true;
+    expect(deepEquals([], [])).to.be.true;
+    expect(deepEquals({}, {})).to.be.true;
+    expect(deepEquals(
+      [0, { a: undefined, b: -0.0, c: ['foo', {}] }],
+      [0, { a: undefined, b: 0.0, c: ['foo', {}] }])).to.be.true;
+  });
+
+  it('should call non-equals non-equals', function() {
+    expect(deepEquals(null, undefined)).to.be.false;
+    expect(deepEquals('foo', [0])).to.be.false;
+    expect(deepEquals([0.0, { a: 1.0 }], [0.0, { a: 1.1 }])).to.be.false;
   });
 });

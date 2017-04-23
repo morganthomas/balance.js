@@ -85,6 +85,9 @@ null, or undefined)." For "is a PONJO," the scalar predicate is "is a number." A
 
 The following functions help us to work with POJOs:
 
+deepEquals(a, b)
+  Takes two POJOs and returns true if they are deep-equal.
+
 mapScalars(f, p)
   Takes a function f and a POJO p. Applies f to all scalar values in p, returning a new POJO
   which is like p except each scalar value has been replaced with its corresponding return value
@@ -282,6 +285,40 @@ function addPONJOs(...ponjos) {
     ...ponjos);
 }
 
+// ASSUMES pojo1 and pojo2 are POJOs
+function deepEquals(pojo1, pojo2) {
+  assert(isPOJO(pojo1));
+  assert(isPOJO(pojo2));
+
+  if (isScalar(pojo1)) {
+    return pojo2 === pojo1 || (isNaN(pojo1) && isNaN(pojo2));
+  } else if (pojo1 instanceof Array) {
+    if (pojo2 instanceof Array && pojo1.length === pojo2.length) {
+      for (let i = 0; i < pojo1.length; i++) {
+        if (!deepEquals(pojo1[i],pojo2[i])) { return false; }
+      }
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    // pojo1 is a plain object depending on the assumption it is a POJO
+    if (!isScalar(pojo2) && !(pojo2 instanceof Array)) {
+      // pojo2 is a plain object depending on the assumption it is a POJO
+      for (let key in pojo1) {
+        if (!pojo2.hasOwnProperty(key)) { return false; }
+        if (!deepEquals(pojo1[key], pojo2[key])) { return false; }
+      }
+      for (let key in pojo2) {
+        if (!pojo1.hasOwnProperty(key)) { return false; }
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
 export {
   isScalar,
   isRealNumber,
@@ -297,4 +334,5 @@ export {
   zipPOJOs,
   addPONuNJOs,
   addPONJOs,
+  deepEquals,
 };
