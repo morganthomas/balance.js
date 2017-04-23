@@ -176,8 +176,25 @@ const testPojos = [
   { y: [0, "foo", { y: true, a: [] }], b: undefined, a: [5.52, [1.0, [], 2.0], 0.004],  c: -0.0 },
 ];
 
+const testPredicates = [
+  x => !!x,
+  x => true,
+  x => false,
+  x => x === null,
+  x => typeof x === 'string',
+  (x, path) => deepEquals(path, ['x']),
+  (x, path) => deepEquals(path, ['y', 0]),
+  (x, path) => deepEquals(path, ['y', 1]),
+];
+
 describe('prunePOJO and coprunePOJO', function() {
   it('behave like inverses of each other', function() {
-
+    testPredicates.forEach(function(predicate) {
+      testPojos.forEach(function(pojo) {
+        let pruned = prunePOJO(predicate, pojo);
+        let copruned = coprunePOJO(predicate, pojo, pruned);
+        expect(copruned).to.eql(pojo);
+      });
+    });
   });
 });
