@@ -1,4 +1,3 @@
 pojo.js
-serialize-pojo.js
 differentiable-scalar-field.js
 optimization-problem.js
