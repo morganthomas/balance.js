@@ -11,4 +11,6 @@ An equivalence class, by definition, is an array equiv such that:
  * all other elements of equiv are paths (i.e. arrays of positive integers and/or strings);
    said paths must exist in optimizationProblem.objectiveFunction.domainRepresentative.
 
+No path may occur in two equivalence classes in the constraints array.
+
 */
