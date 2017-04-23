@@ -16,6 +16,7 @@ describe('getPathsToPrune', function() {
     expect(getPathsToPrune([[[0],[3]], [[0],[1,3]], [0,0]])).to.eql([[3],[1,3]]);
     expect(getPathsToPrune([[['a'],[0,'b'],['c','c',13]]])).to.eql([[[0,'b'],['c','c',13]]]);
     expect(getPathsToPrune([[['a'],0]])).to.eql([['a']]);
+    expect(getPathsToPrune([[['c']], [['a'],[0,'b'],function(){}]])).to.eql([['c'],['a'],[0,'b']]);
   });
 });
 
