@@ -50,6 +50,7 @@ function prunePOJOrecurse(predicate, pojo, path) {
     for (let key in pojo) {
       let subPath = path.concat(key);
       let subPojo = prunePOJOrecurse(predicate, pojo[key], subPath);
+
       if (isScalar(subPojo)) {
         if (predicate(subPojo, subPath)) {
           result[key] = subPojo;

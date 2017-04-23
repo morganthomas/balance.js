@@ -55,9 +55,17 @@ describe('prunePOJO', function() {
         z: true
       });
 
+    let pathPredicate = (x, path) => !(
+        deepEquals(path, ['a']) ||
+        deepEquals(path, ['b', 'c']) ||
+        deepEquals(path, ['c', 'a', 1])
+    );
+    expect(pathPredicate(true, ['b', 'c'])).to.be.false;
+    expect(pathPredicate('foo', ['b', 'd'])).to.be.true;
+    
     expect(
       prunePOJO(
-        (x, path) => !([['a'], ['b','c'], ['c','a',1]].some(p2 => deepEquals(path, p2))),
+        pathPredicate,
         {
           a: 3,
           b: { c: true, d: 'foo' },

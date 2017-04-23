@@ -291,7 +291,8 @@ function deepEquals(pojo1, pojo2) {
   assert(isPOJO(pojo2));
 
   if (isScalar(pojo1)) {
-    return pojo2 === pojo1 || (isNaN(pojo1) && isNaN(pojo2));
+    return pojo2 === pojo1 ||
+      (typeof pojo1 === 'number' && typeof pojo2 === 'number' && isNaN(pojo1) && isNaN(pojo2));
   } else if (pojo1 instanceof Array) {
     if (pojo2 instanceof Array && pojo1.length === pojo2.length) {
       for (let i = 0; i < pojo1.length; i++) {

@@ -202,6 +202,7 @@ describe('deepEquals', function() {
     expect(deepEquals(undefined, undefined)).to.be.true;
     expect(deepEquals([], [])).to.be.true;
     expect(deepEquals({}, {})).to.be.true;
+    expect(deepEquals(['b','c'],['b','c'])).to.be.true;
     expect(deepEquals(
       [0, { a: undefined, b: -0.0, c: ['foo', {}] }],
       [0, { a: undefined, b: 0.0, c: ['foo', {}] }])).to.be.true;
@@ -211,5 +212,6 @@ describe('deepEquals', function() {
     expect(deepEquals(null, undefined)).to.be.false;
     expect(deepEquals('foo', [0])).to.be.false;
     expect(deepEquals([0.0, { a: 1.0 }], [0.0, { a: 1.1 }])).to.be.false;
+    expect(deepEquals(['b','c'],['b','d'])).to.be.false;
   });
 });
