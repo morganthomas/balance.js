@@ -46,12 +46,33 @@ deep equal to ponjo.
 
 */
 
+import assert from 'assert';
+
 function constrainOptimizationProblem(problem, constraints) {
 
 }
 
+// ASSUMES constraints is a valid array of constraints
 function getPathsToPrune(constraints) {
-  
+  let equivalenceClasses = constraints;
+  return [].concat(...equivalenceClasses.map(getPathsToPruneFromEquivalenceClass));
+}
+
+// ASSUMES equivalenceClass is an equivalence class.
+function getPathsToPruneFromEquivalenceClass(equivalenceClass) {
+  let isNonPathMember =
+    member => ['number', 'function'].indexOf(typeof member) >= 0;
+
+  let nonPaths = equivalenceClass.filter(isNonPathMember);
+  let paths = equivalenceClass.filter(x => !isNonPathMember(x));
+
+  assert(nonPaths.length === 0 || nonPaths.length === 1);
+
+  if (nonPaths.length > 0) {
+    return paths;
+  } else {
+    return paths.slice(1);
+  }
 }
 
 export {

@@ -13,10 +13,10 @@ describe('getPathsToPrune', function() {
     expect(getPathsToPrune([[[1],[3],[0]]])).to.eql([[3],[0]]);
     expect(getPathsToPrune([[[0,0]]])).to.eql([]);
     expect(getPathsToPrune([[[0],[1,3]]])).to.eql([[1,3]]);
-    expect(getPathsToPrune([[[0],[3]], [[0],[1,3]], [0,0]])).to.eql([[3],[1,3]]);
-    expect(getPathsToPrune([[['a'],[0,'b'],['c','c',13]]])).to.eql([[[0,'b'],['c','c',13]]]);
+    expect(getPathsToPrune([[[0],[3]], [[0],[1,3], [0,0]]])).to.eql([[3],[1,3],[0,0]]);
+    expect(getPathsToPrune([[['a'],[0,'b'],['c','c',13]]])).to.eql([[0,'b'],['c','c',13]]);
     expect(getPathsToPrune([[['a'],0]])).to.eql([['a']]);
-    expect(getPathsToPrune([[['c']], [['a'],[0,'b'],function(){}]])).to.eql([['c'],['a'],[0,'b']]);
+    expect(getPathsToPrune([[['c']], [['a'],[0,'b'],function(){}]])).to.eql([['a'],[0,'b']]);
   });
 });
 
