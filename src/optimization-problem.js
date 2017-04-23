@@ -16,20 +16,19 @@ where:
      * Assumes that as input it gets one PONuNJO congruent to objective.domainRepresentative.
      * As output it produces a PONJO congruent to objective.domainRepresentative, where every
        number equals the number in the same location in the input if the same location in the
-       nput does not have value null.
+       input does not have value null.
 
 */
 
 import assert from 'assert';
 import { uncmin } from 'numeric';
-import { POJOsAreStructurallyCongruent, isPONJO, isPONuNJO, zipPOJOs } from './pojo.js';
+import { POJOsAreStructurallyCongruent, isPONJO, isPONuNJO, zipPOJOs, mapScalars } from './pojo.js';
 import { flattenPOJO, unflattenPOJO } from './flatten-pojo.js';
 
-function solveOptimizationProblem(optimizationProblem, constraints) {
+function solveOptimizationProblem(optimizationProblem) {
   let { valueAt, gradientAt, domainRepresentative } = optimizationProblem.objectiveFunction;
   assert(isPONJO(domainRepresentative));
-  assert(isPONuNJO(constraints));
-  assert(POJOsAreStructurallyCongruent(constraints, domainRepresentative));
+  let constraints = mapScalars(() => null, domainRepresentative);
   let initialGuess = optimizationProblem.initialGuessFunction(constraints);
   assert(isPONJO(initialGuess));
   assert(POJOsAreStructurallyCongruent(initialGuess, domainRepresentative));

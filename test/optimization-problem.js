@@ -45,7 +45,7 @@ describe('solveOptimizationProblem', function() {
       z: [5.0, 5.0]
     });
 
-    let solution = solveOptimizationProblem(problem, constraints);
+    let solution = solveOptimizationProblem(problem);
 
     let idealSolution = {
       x: 0.0,
@@ -60,7 +60,5 @@ describe('solveOptimizationProblem', function() {
     expect(error).to.be.below(0.000001);
     expect(solution).to.satisfy(
       (s) => POJOsAreStructurallyCongruent(s, idealSolution));
-
-    // TODO: nontrivial constraint test cases
   });
 });
