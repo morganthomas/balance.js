@@ -7,6 +7,11 @@ import { isPOJO, isScalar } from './pojo.js';
 // and empty objects. Generally, it throws away everything you don't need, assuming that 'predicate'
 // tests a scalar value to say whether you need that scalar value.
 function prunePOJO(predicate, pojo) {
+  if (typeof predicate !== 'function') {
+    pojo = predicate;
+    predicate = () => true;
+  }
+  
   assert(isPOJO(pojo));
   if (isScalar(pojo)) {
     return pojo;

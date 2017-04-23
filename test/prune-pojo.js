@@ -17,6 +17,26 @@ describe('prunePOJO', function() {
       e: 'foo',
       h: [1.0, 'bar', { e: 'h' }],
     });
+
+    expect(prunePOJO({
+      a: null,
+      b: false,
+      c: undefined,
+      d: NaN,
+      e: 'foo',
+      f: '',
+      g: [],
+      h: [0.0, 1.0, 'bar', { a: null, e: 'h', f: { } }],
+      i: { x: { x: { y: [], z: { } } } }
+    })).to.eql({
+      a: null,
+      b: false,
+      c: undefined,
+      d: NaN,
+      e: 'foo',
+      f: '',
+      h: [0.0, 1.0, 'bar', { a: null, e: 'h' }],
+    });
   });
 });
 
