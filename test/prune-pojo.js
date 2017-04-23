@@ -42,7 +42,30 @@ describe('prunePOJO', function() {
 
 describe('coprunePOJO', function() {
   it('gives the expected results', function() {
-    
+    expect(coprunePOJO(x => !!x, {
+      a: null,
+      b: false,
+      c: undefined,
+      d: NaN,
+      e: 'foo',
+      f: '',
+      g: [],
+      h: [0.0, 1.0, 'bar', { a: null, e: 'h', f: { } }],
+      i: { x: { x: { y: [], z: { } } } }
+    }, {
+      e: 'baz',
+      h: [8.0, 'bletch', { e: undefined }],
+    })).to.eql({
+      a: null,
+      b: false,
+      c: undefined,
+      d: NaN,
+      e: 'baz',
+      f: '',
+      g: [],
+      h: [0.0, 8.0, 'blench', { a: null, e: undefined, f: { } }],
+      i: { x: { x: { y: [], z: { } } } }
+    });
   });
 });
 
