@@ -82,6 +82,10 @@ function prunePOJO(predicate, pojo) {
 //
 // If you don't supply a predicate, this has the same effect as supplying a predicate that always
 // returns true.
+//
+// You can think of prunePOJO and coprunePOJO, when applied to PONJOs, as giving a way of
+// going from one PONJO-CC vector space to a subspace thereof (also a PONJO-CC vector space),
+// and then going back.
 function coprunePOJO(predicate, originalPojo, prunedPojo) {
   if (typeof predicate !== 'function') {
     prunedPojo = originalPojo;
