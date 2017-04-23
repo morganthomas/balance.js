@@ -21,14 +21,18 @@ function prunePOJO(predicate, pojo) {
     pojo = predicate;
     predicate = () => true;
   }
-  
   assert(isPOJO(pojo));
+
+  return prunePOJOrecurse(predicate, pojo, []);
+}
+
+function prunePOJOrecurse(predicate, pojo, path) {
   if (isScalar(pojo)) {
     return pojo;
   } else if (pojo instanceof Array) {
     let result = [];
     for (let i = 0; i < pojo.length; i++) {
-      let subPojo = prunePOJO(predicate, pojo[i]);
+      let subPojo = prunePOJOrecurse(predicate, pojo[i], path.concat(i));
       if (isScalar(subPojo)) {
         if (predicate(subPojo)) {
           result.push(subPojo);
@@ -49,7 +53,7 @@ function prunePOJO(predicate, pojo) {
     // pojo is a plain object, depending on the assumption that it is a POJO
     let result = {};
     for (let key in pojo) {
-      let subPojo = prunePOJO(predicate, pojo[key]);
+      let subPojo = prunePOJOrecurse(predicate, pojo[key], path.concat(key));
       if (isScalar(subPojo)) {
         if (predicate(subPojo)) {
           result[key] = subPojo;
