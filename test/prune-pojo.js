@@ -127,22 +127,26 @@ describe('coprunePOJO', function() {
       i: { x: { x: { y: [], z: { } } } }
     });
 
-    expect(coprunePOJO(
-      (x, path) =>
-        !(x === null || path === ['d',1] || path === ['c'] || path === ['e',0,'a'] || path === ['f',0,'a']), 
-      {
+    let tc2predicate = (x, path) =>
+        !(x === null || path === ['d',1] || path === ['c'] || path === ['e',0,'a'] || path === ['f',0,'a']);
+
+    let tc2original = {
         a: null,
         b: [null, null, { a: null, x: 3, y: true, z: undefined }, 13],
         c: { a: 5, b: 7 },
         d: [0, 5, null],
         e: [{ a: { z: 8 }, b: 7 }, 13],
         f: [{ a: 8, b: 7 }, 13],
-      }, {
-        b: [{ x: 'x', y: true, z: undefined }, 'b'],
-        d: [NaN],
-        e: [{ b: { a: 'a' } }, []],
-        f: [{ b: 7 }, 13],
-      })).to.equl({
+    };
+
+    let tc2pruned = {
+      b: [{ x: 'x', y: true, z: undefined }, 'b'],
+      d: [NaN],
+      e: [{ b: { a: 'a' } }, []],
+      f: [{ b: 7 }, 13],
+    }
+
+    expect(coprunePOJO(tc2predicate, tc2original, tc2pruned)).to.equl({
         a: null,
         b: [null, null, { a: null, x: 'x', y: true, z: undefined }, 'b'],
         c: { a: 5, b: 7 },
