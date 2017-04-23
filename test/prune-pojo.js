@@ -37,6 +37,9 @@ describe('prunePOJO', function() {
       f: '',
       h: [0.0, 1.0, 'bar', { a: null, e: 'h' }],
     });
+
+    expect(prunePOJO(x => !!x, undefined)).to.equal(undefined);
+    expect(prunePOJO(x => !!x, 4)).to.equal(4);
   });
 });
 
