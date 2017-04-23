@@ -39,12 +39,12 @@ function prunePOJOrecurse(predicate, pojo, path) {
           result.push(subPojo);
         }
       } else if (subPojo instanceof Array) {
-        if (subPojo.length > 0) {
+        if (subPojo.length > 0 && predicate(subPojo, subPath)) {
           result.push(subPojo);
         }
       } else {
         // subPojo is a plain object, depending on the assumption that it is a POJO
-        if (Object.keys(subPojo).length > 0) {
+        if (Object.keys(subPojo).length > 0 && predicate(subPojo, subPath)) {
           result.push(subPojo);
         }
       }
@@ -62,12 +62,12 @@ function prunePOJOrecurse(predicate, pojo, path) {
           result[key] = subPojo;
         }
       } else if (subPojo instanceof Array) {
-        if (subPojo.length > 0) {
+        if (subPojo.length > 0 && predicate(subPojo, subPath)) {
           result[key] = subPojo;
         }
       } else {
         // subPojo is a plain object, depending on the assumption that it is a POJO
-        if (Object.keys(subPojo).length > 0) {
+        if (Object.keys(subPojo).length > 0 && predicate(subPojo, subPath)) {
           result[key] = subPojo;
         }
       }
