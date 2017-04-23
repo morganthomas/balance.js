@@ -23,16 +23,16 @@ The return value is a new optimization problem: call it constrainedProblem. This
 in addition to the properties objectiveFunction and initialGuessFunction required by the definition of
 optimization problems, two additional properties, both functions:
 
-constrainedProblem.constrainPONuNJO(ponjo)
- * Takes as input a PONuNJO, 'ponjo', which must be structurally congruent to
+constrainedProblem.constrainPONuNJO(ponunjo)
+ * Takes as input a PONuNJO, 'ponunjo', which must be structurally congruent to
    problem.objectiveFunction.domainRepresentative.
  * Produces as output a PONuNJO which is structurally congruent to
    constrainedProblem.objectiveFunction.domainRepresentative.
  * This function converts between the domains of the two optimization problems, by removing
    fields which are rendered unnecessary by the constraints.
 
-constrainedProblem.unconstrainPONuNJO(ponjo)
- * Takes as input a PONuNJO, 'ponjo', which must be structurally congruent to
+constrainedProblem.unconstrainPONuNJO(ponunjo)
+ * Takes as input a PONuNJO, 'ponunjo', which must be structurally congruent to
    constrainedProblem.objectiveFunction.domainRepresentative.
  * Produces as output a PONuNJO which is structurally congruent to
    problem.objectiveFunction.domainRepresentative.
@@ -47,6 +47,6 @@ deep equal to ponjo.
 */
 
 function constrainOptimizationProblem(problem, constraints) {
-
+  
 }
 
