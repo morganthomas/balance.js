@@ -1,3 +1,5 @@
 pojo.js
+flatten-pojo.js
+prune-pojo.js
 differentiable-scalar-field.js
 optimization-problem.js
