@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { deepEquals } from '../src/pojo.js';
 import { prunePOJO, coprunePOJO } from '../src/prune-pojo.js';
 
 describe('prunePOJO', function() {
@@ -45,7 +46,7 @@ describe('prunePOJO', function() {
   it('even gives the predicate a path to work with', function() {
     expect(
       prunePOJO(
-        (x, path) => path !== 'x.y',
+        (x, path) => deepEquals(path, ['x', 'y']),
         {
           x: { y: 3 },
           z: true
@@ -56,7 +57,7 @@ describe('prunePOJO', function() {
 
     expect(
       prunePOJO(
-        (x, path) => ['a', 'b.c', 'c.a[1]'].indexOf(path) > -1,
+        (x, path) => [['a'], ['b','c'], ['c','a',1]].some(p2 => deepEquals(path, p2)),
         {
           a: 3,
           b: { c: true, d: 'foo' },
