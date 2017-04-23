@@ -14,6 +14,8 @@ import { isPOJO, isScalar } from './pojo.js';
 // If you don't supply a predicate, this has the same effect as supplying a predicate that always
 // returns true. In this case prunePOJO won't remove any scalar values, and all it will do is
 // remove arrays and objects which at bottom contain no scalars.
+//
+// TODO: allow the predicate to depend on the current path in the object as well as the scalar value.
 function prunePOJO(predicate, pojo) {
   if (typeof predicate !== 'function') {
     pojo = predicate;
