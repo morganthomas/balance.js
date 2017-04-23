@@ -7,6 +7,12 @@ import { isPOJO, isScalar, POJOsAreStructurallyCongruent } from './pojo.js';
 //   prunePOJO(predicate, pojo)
 //   prunePOJO(pojo)
 //
+// The predicate should accept the following arguments:
+//   predicate(pojo, path)
+// where 'pojo' is a POJO and 'path' is a path (an array of numbers and strings representing a
+// sequence of object keys). 'pojo' is whatever value is present at 'path'. The predicate should
+// return true iff the value at that path should be kept, in the pruned object.
+//
 // If you don't supply a predicate, this has the same effect as supplying a predicate that always
 // returns true. In this case prunePOJO won't remove any scalar values, and all it will do is
 // remove arrays and objects which at bottom contain no scalars.
