@@ -41,6 +41,32 @@ describe('prunePOJO', function() {
     expect(prunePOJO(x => !!x, undefined)).to.equal(undefined);
     expect(prunePOJO(x => !!x, 4)).to.equal(4);
   });
+
+  it('even gives the predicate a path to work with', function() {
+    expect(
+      prunePOJO(
+        (x, path) => path !== 'x.y',
+        {
+          x: { y: 3 },
+          z: true
+        }))
+      .to.eql({
+        z: true
+      });
+
+    expect(
+      prunePOJO(
+        (x, path) => ['a', 'b.c', 'c.a[1]'].indexOf(path) > -1,
+        {
+          a: 3,
+          b: { c: true, d: 'foo' },
+          c: { a: [0, 4, null] },
+        }))
+     .to.eql({
+       b: { d: 'foo' },
+       c: { a: [0, null] },
+     });
+  });
 });
 
 describe('coprunePOJO', function() {
