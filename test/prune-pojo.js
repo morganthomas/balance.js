@@ -128,9 +128,3 @@ describe('coprunePOJO', function() {
     });
   });
 });
-
-describe('prunePOJO and coprunePOJO', function() {
-  it('behave like inverses of each other', function() {
-    
-  });
-});
