@@ -1,5 +1,6 @@
 import assert from 'assert';
 import { isPOJO, isScalar, POJOsAreStructurallyCongruent } from './pojo.js';
+import { flattenPOJO } from './flatten-pojo.js';
 
 // This function is for removing stuff you don't need from a POJO. 
 //
@@ -103,6 +104,49 @@ function coprunePOJO(predicate, originalPojo, prunedPojo) {
   assert(isPOJO(originalPojo));
   assert(isPOJO(prunedPojo));
   assert(POJOsAreStructurallyCongruent(prunedPojo, prunePOJO(predicate, originalPojo)));
+
+  let prunedPojoFlat = flattenPOJO(prunedPojo);
+
+  return coprunePOJOrecurse(predicate, originalPojo, prunedPojoFlat, 0, [])[0];
+}
+
+function coprunePOJOrecurse(predicate, originalPojo, prunedPojoFlat, index, path) {
+  if (isScalar(originalPojo)) {
+    if (predicate(originalPojo, path)) {
+      return [prunedPojoFlat[index], index+1];
+    } else {
+      return [originalPojo, index];
+    }
+  } else if (originalPojo instanceof Array) {
+    let result = [];
+    for (let i = 0; i < originalPojo.length; i++) {
+      let subPath = path.concat(i);
+      if (predicate(originalPojo[i], subPath)) {
+        let [subPojo, nextIndex] = coprunePOJOrecurse(predicate, originalPojo[i], prunedPojoFlat, index, subPath);
+        index = nextIndex;
+        result.push(subPojo);
+      } else {
+        result.push(originalPojo[i]);
+      }
+    }
+    return [result, index];
+  } else {
+    // originalPojo is a plain object depending on assumption it is a POJO
+    let result = {};
+    let keys = Object.keys(originalPojo).sort();
+    for (let i = 0; i < keys.length; i++) {
+      let key = keys[i];
+      let subPath = path.concat(key);
+      if (predicate(originalPojo[key], subPath)) {
+        let [subPojo, nextIndex] = coprunePOJOrecurse(predicate, originalPojo[key], prunedPojoFlat, index, subPath);
+        index = nextIndex;
+        result[key] = subPojo;
+      } else {
+        result[key] = originalPojo[key];
+      }
+    }
+    return [result, index];
+  }
 }
 
 export { prunePOJO, coprunePOJO }
