@@ -48,7 +48,7 @@ describe('constrainOptimizationProblem', function() {
     [],
     [[['x'], ['y']]],
     [[['x'], ['y']], [['z', 0], ['z', 1]]],
-    [[['x'], ['y'], 0]],
+    [[['x'], ['y'], 13]],
   ];
 
   let constrainedProblems = constraintsList.map(
