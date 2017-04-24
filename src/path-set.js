@@ -82,6 +82,10 @@ function pathSetContains(set, path) {
   }
 }
 
+function pathSetToArray(set) {
+
+}
+
 export {
   arrayToPathSet,
   pathSetContains,

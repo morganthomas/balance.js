@@ -47,3 +47,9 @@ describe('pathSetContains', function() {
     expect(pathSetContains(set, ['a'])).to.be.false;
   });
 });
+
+describe('pathSetToArray', function() {
+  it('inverts arrayToPathSet', function() {
+    testPathArrays.forEach(array => expect(pathSetToArray(arrayToPathSet(array))).to.eql(array));
+  });
+});
