@@ -17,3 +17,33 @@ describe('arrayToPathSet', function() {
       .to.eql({ a: [false, { b: [true, { c: true }], c: true }] });
   });
 });
+
+let testPathArrays = [
+  [],
+  [['a']],
+  [['a'],['a',0]],
+  [['a'],['a',0],['a','b'],['c']],
+  [['a','b']],
+  [['a','b'],['a','c'],['a','b','c']],
+];
+
+describe('pathSetContains', function() {
+  let testPathSets = testPathArrays.map(arrayToPathSet);
+
+  it('rules in the stuff that should be in', function() {
+    for (let i = 0; i < testPathArrays.length; i++) {
+      let array = testPathArrays[i];
+      let set = testPathSets[i];
+      array.forEach(el => expect(pathSetContains(set, el)));
+    }
+  });
+
+  it('rules out stuff that should be out', function() {
+    let set = testPathSets[0];
+    expect(pathSetContains(set, [0])).to.be.false;
+    set = testPathSets[1];
+    expect(pathSetContains(set, ['b'])).to.be.false;
+    set = testPathSets[5];
+    expect(pathSetContains(set, ['a'])).to.be.false;
+  });
+});
