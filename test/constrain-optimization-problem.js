@@ -48,6 +48,7 @@ describe('constrainOptimizationProblem', function() {
     [],
     [[['x'], ['y']]],
     [[['x'], ['y']], [['z', 0], ['z', 1]]],
+    [[['x'], ['y'], 0]],
   ];
 
   let constrainedProblems = constraintsList.map(
@@ -56,7 +57,8 @@ describe('constrainOptimizationProblem', function() {
   let expectedRepresentatives = [
     { x: 0, y: 0, z: [0, 0] },
     { x: 0, z: [0, 0] },
-    { x: 0, z: [0] }
+    { x: 0, z: [0] },
+    { z: [0, 0] },
   ];
   
   it('gives the expected domain representatives', function() {
