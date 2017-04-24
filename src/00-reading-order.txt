@@ -1,5 +1,6 @@
 pojo.js
 path.js
+path-set.js
 flatten-pojo.js
 prune-pojo.js
 differentiable-scalar-field.js
