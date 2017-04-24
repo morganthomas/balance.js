@@ -12,3 +12,11 @@ pathSetToArray(set)
   Returns an array of the paths in the given path set.
 
 */
+
+function arrayToPathSet(paths) {
+  
+}
+
+export {
+  arrayToPathSet
+};
