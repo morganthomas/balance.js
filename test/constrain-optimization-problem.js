@@ -48,7 +48,6 @@ describe('constrainOptimizationProblem', function() {
     let constraintsList = [
       [],
       [[['x'], ['y']]],
-      [[['x'], ['z', 0]]],
       [[['x'], ['y']], [['z', 0], ['z', 1]]],
     ];
 
@@ -56,8 +55,8 @@ describe('constrainOptimizationProblem', function() {
       constraints => constrainOptimizationProblem(problem, constraints));
 
     let expectedRepresentatives = [
+      { x: 0, y: 0, z: [0, 0] },
       { x: 0, z: [0, 0] },
-      { x: 0, y: 0, z: [0] },
       { x: 0, z: [0] }
     ];
 

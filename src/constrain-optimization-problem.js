@@ -53,7 +53,7 @@ import { arrayToPathSet, pathSetContains } from './path-set.js';
 function constrainOptimizationProblem(problem, constraints) {
   let arrayOfPathsToPrune = getPathsToPrune(constraints);
   let setOfPathsToPrune = arrayToPathSet(arrayOfPathsToPrune);
-  let prunePredicate = (value, path) => pathSetContains(setOfPathsToPrune, path);
+  let prunePredicate = (value, path) => !pathSetContains(setOfPathsToPrune, path);
 
   let constrainPONuNJO =
       ponunjo => prunePOJO(prunePredicate, ponunjo);
