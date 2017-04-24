@@ -25,6 +25,7 @@ let testPathArrays = [
   [['a'],['a',0],['a','b'],['c']],
   [['a','b']],
   [['a','b'],['a','b','c'],['a','c']],
+  [['y'],['z',1]],
 ];
 
 describe('pathSetContains', function() {
@@ -45,6 +46,8 @@ describe('pathSetContains', function() {
     expect(pathSetContains(set, ['b'])).to.be.false;
     set = testPathSets[5];
     expect(pathSetContains(set, ['a'])).to.be.false;
+    set = testPathSets[6];
+    expect(pathSetContains(set, ['x'])).to.be.false;
   });
 });
 
