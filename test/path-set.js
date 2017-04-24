@@ -49,6 +49,12 @@ describe('pathSetContains', function() {
 });
 
 describe('pathSetToArray', function() {
+  it('works on some simple cases', function() {
+    expect(pathSetToArray({})).to.eql([]);
+    expect(pathSetToArray({ a: true })).to.eql([['a']]);
+    expect(pathSetToArray({ a: [true, { b: true }] })).to.eql([['a'],['a','b']]);
+  });
+
   it('inverts arrayToPathSet', function() {
     testPathArrays.forEach(array => expect(pathSetToArray(arrayToPathSet(array))).to.eql(array));
   });

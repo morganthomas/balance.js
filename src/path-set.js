@@ -15,6 +15,7 @@ pathSetToArray(set)
 */
 
 import assert from 'assert';
+import { isScalar } from './pojo.js';
 import { isPath } from './path.js';
 
 function arrayToPathSet(paths) {
@@ -83,10 +84,32 @@ function pathSetContains(set, path) {
 }
 
 function pathSetToArray(set) {
+  let result = [];
+  pathSetToArrayTraverse(set, [], result);
+  return result;
+}
 
+const nonNegativeIntegerRegex = /^[0-9]+$/;
+
+function pathSetToArrayTraverse(position, path, result) {
+  for (let key in position) {
+    if (nonNegativeIntegerRegex.test(key)) {
+      key = parseInt(key);
+    }
+    let subPath = path.concat(key);
+    if (position[key] === true) {
+      result.push(subPath);
+    } else {
+      if (position[key][0] === true) {
+        result.push(subPath);
+      }
+      pathSetToArrayTraverse(position[key][1], subPath, result);
+    }
+  }
 }
 
 export {
   arrayToPathSet,
   pathSetContains,
+  pathSetToArray,
 };
