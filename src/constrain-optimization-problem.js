@@ -52,7 +52,7 @@ import { arrayToPathSet, pathSetContains } from './path-set.js';
 
 function constrainOptimizationProblem(problem, constraints) {
   let arrayOfPathsToPrune = getPathsToPrune(constraints);
-  let setOfPathsToPrune = arrayToPathSet(arrayofPathsToPrune);
+  let setOfPathsToPrune = arrayToPathSet(arrayOfPathsToPrune);
   let prunePredicate = (value, path) => pathSetContains(setOfPathsToPrune, path);
 
   let constrainPONuNJO =
@@ -63,6 +63,14 @@ function constrainOptimizationProblem(problem, constraints) {
 
   let unconstrainPONuNJO =
       ponunjo => coprunePOJO(prunePredicate, unconstrainedDomainRep, ponunjo);
+
+  return {
+    objectiveFunction: {
+      domainRepresentative: constrainedDomainRep
+    },
+    constrainPONuNJO,
+    unconstrainPONuNJO,
+  };
 }
 
 // ASSUMES constraints is a valid array of constraints
