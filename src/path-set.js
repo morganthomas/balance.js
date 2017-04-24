@@ -54,6 +54,35 @@ function arrayToPathSet(paths) {
   return result;
 }
 
+function pathSetContains(set, path) {
+  assert(isPath(path));
+
+  if (path.length === 0) {
+    return false;
+  } else {
+    let position = set;
+    for (let i = 0; i < path.length; i++) {
+      let key = path[i];
+      if (position.hasOwnProperty(key)) {
+        let value = position[key];
+        if (value === true) {
+          return i + 1 === path.length;
+        } else {
+          if (i + 1 === path.length) {
+            return value[0];
+          } else {
+            position = value[1];
+          }
+        }
+      } else {
+        return false;
+      }
+    }
+    console.error('the end of pathSetContains should be unreachable');
+  }
+}
+
 export {
-  arrayToPathSet
+  arrayToPathSet,
+  pathSetContains,
 };
