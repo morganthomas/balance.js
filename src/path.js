@@ -1,16 +1,21 @@
 import assert from 'assert';
 import { isPOJO, isScalar } from './pojo.js';
 
+function isPath(x) {
+  return x instanceof Array &&
+    x.every(y => typeof y === 'number' || typeof y === 'string');
+}
+
 // ASSUMES pojo is a POJO and path is an array of numbers and/or strings.
 // Treats path as a sequence of keys and follows them into pojo.
 function pathLookup(pojo, path) {
+  assert(isPOJO(pojo));
+  assert(path instanceof Array);
+
   return pathLookupRecurse(pojo, path, 0);
 }
 
 function pathLookupRecurse(pojo, path, index) {
-  assert(isPOJO(pojo));
-  assert(path instanceof Array);
-
   if (path.length <= index) {
     return pojo;
   } else {
@@ -32,5 +37,6 @@ function pathLookupRecurse(pojo, path, index) {
 }
 
 export {
+  isPath,
   pathLookup,
 }

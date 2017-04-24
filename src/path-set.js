@@ -14,7 +14,7 @@ pathSetToArray(set)
 */
 
 function arrayToPathSet(paths) {
-  
+
 }
 
 export {
