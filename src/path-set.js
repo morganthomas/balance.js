@@ -36,7 +36,7 @@ function arrayToPathSet(paths) {
         } else if (position[key] instanceof Array) {
           position[key][0] = true;
         } else {
-          // in this case position[key] === true and we don't need to do anything
+          throw 'this line should be unreachable';
         }
       } else {
         // this is not the last key in the path
@@ -79,7 +79,7 @@ function pathSetContains(set, path) {
         return false;
       }
     }
-    console.error('the end of pathSetContains should be unreachable');
+    throw 'the end of pathSetContains should be unreachable';
   }
 }
 
