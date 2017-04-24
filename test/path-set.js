@@ -24,7 +24,7 @@ let testPathArrays = [
   [['a'],['a',0]],
   [['a'],['a',0],['a','b'],['c']],
   [['a','b']],
-  [['a','b'],['a','c'],['a','b','c']],
+  [['a','b'],['a','b','c'],['a','c']],
 ];
 
 describe('pathSetContains', function() {
