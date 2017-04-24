@@ -66,4 +66,23 @@ describe('constrainOptimizationProblem', function() {
       (problem, i) => expect(problem.objectiveFunction.domainRepresentative)
         .to.eql(expectedRepresentatives[i]));
   });
+
+  let samplePONJO = { x: 3, y: 16, z: [9, 12] };
+
+  let expectedConstrainPONuNJOoutputs = [
+    // []
+    { x: 3, y: 16, z: [9, 12] },
+    // [[['x'], ['y']]]
+    { x: 3, z: [9, 12] },
+    // [[['x'], ['y']], [['z', 0], ['z', 1]]]
+    { x: 3, z: [9] },
+    // [[['x'], ['y'], 13]]
+    { z: [9, 12] },
+  ];
+
+  it('gives a constrainPONuNJO with the expected behavior', function() {
+    constrainedProblems.forEach(
+      (problem, i) => expect(problem.constrainPONuNJO(samplePONJO))
+        .to.eql(expectedConstrainPONuNJOoutputs[i]));
+  });
 });
