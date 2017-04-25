@@ -87,6 +87,7 @@ function constrainOptimizationProblem(problem, constraints) {
       valueAt,
       gradientAt,
     },
+    initialGuessFunction: 'TODO',
     constrainPONuNJO,
     unconstrainPONuNJO,
   };
