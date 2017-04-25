@@ -79,11 +79,11 @@ function getPathsToPrune(constraints) {
   return [].concat(...equivalenceClasses.map(getPathsToPruneFromEquivalenceClass));
 }
 
-// ASSUMES equivalenceClass is an equivalence class.
-function getPathsToPruneFromEquivalenceClass(equivalenceClass) {
-  let isNonPathMember =
+let isNonPathMember =
     member => ['number', 'function'].indexOf(typeof member) >= 0;
 
+// ASSUMES equivalenceClass is an equivalence class.
+function getPathsToPruneFromEquivalenceClass(equivalenceClass) {
   let nonPaths = equivalenceClass.filter(isNonPathMember);
   let paths = equivalenceClass.filter(x => !isNonPathMember(x));
 
@@ -93,6 +93,17 @@ function getPathsToPruneFromEquivalenceClass(equivalenceClass) {
     return paths;
   } else {
     return paths.slice(1);
+  }
+}
+
+function propagateValuesThroughoutEquivalenceClass(ponunjo, equivalenceClass) {
+  let nonPaths = equivalenceClass.filter(isNonPathMember);
+  let paths = equivalenceClass.filter(x => !isNonPathMember(x));
+
+  assert(nonPaths.length === 0 || nonPaths.length === 1);
+
+  if (nonPaths.length > 0) {
+    let value = nonPaths[0];
   }
 }
 
