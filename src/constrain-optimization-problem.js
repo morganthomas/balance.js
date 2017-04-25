@@ -47,6 +47,7 @@ deep equal to ponjo.
 */
 
 import assert from 'assert';
+import { isPONJO, POJOsAreStructurallyCongruent } from './pojo.js';
 import { prunePOJO, coprunePOJO } from './prune-pojo.js';
 import { getAtPath, setAtPath } from './path.js';
 import { arrayToPathSet, pathSetContains } from './path-set.js';
@@ -68,9 +69,16 @@ function constrainOptimizationProblem(problem, constraints) {
     return result;
   }
 
+  function valueAt(constrainedInput) {
+    assert(isPONJO(constrainedInput));
+    assert(POJOsAreStructurallyCongruent(constrainedInput, constrainedDomainRep));
+    return problem.objectiveFunction.valueAt(unconstrainPONuNJO(constrainedInput));
+  }
+
   return {
     objectiveFunction: {
-      domainRepresentative: constrainedDomainRep
+      domainRepresentative: constrainedDomainRep,
+      valueAt,
     },
     constrainPONuNJO,
     unconstrainPONuNJO,

@@ -109,4 +109,13 @@ describe('constrainOptimizationProblem', function() {
       expect(unconstrained).to.eql(expected);
     });
   });
+
+  it('gives a valueAt with the expected behavior', function() {
+    constrainedProblems.forEach(function(constrainedProblem, i) {
+      let unconstrainedInput = expectedUnconstrainPONuNJOoutputs[i];
+      let constrainedInput = expectedConstrainPONuNJOoutputs[i];
+      expect(problem.objectiveFunction.valueAt(unconstrainedInput))
+        .to.equal(constrainedProblem.objectiveFunction.valueAt(constrainedInput));
+    });
+  });
 });
