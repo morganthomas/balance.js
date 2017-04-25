@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import {
   isPath,
-  pathLookup
+  pathLookup,
+  setAtPath,
 } from '../src/path.js';
 
 describe('isPath', function() {
@@ -32,5 +33,25 @@ describe('pathLookup', function() {
     expect(pathLookup([3], [0])).to.equal(3);
     expect(pathLookup({ x: 3 }, ['x'])).to.equal(3);
     expect(pathLookup(3, [])).to.equal(3);
+  });
+});
+
+describe('setAtPath', function() {
+  let testObject = {
+    a: 0,
+    b: ['a', 1]
+  };
+
+  let testArray = [[{ a: { a: 'bar' }}], 'a'];
+
+  it('works on some cases', function() {
+    setAtPath(testObject, ['a'], 5);
+    setAtPath(testObject, ['b', 0], 'foo');
+    setAtPath(testObject, ['b', 1], null);
+    setAtPath(testArray, [0, 0, 'a', 'a'], NaN);
+    expect(testObject.a).to.equal(5);
+    expect(testObject.b[0]).to.equal('foo');
+    expect(testObject.b[1]).to.equal(null);
+    expect(isNaN(testArray[0][0].a.a)).to.be.true;
   });
 });

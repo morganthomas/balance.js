@@ -36,7 +36,12 @@ function pathLookupRecurse(pojo, path, index) {
   }
 }
 
+function setAtPath(object, path, value) {
+
+}
+
 export {
   isPath,
   pathLookup,
+  setAtPath,
 }
