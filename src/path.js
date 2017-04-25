@@ -37,7 +37,18 @@ function pathLookupRecurse(pojo, path, index) {
 }
 
 function setAtPath(object, path, value) {
+  assert(isPath(path));
+  assert(path.length > 0);
+  setAtPathTraverse(object, path, value, 0);
+}
 
+function setAtPathTraverse(object, path, value, index) {
+  if (index + 1 === path.length) {
+    object[path[index]] = value;
+  } else {
+    assert(object.hasOwnProperty(path[index]));
+    setAtPathTraverse(object[path[index]], path, value, index+1)
+  }
 }
 
 export {
