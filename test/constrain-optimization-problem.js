@@ -85,4 +85,28 @@ describe('constrainOptimizationProblem', function() {
       (problem, i) => expect(problem.constrainPONuNJO(samplePONJO))
         .to.eql(expectedConstrainPONuNJOoutputs[i]));
   });
+
+  let expectedUnconstrainPONuNJOoutputs = [
+    // []
+    // { x: 3, y: 16, z: [9, 12] },
+    { x: 3, y: 16, z: [9, 12] },
+    // [[['x'], ['y']]]
+    // { x: 3, z: [9, 12] },
+    { x: 3, y: 3, z: [9, 12] },
+    // [[['x'], ['y']], [['z', 0], ['z', 1]]]
+    // { x: 3, z: [9] },
+    { x: 3, y: 3, z: [9, 9] },
+    // [[['x'], ['y'], 13]]
+    // { z: [9, 12] },
+    { x: 13, y: 13, z: [9, 12] }
+  ];
+
+  it('gives an unconstrainPONuNJO with the expected behavior', function() {
+    constrainedProblems.forEach(function(problem, i) {
+      let constrained = problem.constrainPONuNJO(samplePONJO);
+      let unconstrained = problem.unconstrainPONuNJO(constrained);
+      let expected = expectedUnconstrainPONuNJOoutputs[i];
+      expect(unconstrained).to.eql(expected);
+    });
+  });
 });
