@@ -96,6 +96,7 @@ function getPathsToPruneFromEquivalenceClass(equivalenceClass) {
   }
 }
 
+// TODO unfinished
 function propagateValuesThroughoutEquivalenceClass(ponunjo, equivalenceClass) {
   let nonPaths = equivalenceClass.filter(isNonPathMember);
   let paths = equivalenceClass.filter(x => !isNonPathMember(x));
