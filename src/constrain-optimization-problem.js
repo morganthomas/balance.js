@@ -75,10 +75,17 @@ function constrainOptimizationProblem(problem, constraints) {
     return problem.objectiveFunction.valueAt(unconstrainPONuNJO(constrainedInput));
   }
 
+  function gradientAt(constrainedInput) {
+    assert(isPONJO(constrainedInput));
+    assert(POJOsAreStructurallyCongruent(constrainedInput, constrainedDomainRep));
+    return constrainPONuNJO(problem.objectiveFunction.gradientAt(unconstrainPONuNJO(constrainedInput)));
+  }
+
   return {
     objectiveFunction: {
       domainRepresentative: constrainedDomainRep,
       valueAt,
+      gradientAt,
     },
     constrainPONuNJO,
     unconstrainPONuNJO,

@@ -118,4 +118,14 @@ describe('constrainOptimizationProblem', function() {
         .to.equal(constrainedProblem.objectiveFunction.valueAt(constrainedInput));
     });
   });
+
+  it('gives a gradientAt with the expected behavior', function() {
+    constrainedProblems.forEach(function(constrainedProblem, i) {
+      let unconstrainedInput = expectedUnconstrainPONuNJOoutputs[i];
+      let constrainedInput = expectedConstrainPONuNJOoutputs[i];
+      expect(constrainedProblem.objectiveFunction.gradientAt(constrainedInput))
+        .to.eql(constrainedProblem.constrainPONuNJO(
+          problem.objectiveFunction.gradientAt(unconstrainedInput)));
+    });
+  });
 });
