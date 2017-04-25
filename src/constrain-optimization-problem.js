@@ -48,6 +48,7 @@ deep equal to ponjo.
 
 import assert from 'assert';
 import { prunePOJO, coprunePOJO } from './prune-pojo.js';
+import { getAtPath, setAtPath } from './path.js';
 import { arrayToPathSet, pathSetContains } from './path-set.js';
 
 function constrainOptimizationProblem(problem, constraints) {
@@ -61,8 +62,11 @@ function constrainOptimizationProblem(problem, constraints) {
   let unconstrainedDomainRep = problem.objectiveFunction.domainRepresentative;
   let constrainedDomainRep = constrainPONuNJO(unconstrainedDomainRep);
 
-  let unconstrainPONuNJO =
-      ponunjo => coprunePOJO(prunePredicate, unconstrainedDomainRep, ponunjo);
+  function unconstrainPONuNJO(ponunjo) {
+    let result = coprunePOJO(prunePredicate, unconstrainedDomainRep, ponunjo);
+    constraints.forEach(equivalenceClass => propagateValuesThroughoutEquivalenceClass(result, equivalenceClass));
+    return result;
+  }
 
   return {
     objectiveFunction: {
@@ -96,7 +100,6 @@ function getPathsToPruneFromEquivalenceClass(equivalenceClass) {
   }
 }
 
-// TODO unfinished
 function propagateValuesThroughoutEquivalenceClass(ponunjo, equivalenceClass) {
   let nonPaths = equivalenceClass.filter(isNonPathMember);
   let paths = equivalenceClass.filter(x => !isNonPathMember(x));
@@ -105,6 +108,12 @@ function propagateValuesThroughoutEquivalenceClass(ponunjo, equivalenceClass) {
 
   if (nonPaths.length > 0) {
     let value = nonPaths[0];
+    paths.forEach(path => setAtPath(ponunjo, path, value));
+  } else {
+    let value = getAtPath(ponunjo, paths[0]);
+    for (let i = 1; i < paths.length; i++) {
+      setAtPath(ponunjo, paths[i], value);
+    }
   }
 }
 

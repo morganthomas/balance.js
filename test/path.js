@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import {
   isPath,
-  pathLookup,
+  getAtPath,
   setAtPath,
 } from '../src/path.js';
 
@@ -27,12 +27,12 @@ describe('isPath', function() {
   });
 });
 
-describe('pathLookup', function() {
+describe('getAtPath', function() {
   it('should produce the expected results', function() {
-    expect(pathLookup({ x: { y: [0, 2], z: 'foo' } }, ['x', 'y', 1])).to.equal(2);
-    expect(pathLookup([3], [0])).to.equal(3);
-    expect(pathLookup({ x: 3 }, ['x'])).to.equal(3);
-    expect(pathLookup(3, [])).to.equal(3);
+    expect(getAtPath({ x: { y: [0, 2], z: 'foo' } }, ['x', 'y', 1])).to.equal(2);
+    expect(getAtPath([3], [0])).to.equal(3);
+    expect(getAtPath({ x: 3 }, ['x'])).to.equal(3);
+    expect(getAtPath(3, [])).to.equal(3);
   });
 });
 
