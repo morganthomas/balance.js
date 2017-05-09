@@ -11,6 +11,27 @@ describe('F', function() {
   it('sum works', function() {
     expect(F.sum(F.path(['x']), F.constant(1))).to.eql(['sum', [F.path(['x']), F.constant(1)]]);
   });
+  it('difference works', function() {
+    expect(F.difference(F.path(['x']), F.constant(1))).to.eql(['difference', [F.path(['x']), F.constant(1)]]);
+  });
+  it('product works', function() {
+    expect(F.product(F.path(['x']), F.constant(1))).to.eql(['product', F.path(['x']), F.constant(1)]);
+  });
+  it('quotient works', function() {
+    expect(F.quotient(F.path(['x']), F.constant(1))).to.eql(['quotient', F.path(['x']), F.constant(1)]);
+  });
+  it('monomial works', function() {
+    expect(F.monomial(F.path(['x']), 2)).to.eql(['monomial', [F.path(['x']), 2]]);
+  });
+  it('power works', function() {
+    expect(F.power(F.path(['x']), F.constant(2))).to.eql(['power', F.path(['x']), F.constant(2)]);
+  });
+  it('logarithm works', function() {
+    expect(F.logarithm(F.constant(2), F.path(['x']))).to.eql(['logarithm', F.constant(2), F.path(['x'])]);
+  });
+  it('sqrt works', function() {
+    expect(F.sqrt(F.path(['x']))).to.eql(['sqrt', F.path(['x'])]);
+  });
 });
 
 describe('composeOptimizationProblem', function() {
