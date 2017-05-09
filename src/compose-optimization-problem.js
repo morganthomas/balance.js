@@ -24,10 +24,16 @@ It defines the following functions:
     * difference(...formulas)
     * product(...formulas)
     * quotient(numeratorFormula, denominatorFormula)
-    * monomial(formula, exponent)
+    * monomial(path1, exponent1, path2, exponent2, ...)
     * power(baseFormula, exponentFormula)
     * logarithm(baseFormula, formula)
+    * sqrt(formula)
  * 'subproblems' is an optional property containing an object whose values are
-   optimization problems or arrays of optimization problems.
+   optimization problems or arrays of optimization problems. For each key in
+   'subproblems,' a corresponding key is added to 'domain' (it is an error if it is already
+   there). If the value of the key is an optimization problem, then the corresponding value
+   in 'domain' is the domain representative of the optimization problem. If the value of
+   the key is an array of optimization problems, then the corresponding value in
+   'domain' is the array of the domain representatives of the optimization problems.
 
 */
