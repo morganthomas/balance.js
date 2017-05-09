@@ -20,9 +20,10 @@ It defines the following functions:
    following functions:
     * constant(number)
     * path(path)
+    * subproblem(path)
     * sum(...formulas)
     * difference(...formulas)
-    * product(...formulas)
+    * product(formula1, formula2)
     * quotient(numeratorFormula, denominatorFormula)
     * monomial(path1, exponent1, path2, exponent2, ...)
     * power(baseFormula, exponentFormula)
@@ -37,3 +38,21 @@ It defines the following functions:
    'domain' is the array of the domain representatives of the optimization problems.
 
 */
+
+const F = {
+  constant: (n) => ['constant', n],
+  path: (p) => ['path', p],
+  subproblem: (path) => ['subproblem', path],
+  sum: (...formulas) => ['sum', formulas],
+  difference: (...formulas) => ['difference', formulas],
+  product: (formula1, formula2) => ['product', formula1, formula2],
+  quotient: (numeratorFormula, denominatorFormula) => ['quotient', numeratorFormula, denominatorFormula],
+  monomial: (...args) => ['monomial', args],
+  power: (baseFormula, exponentFormula) => ['power', baseFormula, exponentFormula],
+  logarithm: (baseFormula, formula) => ['logarithm', baseFormula, formula],
+  sqrt: (formula) => ['sqrt', formula],
+};
+
+export {
+  F
+};
