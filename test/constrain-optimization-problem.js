@@ -128,4 +128,56 @@ describe('constrainOptimizationProblem', function() {
           problem.objectiveFunction.gradientAt(unconstrainedInput)));
     });
   });
+
+  it('gives an initial guess function with the expected behavior', function() {
+    let constrainedProblem = constrainedProblems[1];
+    let inputs = [
+      [
+        { x: null, y: null, z: [null, null] },
+        { x: 1.0, y: null, z: [null, 3.0] },
+        { x: 3.0, y: 3.0, z: [4.0, 0.0] }
+      ],
+      [
+        { x: null, z: [null, null ] },
+        { x: 1.0, z: [3.0, null] },
+        { x: 1.0, z: [3.0, 5.0] }
+      ],
+      [
+        { x: null, z: [null] },
+        { x: 3.0, z: null },
+      ],
+      [
+        { x: null, y: null, z: [null] },
+        { x: 3.0, y: null, z: [1.0] },
+      ]
+    ];
+    let expectedOutputs = [
+      [
+        { x: 0.0, y: 0.0, z: [0.0, 0.0] },
+        { x: 1.0, y: 0.0, z: [0.0, 3.0] },
+        { x: 3.0, y: 3.0, z: [4.0, 0.0] },
+      ],
+      [
+        { x: 0.0, z: [0.0, 0.0] },
+        { x: 1.0, z: [3.0, 0.0] },
+        { x: 1.0, z: [3.0, 5.0] },
+      ],
+      [
+        { x: 0.0, z: [0.0] },
+        { x: 3.0, z: [0.0] },
+      ],
+      [
+        { x: 0.0, y: 0.0, z: [0.0] },
+        { x: 3.0, y: 0.0, z: [1.0] },
+      ],
+    ];
+    constrainedProblems.forEach(function(problem, i) {
+      let problemInputs = inputs[i];
+      let problemExpectedOutputs = expectedOutputs[i];
+      problemInputs.forEach(function(input, j) {
+        let expectedOutput = problemExpectedOutputs[j];
+        expect(problem.initialGuessFunction(input)).to.eql(expectedOutput);
+      });
+    });
+  });
 });
