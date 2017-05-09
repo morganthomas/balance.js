@@ -18,17 +18,17 @@ It defines the following functions:
    not including paths added by any subproblems.
  * 'formula' is an object representing a math formula. Formulas are constructed by the
    following functions:
-    * constant(number)
-    * path(path)
-    * subproblem(path)
-    * sum(...formulas)
-    * difference(...formulas)
-    * product(formula1, formula2)
-    * quotient(numeratorFormula, denominatorFormula)
-    * monomial(path1, exponent1, path2, exponent2, ...)
-    * power(baseFormula, exponentFormula)
-    * logarithm(baseFormula, formula)
-    * sqrt(formula)
+    * F.constant(number)
+    * F.path(path)
+    * F.subproblem(path)
+    * F.sum(...formulas)
+    * F.difference(...formulas)
+    * F.product(formula1, formula2)
+    * F.quotient(numeratorFormula, denominatorFormula)
+    * F.monomial(path1, exponent1, path2, exponent2, ...)
+    * F.power(baseFormula, exponentFormula)
+    * F.logarithm(baseFormula, formula)
+    * F.sqrt(formula)
  * 'subproblems' is an optional property containing an object whose values are
    optimization problems or arrays of optimization problems. For each key in
    'subproblems,' a corresponding key is added to 'domain' (it is an error if it is already
@@ -36,6 +36,10 @@ It defines the following functions:
    in 'domain' is the domain representative of the optimization problem. If the value of
    the key is an array of optimization problems, then the corresponding value in
    'domain' is the array of the domain representatives of the optimization problems.
+
+== computePartialDerivative(formula, path) ==
+
+Computes the partial derivative of the given formula by the given path.
 
 */
 
