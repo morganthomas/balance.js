@@ -34,6 +34,12 @@ describe('F', function() {
   });
 });
 
+describe('computePartialDerivative', function() {
+  it('works on constants', function() {
+    expect(computePartialDerivative(F.constant(3))).to.eql(F.constant(0));
+  });
+});
+
 describe('composeOptimizationProblem', function() {
 
 });
