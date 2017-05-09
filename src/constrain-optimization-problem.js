@@ -47,7 +47,7 @@ deep equal to ponjo.
 */
 
 import assert from 'assert';
-import { isPONJO, POJOsAreStructurallyCongruent } from './pojo.js';
+import { isPONJO, isPONuNJO, POJOsAreStructurallyCongruent } from './pojo.js';
 import { prunePOJO, coprunePOJO } from './prune-pojo.js';
 import { getAtPath, setAtPath } from './path.js';
 import { arrayToPathSet, pathSetContains } from './path-set.js';
@@ -81,13 +81,21 @@ function constrainOptimizationProblem(problem, constraints) {
     return constrainPONuNJO(problem.objectiveFunction.gradientAt(unconstrainPONuNJO(constrainedInput)));
   }
 
+  function initialGuessFunction(constrainedConstraints) {
+    assert(isPONuNJO(constrainedConstraints));
+    assert(POJOsAreStructurallyCongruent(constrainedConstraints, constrainedDomainRep));
+    return constrainPONuNJO(problem.initialGuessFunction(unconstrainPONuNJO(constrainedConstraints)));
+  }
+
+  let domainRepresentative = constrainedDomainRep;
+
   return {
     objectiveFunction: {
-      domainRepresentative: constrainedDomainRep,
+      domainRepresentative,
       valueAt,
       gradientAt,
     },
-    initialGuessFunction: 'TODO',
+    initialGuessFunction,
     constrainPONuNJO,
     unconstrainPONuNJO,
   };

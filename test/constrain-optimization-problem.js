@@ -138,17 +138,17 @@ describe('constrainOptimizationProblem', function() {
         { x: 3.0, y: 3.0, z: [4.0, 0.0] }
       ],
       [
-        { x: null, z: [null, null ] },
+        { x: null, z: [null, null] },
         { x: 1.0, z: [3.0, null] },
         { x: 1.0, z: [3.0, 5.0] }
       ],
       [
         { x: null, z: [null] },
-        { x: 3.0, z: null },
+        { x: 3.0, z: [null] },
       ],
       [
-        { x: null, y: null, z: [null] },
-        { x: 3.0, y: null, z: [1.0] },
+        { z: [null, 1.0] },
+        { z: [1.0, 3.0] },
       ]
     ];
     let expectedOutputs = [
@@ -167,8 +167,8 @@ describe('constrainOptimizationProblem', function() {
         { x: 3.0, z: [0.0] },
       ],
       [
-        { x: 0.0, y: 0.0, z: [0.0] },
-        { x: 3.0, y: 0.0, z: [1.0] },
+        { z: [0.0, 1.0] },
+        { z: [1.0, 3.0] },
       ],
     ];
     constrainedProblems.forEach(function(problem, i) {
