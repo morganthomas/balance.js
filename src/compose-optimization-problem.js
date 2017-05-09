@@ -39,6 +39,7 @@ It defines the following functions:
 
 */
 
+// TODO: add assertions to check inputs.
 const F = {
   constant: (n) => ['constant', n],
   path: (p) => ['path', p],
