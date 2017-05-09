@@ -58,6 +58,16 @@ const F = {
   sqrt: (formula) => ['sqrt', formula],
 };
 
+// TODO: error handling
+function computePartialDerivative(formula) {
+  return computePartialDerivativeCases[formula[0]](...formula.slice(1));
+}
+
+const computePartialDerivativeCases = {
+  constant: (n) => F.constant(0),
+}
+
 export {
-  F
+  F,
+  computePartialDerivative,
 };
