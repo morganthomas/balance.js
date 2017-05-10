@@ -11,24 +11,12 @@ It defines the following functions:
   {
     domain: ...,
     formula: ...,
-    [subproblems: { ... },]
+    subproblems: { ... },
   }
 
  * 'domain' is a PONJO which is a representative of the domain of the optimization problem,
    not including paths added by any subproblems.
- * 'formula' is an object representing a math formula. Formulas are constructed by the
-   following functions:
-    * F.constant(number)
-    * F.path(path)
-    * F.subproblem(path)
-    * F.sum(...formulas)
-    * F.difference(...formulas)
-    * F.product(formula1, formula2)
-    * F.quotient(numeratorFormula, denominatorFormula)
-    * F.monomial(path1, exponent1, path2, exponent2, ...)
-    * F.power(baseFormula, exponentFormula)
-    * F.logarithm(baseFormula, formula)
-    * F.sqrt(formula)
+ * 'formula' is an object representing a math formula. 
  * 'subproblems' is an optional property containing an object whose values are
    optimization problems or arrays of optimization problems. For each key in
    'subproblems,' a corresponding key is added to 'domain' (it is an error if it is already
@@ -37,40 +25,6 @@ It defines the following functions:
    the key is an array of optimization problems, then the corresponding value in
    'domain' is the array of the domain representatives of the optimization problems.
 
-== computePartialDerivative(formula, path) ==
-
-Computes the partial derivative of the given formula by the given path.
-
 */
 
-import { deepEquals } from './pojo.js';
 
-// TODO: add assertions to check inputs.
-const F = {
-  constant: (n) => ['constant', n],
-  path: (p) => ['path', p],
-  subproblem: (path) => ['subproblem', path],
-  sum: (...formulas) => ['sum', formulas],
-  difference: (...formulas) => ['difference', formulas],
-  product: (formula1, formula2) => ['product', formula1, formula2],
-  quotient: (numeratorFormula, denominatorFormula) => ['quotient', numeratorFormula, denominatorFormula],
-  monomial: (...args) => ['monomial', args],
-  power: (baseFormula, exponentFormula) => ['power', baseFormula, exponentFormula],
-  logarithm: (baseFormula, formula) => ['logarithm', baseFormula, formula],
-  sqrt: (formula) => ['sqrt', formula],
-};
-
-// TODO: error handling
-function partialDerivative(by, formula) {
-  return partialDerivativeCases[formula[0]](by, ...formula.slice(1));
-}
-
-const partialDerivativeCases = {
-  constant: (v, n) => F.constant(0),
-  path: (v, u) => deepEquals(v,u) ? F.constant(1) : F.constant(0),
-}
-
-export {
-  F,
-  partialDerivative,
-};

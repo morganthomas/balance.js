@@ -7,3 +7,4 @@ differentiable-scalar-field.js
 optimization-problem.js
 constrain-optimization-problem.js
 compose-optimization-problem.js
+formula.js
