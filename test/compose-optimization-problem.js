@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { F, computePartialDerivative } from '../src/compose-optimization-problem.js';
+import { F, partialDerivative } from '../src/compose-optimization-problem.js';
 
 describe('F', function() {
   it('constant works', function() {
@@ -34,9 +34,9 @@ describe('F', function() {
   });
 });
 
-describe('computePartialDerivative', function() {
+describe('partialDerivative', function() {
   it('works on constants', function() {
-    expect(computePartialDerivative(F.constant(3))).to.eql(F.constant(0));
+    expect(partialDerivative(F.constant(3))).to.eql(F.constant(0));
   });
 });
 
