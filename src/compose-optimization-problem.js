@@ -59,12 +59,12 @@ const F = {
 };
 
 // TODO: error handling
-function partialDerivative(formula) {
-  return partialDerivativeCases[formula[0]](...formula.slice(1));
+function partialDerivative(by, formula) {
+  return partialDerivativeCases[formula[0]](by, ...formula.slice(1));
 }
 
 const partialDerivativeCases = {
-  constant: (n) => F.constant(0),
+  constant: (v, n) => F.constant(0),
 }
 
 export {

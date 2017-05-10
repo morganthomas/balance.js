@@ -36,7 +36,7 @@ describe('F', function() {
 
 describe('partialDerivative', function() {
   it('works on constants', function() {
-    expect(partialDerivative(F.constant(3))).to.eql(F.constant(0));
+    expect(partialDerivative(['x'], F.constant(3))).to.eql(F.constant(0));
   });
 });
 
