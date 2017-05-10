@@ -43,6 +43,8 @@ Computes the partial derivative of the given formula by the given path.
 
 */
 
+import { deepEquals } from './pojo.js';
+
 // TODO: add assertions to check inputs.
 const F = {
   constant: (n) => ['constant', n],
@@ -65,6 +67,7 @@ function partialDerivative(by, formula) {
 
 const partialDerivativeCases = {
   constant: (v, n) => F.constant(0),
+  path: (v, u) => deepEquals(v,u) ? F.constant(1) : F.constant(0),
 }
 
 export {

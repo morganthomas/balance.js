@@ -38,6 +38,10 @@ describe('partialDerivative', function() {
   it('works on constants', function() {
     expect(partialDerivative(['x'], F.constant(3))).to.eql(F.constant(0));
   });
+  it('works on paths', function() {
+    expect(partialDerivative(['x'], F.path(['x']))).to.eql(F.constant(1));
+    expect(partialDerivative(['y'], F.path(['x']))).to.eql(F.constant(0));
+  });
 });
 
 describe('composeOptimizationProblem', function() {
