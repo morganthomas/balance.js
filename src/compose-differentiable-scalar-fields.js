@@ -19,8 +19,8 @@ options is an object of the following form:
    array. subdomainMaps[i] should map any PONJO congruent to domainRepresentative to a PONJO congruent
    to subfields[i].domainRepresentative.
  * integrator is a differentiable scalar field whose input domain should be represented by
-   [domainRepresentative, [1,...,subfields.length]] (in other words a pair consisting of
-   a first element congruent to domainRepresentative and a second element which is an array of
+   [domainRepresentative, [1,...,subfields.length]] (in other words represented by a pair consisting
+   of a first element congruent to domainRepresentative and a second element which is an array of
    scalars of the same length as the subfields array).
 
 */
