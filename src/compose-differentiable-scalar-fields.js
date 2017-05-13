@@ -29,7 +29,7 @@ The resulting composed differentiable scalar field can be described by the formu
     integrator(x, [
       subfields[0](subdomainMaps[0](x)),
       ...,
-      subfields[subfields.length-1](subdomainMaps[subfields[subfields.length-1]])
+      subfields[subfields.length-1](subdomainMaps[subfields.length-1](x))
     ])
 
 */
