@@ -1,7 +1,7 @@
 /*
 
 This file is for composing multiple differentiable scalar fields to produce a new
-differentiable scalar field (see scalar-field.js).
+differentiable scalar field (see differentiable-scalar-field.js).
 
 == composeDifferentiableScalarFields(options) ==
 
