@@ -4,7 +4,8 @@ path-set.js
 flatten-pojo.js
 prune-pojo.js
 differentiable-scalar-field.js
+compose-differentiable-scalar-fields.js
 optimization-problem.js
 constrain-optimization-problem.js
-compose-optimization-problem.js
 formula.js
+
