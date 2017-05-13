@@ -23,4 +23,13 @@ options is an object of the following form:
    of a first element congruent to domainRepresentative and a second element which is an array of
    scalars of the same length as the subfields array).
 
+The resulting composed differentiable scalar field can be described by the formula:
+
+  f(x) =
+    integrator(x, [
+      subfields[0](subdomainMaps[0](x)),
+      ...,
+      subfields[subfields.length-1](subdomainMaps[subfields[subfields.length-1]])
+    ])
+
 */
