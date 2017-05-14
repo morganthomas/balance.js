@@ -46,4 +46,11 @@ And its gradient can be described by the formula:
     [subfields[0].valueAt(x), ..., subfields[subfields.length-1].valueAt(x)],
     [subfields[0].gradientAt(x), ..., subfields[subfields.length-1].gradientAt(x)])
 
+A useful common case:
+
+== sumDifferentiableScalarFields(subfields) ==
+
+Takes an array of differentiable scalar fields with congruent domain representatives.
+Returns a new differentiable scalar field which behaves as the sum of the given scalar fields.
+
 */
