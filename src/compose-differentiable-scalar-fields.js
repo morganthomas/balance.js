@@ -56,7 +56,7 @@ Returns a new differentiable scalar field which behaves as the sum of the given 
 */
 
 import assert from 'assert';
-import { POJOsAreStructurallyCongruent, scalarMultiplyPONJO, mapScalars } from './pojo.js';
+import { isPONJO, POJOsAreStructurallyCongruent, scalarMultiplyPONJO, mapScalars } from './pojo.js';
 import { isPath, getAtPath, setAtPath } from './path.js';
 
 function expandDomainOfDifferentiableScalarField(scalarField, newDomainRepresentative, rootPath) {
