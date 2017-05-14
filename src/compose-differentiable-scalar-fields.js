@@ -54,3 +54,15 @@ Takes an array of differentiable scalar fields with congruent domain representat
 Returns a new differentiable scalar field which behaves as the sum of the given scalar fields.
 
 */
+
+function expandDomainOfDifferentiableScalarField(scalarField, newDomainRepresentative, rootPath) {
+
+}
+
+function composeDifferentiableScalarFields(options) {
+
+}
+
+function sumDifferentiableScalarFields(subfields) {
+
+}
