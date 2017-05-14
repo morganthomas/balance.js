@@ -7,6 +7,6 @@ differentiable-scalar-field.js
 compose-differentiable-scalar-fields.js
 optimization-problem.js
 constrain-optimization-problem.js
-formula.js
+formula.js (TODO: needed?)
 graphics.js
 velement.js
