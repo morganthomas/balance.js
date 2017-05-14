@@ -8,4 +8,5 @@ compose-differentiable-scalar-fields.js
 optimization-problem.js
 constrain-optimization-problem.js
 formula.js
+graphics.js
 velement.js
