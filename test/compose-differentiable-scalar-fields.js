@@ -43,7 +43,7 @@ describe('composeDifferentiableScalarFields', function() {
       valueAt: (a, vs) => vs[0] + vs[1] + 0.5 * vs[2] + 2 * a.y,
       gradientAt: (a, vs, gs) => ({ 
         x: gs[0].x + gs[1].x + 0.5 * gs[2].x,
-        y: gs[0].y + gs[1].y + 0.5 * gs[1].y + 2
+        y: gs[0].y + gs[1].y + 0.5 * gs[2].y + 2
       })
     });
 
