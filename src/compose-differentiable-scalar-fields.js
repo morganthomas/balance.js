@@ -55,8 +55,31 @@ Returns a new differentiable scalar field which behaves as the sum of the given 
 
 */
 
-function expandDomainOfDifferentiableScalarField(scalarField, newDomainRepresentative, rootPath) {
+import assert from 'assert';
+import { POJOsAreStructurallyCongruent, scalarMultiplyPONJO, mapScalars } from './pojo.js';
+import { isPath, getAtPath, setAtPath } from './path.js';
 
+function expandDomainOfDifferentiableScalarField(scalarField, newDomainRepresentative, rootPath) {
+  assert(isPath(rootPath));
+  assert(POJOsAreStructurallyCongruent(
+    scalarField.domainRepresentative,
+    getAtPath(newDomainRepresentative, rootPath)));
+  let zeroedNewDomainRepresentative = scalarMultiplyPONJO(0, newDomainRepresentative);
+  
+  return {
+    domainRepresentative: newDomainRepresentative,
+    valueAt(x) {
+      assert(POJOsAreStructurallyCongruent(x, newDomainRepresentative));
+      return scalarField.valueAt(getAtPath(x, rootPath));
+    },
+    gradientAt(x) {
+      assert(POJOsAreStructurallyCongruent(x, newDomainRepresentative));
+      let gradient = scalarField.gradientAt(getAtPath(x, rootPath));
+      let result = mapScalars(x => x, zeroedNewDomainRepresentative); // clone
+      setAtPath(result, rootPath, gradient);
+      return result;
+    }
+  };
 }
 
 function composeDifferentiableScalarFields(options) {

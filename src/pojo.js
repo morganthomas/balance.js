@@ -104,7 +104,7 @@ zipPOJOs(f, p1, ..., pn)
 
 The following functions help us to work with PONuNJOs:
 
-scalarMultiplyPONuNJOs(a, ponunjo)
+scalarMultiplyPONuNJO(a, ponunjo)
 addPONuNJOs(ponunjo1, ponunjo2)
 
 These functions both operate pointwise, and they let null behave infectiously (any calculation
@@ -112,7 +112,7 @@ involving null comes out null).
 
 The following functions help us to work with PONJOs:
 
-scalarMultiplyPONJOs(a, ponjo)
+scalarMultiplyPONJO(a, ponjo)
 addPONJOs(ponjo1, ponjo2)
 
 These do the same as the corresponding functions on PONuNJOs, but they lack null handling logic.
