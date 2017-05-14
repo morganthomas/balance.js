@@ -66,3 +66,9 @@ function composeDifferentiableScalarFields(options) {
 function sumDifferentiableScalarFields(subfields) {
 
 }
+
+export {
+  expandDomainOfDifferentiableScalarField,
+  composeDifferentiableScalarFields,
+  sumDifferentiableScalarFields,
+}
