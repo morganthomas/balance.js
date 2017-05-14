@@ -26,7 +26,7 @@ The resulting composed differentiable scalar field can be described by the formu
 And its gradient can be described by the formula:
 
   f.gradientAt(x) = options.gradientAt(x,
-    [subfields[0].valueAt(x), ..., subfields[subfields.length-1](x)],
+    [subfields[0].valueAt(x), ..., subfields[subfields.length-1].valueAt(x)],
     [subfields[0].gradientAt(x), ..., subfields[subfields.length-1].gradientAt(x)])
 
 */
