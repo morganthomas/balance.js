@@ -36,7 +36,7 @@ describe('expandDomainOfDifferentiableScalarField', function() {
 
 describe('composeDifferentiableScalarFields', function() {
   it('works on a typical case', function() {
-    // (x,y) -> x + y + (x * y) + 3x + 2y
+    // (x,y) -> x + y + (x * y) + 1.5x + 2y
     let field = composeDifferentiableScalarFields({
       domainRepresentative: { x: 0, y: 0 },
       subfields: [littleField1, littleField2, littleField3],
@@ -47,8 +47,8 @@ describe('composeDifferentiableScalarFields', function() {
       })
     });
 
-    expect(field.valueAt({ x: 7, y: 3 })).to.equal(58);
-    expect(field.gradientAt({ x: 7, y: 3 })).to.eql({ x: 7, y: 10 });
+    expect(field.valueAt({ x: 7, y: 3 })).to.equal(47.5);
+    expect(field.gradientAt({ x: 7, y: 3 })).to.eql({ x: 5.5, y: 10 });
   });
 });
 

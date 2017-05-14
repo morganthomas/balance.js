@@ -83,7 +83,21 @@ function expandDomainOfDifferentiableScalarField(scalarField, newDomainRepresent
 }
 
 function composeDifferentiableScalarFields(options) {
-
+  return {
+    domainRepresentative: options.domainRepresentative,
+    valueAt(x) {
+      assert(POJOsAreStructurallyCongruent(x, options.domainRepresentative));
+      return options.valueAt(x, options.subfields.map(subfield => subfield.valueAt(x)));
+    },
+    gradientAt(x) {
+      assert(POJOsAreStructurallyCongruent(x, options.domainRepresentative));
+      return options.gradientAt(
+        x, 
+        options.subfields.map(subfield => subfield.valueAt(x)),
+        options.subfields.map(subfield => subfield.gradientAt(x))
+      );
+    }
+  };
 }
 
 function sumDifferentiableScalarFields(subfields) {
