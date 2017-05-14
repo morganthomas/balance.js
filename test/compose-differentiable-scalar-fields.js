@@ -53,5 +53,11 @@ describe('composeDifferentiableScalarFields', function() {
 });
 
 describe('sumDifferentiableScalarFields', function() {
-  
+  it('works on a typical case', function() {
+    // (x,y) -> x + y + (x * y) + 3x
+    let field = sumDifferentiableScalarFields(littleField1, littleField2, littleField3);
+
+    expect(field.valueAt({ x: 5, y: 2 })).to.equal(32);
+    expect(field.gradientAt({ x: 5, y: 2 })).to.eql({ x: 6, y: 6 });
+  });
 });

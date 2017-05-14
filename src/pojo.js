@@ -277,7 +277,7 @@ function addPONuNJOs(...ponunjos) {
     ...ponunjos);
 }
 
-// ASSUMES it is passed at least one argument and all its arguments are structurall congruent PONJOs
+// ASSUMES it is passed at least one argument and all its arguments are structurally congruent PONJOs
 function addPONJOs(...ponjos) {
   assert(ponjos.every(isPONJO));
   return zipPOJOs(
