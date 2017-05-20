@@ -3,7 +3,7 @@ import {
   isPath,
   getAtPath,
   setAtPath,
-} from '../src/path.js';
+} from '../../src/path.js';
 
 describe('isPath', function() {
   it('should classify paths as paths', function() {

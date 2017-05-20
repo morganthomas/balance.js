@@ -1,9 +1,9 @@
 import { expect } from 'chai';
-import { mapScalars } from '../src/pojo.js';
+import { mapScalars } from '../../src/pojo.js';
 import {
   constrainOptimizationProblem, 
   getPathsToPrune
-} from '../src/constrain-optimization-problem.js';
+} from '../../src/constrain-optimization-problem.js';
 
 describe('getPathsToPrune', function() {
   it('gives the expected outputs', function() {

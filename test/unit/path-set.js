@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { arrayToPathSet, pathSetContains, pathSetToArray } from '../src/path-set.js';
+import { arrayToPathSet, pathSetContains, pathSetToArray } from '../../src/path-set.js';
 
 describe('arrayToPathSet', function() {
   it('gives expected outputs', function() {

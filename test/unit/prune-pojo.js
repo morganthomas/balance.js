@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { deepEquals } from '../src/pojo.js';
-import { prunePOJO, coprunePOJO } from '../src/prune-pojo.js';
+import { deepEquals } from '../../src/pojo.js';
+import { prunePOJO, coprunePOJO } from '../../src/prune-pojo.js';
 
 describe('prunePOJO', function() {
   it('gives the expected results', function() {

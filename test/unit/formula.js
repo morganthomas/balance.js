@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { F, partialDerivative } from '../src/formula.js';
+import { F, partialDerivative } from '../../src/formula.js';
 
 describe('F', function() {
   it('constant works', function() {

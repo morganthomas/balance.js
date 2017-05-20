@@ -3,7 +3,7 @@ import {
   expandDomainOfDifferentiableScalarField,
   composeDifferentiableScalarFields,
   sumDifferentiableScalarFields
-} from '../src/compose-differentiable-scalar-fields.js'
+} from '../../src/compose-differentiable-scalar-fields.js'
 
 let littleField1 = {
   domainRepresentative: { x: 0, y: 0 },

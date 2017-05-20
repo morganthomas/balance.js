@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { flattenPOJO, unflattenPOJO } from '../src/flatten-pojo.js';
+import { flattenPOJO, unflattenPOJO } from '../../src/flatten-pojo.js';
 
 describe('flattenPOJO', function() {
   it('should produce the expected output', function() {

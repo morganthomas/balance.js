@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { mapScalars, POJOsAreStructurallyCongruent } from '../src/pojo.js';
-import { flattenPOJO } from '../src/flatten-pojo.js';
-import { solveOptimizationProblem } from '../src/optimization-problem.js';
+import { mapScalars, POJOsAreStructurallyCongruent } from '../../src/pojo.js';
+import { flattenPOJO } from '../../src/flatten-pojo.js';
+import { solveOptimizationProblem } from '../../src/optimization-problem.js';
 
 describe('solveOptimizationProblem', function() {
   it('works on a simple problem', function() {

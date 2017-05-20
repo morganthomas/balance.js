@@ -10,7 +10,7 @@ import {
   addPONuNJOs,
   addPONJOs,
   deepEquals,
-} from '../src/pojo.js';
+} from '../../src/pojo.js';
 
 describe('isScalar', function() {
   it('should categorize scalars as scalars', function() {
