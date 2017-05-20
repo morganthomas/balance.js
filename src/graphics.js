@@ -35,7 +35,7 @@ function drawToCanvas(canvas, graphics) {
   if (graphics.stroke) {
     let stroke = graphics.stroke;
     ctx.lineWidth = stroke.width;
-    ctx.strokeStyle = 'rgb(' + stroke.color.r + ', ' + stroke.color.g + ', ' + stroke.color.b + ', '+ stroke.color.a + ')';
+    ctx.strokeStyle = 'rgba(' + stroke.color.r * 100 + '%, ' + stroke.color.g * 100 + '%, ' + stroke.color.b * 100 + '%, '+ stroke.color.a + ')';
     ctx.lineCap = stroke.lineCap;
     ctx.beginPath();
     ctx.moveTo(stroke.start.x, stroke.start.y);
