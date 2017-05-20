@@ -4,8 +4,8 @@ This file describes a medium-independent, POJO-based vector graphics representat
 Graphics objects can take the following forms:
 
  * { stroke: { start: { x, y }, motions, color: { r, g, b }, width, lineCap } }
- * { translate: { what, by: { x, y } } }    TODO
- * Any array of graphics objects is a graphics object.     TODO
+ * { translate: { what, by: { x, y } } }
+ * Any array of graphics objects is a graphics object.
 
 In these forms:
 
@@ -32,7 +32,15 @@ to the given canvas.
 
 function drawToCanvas(canvas, graphics) {
   var ctx = canvas.getContext('2d');
-  if (graphics.stroke) {
+  drawToCanvasRecurse(ctx, graphics);
+}
+
+function drawToCanvasRecurse(ctx, graphics) {
+  if (graphics instanceof Array) {
+    graphics.forEach(function(graphic) {
+      drawToCanvasRecurse(ctx, graphic);
+    });
+  } else if (graphics.stroke) {
     let stroke = graphics.stroke;
     ctx.lineWidth = stroke.width;
     ctx.strokeStyle = 'rgba(' + stroke.color.r * 100 + '%, ' + stroke.color.g * 100 + '%, ' + stroke.color.b * 100 + '%, '+ stroke.color.a + ')';
@@ -45,5 +53,12 @@ function drawToCanvas(canvas, graphics) {
       }
     });
     ctx.stroke();
+  } else if (graphics.translate) {
+    ctx.save();
+    let by = graphics.translate.by;
+    let what = graphics.translate.what;
+    ctx.translate(by.x, by.y);
+    drawToCanvasRecurse(ctx, what);
+    ctx.restore();
   }
 }
