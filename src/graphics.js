@@ -4,8 +4,8 @@ This file describes a medium-independent, POJO-based vector graphics representat
 Graphics objects can take the following forms:
 
  * { stroke: { start: { x, y }, motions, color: { r, g, b }, width, lineCap } }
- * { translate: { what, by: { x, y } } }
- * Any array of graphics objects is a graphics object.
+ * { translate: { what, by: { x, y } } }    TODO
+ * Any array of graphics objects is a graphics object.     TODO
 
 In these forms:
 
