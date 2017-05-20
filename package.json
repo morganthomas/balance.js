@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/morganthomas/balance.js#readme",
   "devDependencies": {
+    "babel-loader": "^7.0.0",
     "babel-preset-env": "^1.4.0",
     "babel-register": "^6.24.1",
     "chai": "^3.5.0",
