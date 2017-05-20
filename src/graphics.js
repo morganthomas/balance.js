@@ -62,3 +62,7 @@ function drawToCanvasRecurse(ctx, graphics) {
     ctx.restore();
   }
 }
+
+if (typeof module !== 'undefined') {
+  module.exports = { drawToCanvas: drawToCanvas };
+}
