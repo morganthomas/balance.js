@@ -5,13 +5,7 @@
     <script src="../src/graphics.js"></script>
     <script>
       var canvas = document.getElementById('canvas');
-      var graphics = [
-        { line: { from: { x: 0.0, y: 0.0 }, to: { x: 100.0, y: 100.0 }, color: { r: 0.0, g: 0.0, b: 0.0 } } },
-        { translate: { by: { x: 100.0, y: 100.0 }, what: [
-          { line: { from: { x: 0.0, y: 0.0 }, to: { x: 300.0, y: 0.0 }, color: { r: 1.0, g: 0.0, b: 0.0 } } },
-          { line: { from: { x: 300.0, y: 0.0 }, to: { x: 300.0, y: 300.0 }, color: { r: 0.0, g: 1.0, b: 0.0 } } }
-        ] } }
-      ];
+      var graphics = { stroke: { start: { x: 0, y: 0 }, motions: [ { lineTo: { x: 100, y: 100 } }, { lineTo: { x: 300, y: 150 } } ], color: { r: 1.0, g: 0.0, b: 0.0, a: 0.7 }, width: 3.0, lineCap: 'round' } };
       drawToCanvas(canvas, graphics);
     </script>
   </body>
