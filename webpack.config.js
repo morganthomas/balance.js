@@ -13,6 +13,7 @@ module.exports = {
       loader: 'babel-loader'
     }]
   },
+  // use compiler-included build of vue
   resolve: {
     alias: {
       vue: 'vue/dist/vue.js'

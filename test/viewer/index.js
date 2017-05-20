@@ -6,5 +6,3 @@ const app = new Vue({
     message: 'hello vue'
   }
 });
-
-console.log('hello world');
