@@ -17,6 +17,9 @@ In these forms:
  * r, g, b are numbers between 0 and 1.
  * 'what' is a graphics object.
 
-TODO
+== drawToCanvas(canvas, graphics) ==
+
+Takes an HTML canvas element and a graphics object, and draws the given graphics object
+to the given canvas.
 
 */
