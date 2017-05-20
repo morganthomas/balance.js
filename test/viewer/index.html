@@ -5,7 +5,9 @@
   </head>
   <body>
     <div id="app">
-      {{ message }}
+      <ul>
+        <li v-for="(caseObject, caseName) in cases">{{caseName}}</li>
+      </ul>
     </div>
     <script src="./bundle.js"></script>
   </body>
