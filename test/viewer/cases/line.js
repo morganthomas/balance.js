@@ -5,7 +5,7 @@ export default {
       valueAt: () => 0,
       gradientAt: () => { x: 0 }
     },
-    initialGuessFunction: (c) => { x: c.x || 0 }
+    initialGuessFunction: (c) => ({ x: c.x || 0 })
   },
   render: () => (
     { stroke: { 
