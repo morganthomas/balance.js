@@ -9,7 +9,7 @@
       <ul class="test-case-selector">
         <li v-for="(caseObject, caseName) in cases"
             :class="{ bold: caseName === selectedCaseName }"
-            v-on:click="selectedCaseName = caseName">
+            v-on:click="setCase(caseName)">
           {{caseName}}
         </li>
       </ul>

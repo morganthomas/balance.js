@@ -36,6 +36,7 @@ function drawToCanvas(canvas, graphics) {
 }
 
 function drawToCanvasRecurse(ctx, graphics) {
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   if (graphics instanceof Array) {
     graphics.forEach(function(graphic) {
       drawToCanvasRecurse(ctx, graphic);

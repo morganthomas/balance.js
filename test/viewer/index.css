@@ -4,5 +4,5 @@
 
 .test-case-selector {
     float: left;
-    margin-right: 20px;
+    width: 200px;
 }
