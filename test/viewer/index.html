@@ -6,13 +6,14 @@
   </head>
   <body>
     <div id="app">
-      <ul>
+      <ul class="test-case-selector">
         <li v-for="(caseObject, caseName) in cases"
             :class="{ bold: caseName === selectedCaseName }"
             v-on:click="selectedCaseName = caseName">
           {{caseName}}
         </li>
       </ul>
+      <canvas id="canvas" width="500" height="500"></canvas>
     </div>
     <script src="./bundle.js"></script>
   </body>
