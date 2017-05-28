@@ -8,6 +8,7 @@ const cases = {
 const app = new Vue({
   el: '#app',
   data: {
-    cases
+    cases,
+    selectedCaseName: 'line'
   }
 });

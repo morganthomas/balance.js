@@ -2,11 +2,15 @@
 <html>
   <head>
     <title>balance.js Test Cases</title>
+    <link rel="stylesheet" type="text/css" href="./index.css" />
   </head>
   <body>
     <div id="app">
       <ul>
-        <li v-for="(caseObject, caseName) in cases">{{caseName}}</li>
+        <li v-for="(caseObject, caseName) in cases"
+            :class="{ bold: caseName === selectedCaseName }">
+          {{caseName}}
+        </li>
       </ul>
     </div>
     <script src="./bundle.js"></script>
