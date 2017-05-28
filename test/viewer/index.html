@@ -13,7 +13,13 @@
           {{caseName}}
         </li>
       </ul>
-      <canvas ref="canvas" width="500" height="500"></canvas>
+      <label>
+        Width <input type="range" ref="widthInput" min="0" max="800" v-model="canvasWidth" v-on:mouseup="drawCase" />
+      </label>
+      <label>
+        Height <input type="range" ref="heightInput" min="0" max="800" v-model="canvasHeight" v-on:mouseup="drawCase" />
+      </label>
+      <canvas ref="canvas" :width="canvasWidth" :height="canvasHeight"></canvas>
     </div>
     <script src="./bundle.js"></script>
   </body>

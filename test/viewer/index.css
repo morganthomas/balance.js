@@ -6,3 +6,7 @@
     float: left;
     width: 200px;
 }
+
+label, canvas {
+    display: block;
+}

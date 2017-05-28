@@ -13,7 +13,9 @@ const app = new Vue({
   el: '#app',
   data: {
     cases,
-    selectedCaseName: 'line'
+    selectedCaseName: 'line',
+    canvasWidth: 500,
+    canvasHeight: 500
   },
 
   mounted() {
