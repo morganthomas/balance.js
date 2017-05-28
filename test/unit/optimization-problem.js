@@ -57,7 +57,35 @@ describe('solveOptimizationProblem', function() {
         .map((x) => Math.abs(x))
         .reduce((a,b) => a + b, 0);
 
-    expect(error).to.be.below(0.000001);
+    expect(error).to.be.below(0.001);
+    expect(solution).to.satisfy(
+      (s) => POJOsAreStructurallyCongruent(s, idealSolution));
+
+    constraints = {
+      x: null,
+      y: null,
+      z: [-3, 7]
+    };
+
+    expect(problem.initialGuessFunction(constraints)).to.eql({
+      x: 5.0,
+      y: 5.0,
+      z: [-3.0, 7.0]
+    });
+
+    solution = solveOptimizationProblem(problem, constraints);
+
+    idealSolution = {
+      x: 0.0,
+      y: 0.0,
+      z: [-3.0, 7.0]
+    };
+
+    error = flattenPOJO(solution)
+      .map((x) => Math.abs(x))
+      .reduce((a,b) => a + b, 0);
+
+    expect(error).to.be.below(1);
     expect(solution).to.satisfy(
       (s) => POJOsAreStructurallyCongruent(s, idealSolution));
   });

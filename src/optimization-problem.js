@@ -26,10 +26,13 @@ import { uncmin } from 'numeric';
 import { POJOsAreStructurallyCongruent, isPONJO, isPONuNJO, zipPOJOs, mapScalars } from './pojo.js';
 import { flattenPOJO, unflattenPOJO } from './flatten-pojo.js';
 
-function solveOptimizationProblem(optimizationProblem) {
+let TOLERANCE = 0.0001;
+let MAX_ITERATIONS = 200;
+
+function solveOptimizationProblem(optimizationProblem, constraints) {
   let { valueAt, gradientAt, domainRepresentative } = optimizationProblem.objectiveFunction;
   assert(isPONJO(domainRepresentative));
-  let constraints = mapScalars(() => null, domainRepresentative);
+  constraints = constraints || mapScalars(() => null, domainRepresentative);
   let initialGuess = optimizationProblem.initialGuessFunction(constraints);
   assert(isPONJO(initialGuess));
   assert(POJOsAreStructurallyCongruent(initialGuess, domainRepresentative));
@@ -52,7 +55,9 @@ function solveOptimizationProblem(optimizationProblem) {
   let solutionFlat = uncmin(
     valueAtFlat,
     initialGuessFlat,
-    gradientAtFlat
+    TOLERANCE,
+    gradientAtFlat,
+    MAX_ITERATIONS
   ).solution;
 
   return unflattenPOJO(domainRepresentative, solutionFlat);
