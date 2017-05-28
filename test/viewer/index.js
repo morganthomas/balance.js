@@ -1,8 +1,6 @@
 import Vue from 'vue';
 import line from './cases/line.js';
 import line2 from './cases/line2.js';
-import { mapScalars } from '../../src/pojo.js';
-import { solveOptimizationProblem } from '../../src/optimization-problem.js';
 import { drawToCanvas } from '../../src/graphics.js';
 import { renderBoxVElement } from '../../src/velement.js';
 
