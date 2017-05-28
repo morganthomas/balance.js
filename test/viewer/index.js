@@ -1,19 +1,19 @@
 import Vue from 'vue';
-import line from './cases/line.js';
-import line2 from './cases/line2.js';
+import lineFixedSize from './cases/line-fixed-size.js';
+import lineVariableSize from './cases/line-variable-size.js';
 import { drawToCanvas } from '../../src/graphics.js';
 import { renderBoxVElement } from '../../src/velement.js';
 
 const cases = {
-  line,
-  line2
+  lineFixedSize,
+  lineVariableSize
 };
 
 const app = new Vue({
   el: '#app',
   data: {
     cases,
-    selectedCaseName: 'line',
+    selectedCaseName: 'lineFixedSize',
     canvasWidth: 500,
     canvasHeight: 500
   },
