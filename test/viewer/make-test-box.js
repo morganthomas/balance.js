@@ -1,6 +1,12 @@
 import { mapScalars } from '../../src/pojo.js';
 
-function makeTestBox(objectiveFunction, borderColor) {
+function makeTestBox(borderColor, objectiveFunction) {
+  objectiveFunction = objectiveFunction || {
+    domainRepresentative: { width: 0, height: 0 },
+    valueAt: () => 0.0,
+    gradientAt: () => ({ width: 0, height: 0 })
+  };
+
   return {
     layoutProblem: {
       objectiveFunction,
