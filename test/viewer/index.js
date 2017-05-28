@@ -4,6 +4,7 @@ import line2 from './cases/line2.js';
 import { mapScalars } from '../../src/pojo.js';
 import { solveOptimizationProblem } from '../../src/optimization-problem.js';
 import { drawToCanvas } from '../../src/graphics.js';
+import { renderBoxVElement } from '../../src/velement.js';
 
 const cases = {
   line,
@@ -23,14 +24,10 @@ const app = new Vue({
 
   methods: {
     drawCase() {
-      let theCase = this.cases[this.selectedCaseName];
-      let problem = theCase.layoutProblem;
-      let constraints = mapScalars(() => null, problem.objectiveFunction.domainRepresentative);
-      constraints.width = this.$refs.canvas.width;
-      constraints.height = this.$refs.canvas.height;
-      let solution = solveOptimizationProblem(problem, constraints);
-      let graphics = theCase.render(solution);
-      drawToCanvas(this.$refs.canvas, graphics);
+      let canvas = this.$refs.canvas;
+      let velement = this.cases[this.selectedCaseName];
+      let graphics = renderBoxVElement(velement, canvas.width, canvas.height);
+      drawToCanvas(canvas, graphics);
     },
 
     setCase(caseName) {
