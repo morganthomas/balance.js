@@ -22,6 +22,10 @@ const app = new Vue({
     this.drawCase();
   },
 
+  updated() {
+    this.drawCase();
+  },
+
   methods: {
     drawCase() {
       let canvas = this.$refs.canvas;
@@ -32,7 +36,6 @@ const app = new Vue({
 
     setCase(caseName) {
       this.selectedCaseName = caseName;
-      this.drawCase();
     }
   }
 });
