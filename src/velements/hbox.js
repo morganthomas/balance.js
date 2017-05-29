@@ -1,6 +1,10 @@
 import { mapScalars, addPONJOs } from '../pojo.js';
-import { composeDifferentiableScalarFields } from '../compose-differentiable-scalar-fields.js';
+import {
+  expandDomainOfDifferentiableScalarField, 
+  sumDifferentiableScalarFields
+} from '../compose-differentiable-scalar-fields.js';
 import { constrainOptimizationProblem } from '../constrain-optimization-problem.js';
+import { makeSoftConstraintField } from '../scalar-fields/soft-constraint-field.js';
 
 const plus = (x,y) => x+y;
 const WIDTH_DEVIATION_BADNESS_INTENSITY = 1000;
@@ -15,40 +19,19 @@ function makeHBox(options) {
     height: 0
   };
 
-  let unconstrainedScalarField = composeDifferentiableScalarFields({
-    domainRepresentative: unconstrainedDomainRepresentative,
-    subfields: velements.map(el => el.layoutProblem.objectiveFunction),
-    inputMappings: velements.map((el, i) => ((x) => x.children[i])),
+  let widthConstraintField = makeSoftConstraintField(
+    unconstrainedDomainRepresentative,
+    [[1,['width']]].concat(velements.map((e,i) => [-1,['children',i,'width']])));
 
-    valueAt(x, subfieldValues) {
-      let childrenBadness = subfieldValues.reduce(plus, 0);
-      let childrenWidthSum = x.children.map(s => s.width).reduce(plus, 0);
-      let widthDeviation = x.width - childrenWidthSum;
-      let widthDeviationBadness = INTENSITY * widthDeviation * widthDeviation;
-      return childrenBadness + widthDeviationBadness;
-    },
-
-    gradientAt(x, subfieldValues, subfieldGradients) {
-      let widthDeviationGradient = mapScalars(() => 0, unconstrainedDomainRepresentative);
-      widthDeviationGradient.width = 2 * INTENSITY * x.width 
-        - 2 * INTENSITY * x.children.map(s => s.width).reduce(plus, 0);
-      for (let i = 0; i < x.children.length; i++) {
-        widthDeviationGradient.children[i].width = 2 * INTENSITY * x.children[i].width
-          - 2 * INTENSITY * (
-            x.width -
-              x.children.map((s,j) => j === i ? 0 : s.width).reduce(plus, 0)
-          );
-      }
-
-      let subfieldsGradient = {
-        width: 0,
-        height: 0,
-        children: subfieldGradients
-      };
-
-      return addPONJOs(widthDeviationGradient, subfieldsGradient);
-    }
-  });
+  let unconstrainedScalarField = sumDifferentiableScalarFields(
+    widthConstraintField,
+    ...velements.map(
+      (e,i) => expandDomainOfDifferentiableScalarField(
+        e.layoutProblem.objectiveFunction,
+        unconstrainedDomainRepresentative,
+        ['children',i])
+    )
+  );
 
   let unconstrainedOptimizationProblem = {
     objectiveFunction: unconstrainedScalarField,

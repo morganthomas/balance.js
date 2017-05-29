@@ -13,6 +13,7 @@ p1,...,pn is a path in the given domain.
 
 */
 
+import assert from 'assert';
 import { POJOsAreStructurallyCongruent, mapScalars } from '../pojo.js';
 import { getAtPath, setAtPath } from '../path.js';
 
@@ -32,7 +33,7 @@ function makeSoftConstraintField(domainRepresentative, linearCombination, intens
       let deviation = evaluateLinearCombination(linearCombination, x);
       let gradient = mapScalars(() => 0, domainRepresentative);
       for (let i = 0; i < linearCombination.length; i++) {
-        let path = linearCombinations[i][1];
+        let path = linearCombination[i][1];
         let codeviation = (evaluateLinearCombination([linearCombination[i]], x) - deviation);
         setAtPath(gradient, path, 2 * intensity * codeviation);
       }
