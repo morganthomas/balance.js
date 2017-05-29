@@ -70,7 +70,9 @@ function composeDifferentiableScalarFields(options) {
     domainRepresentative: options.domainRepresentative,
     valueAt(x) {
       assert(POJOsAreStructurallyCongruent(x, options.domainRepresentative));
-      return options.valueAt(x, options.subfields.map(subfield => subfield.valueAt(x)));
+      return options.valueAt(x, options.subfields.map(
+        (subfield,i) => subfield.valueAt(options.inputMappings[i](x))
+      ));
     },
     gradientAt(x) {
       assert(POJOsAreStructurallyCongruent(x, options.domainRepresentative));

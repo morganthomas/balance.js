@@ -113,7 +113,7 @@ involving null comes out null).
 The following functions help us to work with PONJOs:
 
 scalarMultiplyPONJO(a, ponjo)
-addPONJOs(ponjo1, ponjo2)
+addPONJOs(...ponjos)
 
 These do the same as the corresponding functions on PONuNJOs, but they lack null handling logic.
 The motivation for these functions on PONJOs is the theory that omitting null checks when working
