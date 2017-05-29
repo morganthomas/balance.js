@@ -7,8 +7,6 @@ import { constrainOptimizationProblem } from '../constrain-optimization-problem.
 import { makeSoftConstraintField } from '../scalar-fields/soft-constraint-field.js';
 
 const plus = (x,y) => x+y;
-const WIDTH_DEVIATION_BADNESS_INTENSITY = 1000;
-const INTENSITY = WIDTH_DEVIATION_BADNESS_INTENSITY;
 
 function makeHBox(options) {
   let velements = options.children;

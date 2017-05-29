@@ -30,12 +30,12 @@ function makeSoftConstraintField(domainRepresentative, linearCombination, intens
     },
     gradientAt(x) {
       assert(POJOsAreStructurallyCongruent(domainRepresentative, x));
-      let deviation = evaluateLinearCombination(linearCombination, x);
       let gradient = mapScalars(() => 0, domainRepresentative);
+      let deviation = evaluateLinearCombination(linearCombination, x);
       for (let i = 0; i < linearCombination.length; i++) {
         let path = linearCombination[i][1];
-        let codeviation = (evaluateLinearCombination([linearCombination[i]], x) - deviation);
-        setAtPath(gradient, path, 2 * intensity * codeviation);
+        let coef = linearCombination[i][0];
+        setAtPath(gradient, path, 2 * intensity * coef * deviation);
       }
       return gradient;
     }
