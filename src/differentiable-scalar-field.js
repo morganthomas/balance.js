@@ -21,4 +21,18 @@ where:
     * Assumes that as input it gets one PONJO congruent to domainRepresentative.
     * As output it produces a PONJO congruent to domainRepresentative.
 
-*/
+    */
+
+import { mapScalars } from './pojo.js';
+
+function makeConstantScalarField(domainRepresentative, value) {
+  let zeroVec = mapScalars(() => 0, domainRepresentative);
+
+  return {
+    domainRepresentative,
+    valueAt: (x) => value,
+    gradientAt: (x) => zeroVec
+  }
+}
+
+export { makeConstantScalarField }
