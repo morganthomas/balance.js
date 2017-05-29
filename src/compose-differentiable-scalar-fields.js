@@ -5,6 +5,21 @@ differentiable scalar field (see differentiable-scalar-field.js).
 
 We begin with a useful helper function:
 
+== expandDomainOfDifferentiableScalarField(scalarField, newDomainRepresentative, rootPath) ==
+
+This takes a differentiable scalar field and returns a new differentiable scalar field where the
+domain is represented by newDomainRepresentative.
+
+ * rootPath must be a path.
+ * getAtPath(newDomainRepresentative, rootPath) must be congruent to scalarField.domainRepresentative.
+
+The resulting differentiable scalar field can be described by the formula:
+
+  f.valueAt(x) = scalarField.valueAt(getAtPath(x, rootPath))
+  f.gradientAt(x) = scalarField.gradientAt(getAtPath(x, rootPath))
+
+The next function is the core function of this module:
+
 == composeDifferentiableScalarFields(options) ==
 
 options is an object of the following form:
@@ -65,6 +80,29 @@ import {
 } from './pojo.js';
 import { isPath, getAtPath, setAtPath } from './path.js';
 
+function expandDomainOfDifferentiableScalarField(scalarField, newDomainRepresentative, rootPath) {
+  assert(isPath(rootPath));
+  assert(POJOsAreStructurallyCongruent(
+    scalarField.domainRepresentative,
+    getAtPath(newDomainRepresentative, rootPath)));
+  let zeroedNewDomainRepresentative = scalarMultiplyPONJO(0, newDomainRepresentative);
+  
+  return {
+    domainRepresentative: newDomainRepresentative,
+    valueAt(x) {
+      assert(POJOsAreStructurallyCongruent(x, newDomainRepresentative));
+      return scalarField.valueAt(getAtPath(x, rootPath));
+    },
+    gradientAt(x) {
+      assert(POJOsAreStructurallyCongruent(x, newDomainRepresentative));
+      let gradient = scalarField.gradientAt(getAtPath(x, rootPath));
+      let result = mapScalars(x => x, zeroedNewDomainRepresentative); // clone
+      setAtPath(result, rootPath, gradient);
+      return result;
+    }
+  };
+}
+
 function composeDifferentiableScalarFields(options) {
   return {
     domainRepresentative: options.domainRepresentative,
@@ -110,6 +148,7 @@ function sumDifferentiableScalarFields(...subfields) {
 }
 
 export {
+  expandDomainOfDifferentiableScalarField,
   composeDifferentiableScalarFields,
   translateDifferentiableScalarField,
   sumDifferentiableScalarFields,

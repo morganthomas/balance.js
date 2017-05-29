@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import {
+  expandDomainOfDifferentiableScalarField,
   composeDifferentiableScalarFields,
   translateDifferentiableScalarField,
   sumDifferentiableScalarFields
@@ -22,6 +23,17 @@ let littleField3 = {
   valueAt: (a) => 3 * a.x,
   gradientAt: (a) => ({ x: 3, y: 0 })
 };
+
+describe('expandDomainOfDifferentiableScalarField', function() {
+  it('works on a typical case', function() {
+
+    let bigField = expandDomainOfDifferentiableScalarField(littleField1, [0, { x: 0, y: 0 }], [1]);
+
+    expect(bigField.domainRepresentative).to.eql([0, { x : 0, y: 0 }]);
+    expect(bigField.valueAt([4, { x: 13, y: -7 }])).to.equal(6);
+    expect(bigField.gradientAt([4, { x: 13, y: -7 }])).to.eql([0, { x: 1, y: 1 }]);
+  });
+});
 
 describe('composeDifferentiableScalarFields', function() {
   let id = x => x;
