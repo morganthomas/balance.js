@@ -4,7 +4,8 @@
 function makePaddingBox(paddingWidth, child) {
   return {
     layoutProblem: {
-      
+      objectiveFunction,
+      initialGuessFunction: 
     },
     render(sln) {
       
