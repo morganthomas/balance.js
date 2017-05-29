@@ -40,7 +40,13 @@ And its gradient can be described by the formula:
      ...,
      subfields[subfields.length-1].gradientAt(inputMappings[subfields.length-1](x))])
 
-A useful common case:
+Some useful common cases:
+
+== translateDifferentiableScalarField(field, vector) ==
+
+Produces a new differentiable scalar field from 'field', where the coordinate system has been
+translated by 'vector', meaning that 'vector' becomes the origin of the coordinate system in 
+the resulting scalar field. 'vector' is added to the inputs before passing them to 'field'.
 
 == sumDifferentiableScalarFields(subfields) ==
 
@@ -77,6 +83,20 @@ function composeDifferentiableScalarFields(options) {
   };
 }
 
+function translateDifferentiableScalarField(field, vector) {
+  return {
+    domainRepresentative: field.domainRepresentative,
+    valueAt(x) {
+      assert(POJOsAreStructurallyCongruent(x, field.domainRepresentative));
+      return field.valueAt(addPONJOs(x, vector));
+    },
+    gradientAt(x) {
+      assert(POJOsAreStructurallyCongruent(x, field.domainRepresentative));
+      return field.gradientAt(addPONJOs(x, vector));
+    }
+  };
+}
+
 function sumDifferentiableScalarFields(...subfields) {
   return composeDifferentiableScalarFields({
     domainRepresentative: subfields[0].domainRepresentative,
@@ -89,5 +109,6 @@ function sumDifferentiableScalarFields(...subfields) {
 
 export {
   composeDifferentiableScalarFields,
+  translateDifferentiableScalarField,
   sumDifferentiableScalarFields,
 };

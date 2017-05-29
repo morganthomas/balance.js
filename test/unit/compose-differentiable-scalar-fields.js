@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import {
   composeDifferentiableScalarFields,
+  translateDifferentiableScalarField,
   sumDifferentiableScalarFields
 } from '../../src/compose-differentiable-scalar-fields.js'
 
@@ -39,6 +40,22 @@ describe('composeDifferentiableScalarFields', function() {
 
     expect(field.valueAt({ x: 7, y: 3 })).to.equal(47.5);
     expect(field.gradientAt({ x: 7, y: 3 })).to.eql({ x: 5.5, y: 10 });
+  });
+});
+
+describe('translateDifferentiableScalarField', function() {
+  it('works on some typical cases', function() {
+    let field = translateDifferentiableScalarField(littleField1, { x: -3, y: 5 });
+    expect(field.valueAt({ x: 0, y: 0 })).to.equal(2);
+    expect(field.gradientAt({ x: 0, y: 0 })).to.eql({ x: 1, y: 1});
+    expect(field.valueAt({ x: 10, y: -4 })).to.equal(8);
+    expect(field.gradientAt({ x: 10, y: -4 })).to.eql({ x: 1, y: 1 });
+
+    field = translateDifferentiableScalarField(littleField2, { x: -3, y: 5 });
+    expect(field.valueAt({ x: 0, y: 0 })).to.equal(-15);
+    expect(field.gradientAt({ x: 0, y: 0 })).to.eql({ x: 5, y: -3 });
+    expect(field.valueAt({ x: 3, y: 3 })).to.equal(0);
+    expect(field.gradientAt({ x: 3, y: 3 })).to.eql({ x: 8, y: 0 });
   });
 });
 
