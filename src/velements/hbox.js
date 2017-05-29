@@ -10,6 +10,7 @@ const plus = (x,y) => x+y;
 
 function makeHBox(options) {
   let velements = options.children;
+
   let unconstrainedDomainRepresentative = {
     children: velements
       .map(el => el.layoutProblem.objectiveFunction.domainRepresentative),
