@@ -1,12 +1,8 @@
+import { makeTrivialOptimizationProblem } from '../../../src/optimization-problem.js';
+
 export default {
-  layoutProblem: {
-    objectiveFunction: {
-      domainRepresentative: { width: 0, height: 0 },
-      valueAt: () => 0,
-      gradientAt: () => ({ width: 0, height: 0 })
-    },
-    initialGuessFunction: (c) => ({ width: c.width || 0, height: c.height || 0 })
-  },
+  layoutProblem: makeTrivialOptimizationProblem({ width: 0, height: 0 }),
+
   render: (sln) => (
     { stroke: { 
       start: { x: 0, y: 0 },

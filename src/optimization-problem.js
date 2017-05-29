@@ -19,15 +19,30 @@ where:
        number equals the number in the same location in the input if the same location in the
        input does not have value null.
 
+== makeTrivialOptimizationProblem(domainRepresentative) ==
+
+Makes an optimization problem with the given domain representative, where the objective function
+is constantly zero, and zero is used as the initial guess for all parameters.
+
+== solveOptimizationProblem(optimizationProblem, constraints) ==
+
 */
 
 import assert from 'assert';
 import { uncmin } from 'numeric';
 import { POJOsAreStructurallyCongruent, isPONJO, isPONuNJO, zipPOJOs, mapScalars } from './pojo.js';
 import { flattenPOJO, unflattenPOJO } from './flatten-pojo.js';
+import { makeConstantScalarField } from './differentiable-scalar-field.js';
 
 let TOLERANCE = 0.0001;
 let MAX_ITERATIONS = 200;
+
+function makeTrivialOptimizationProblem(domainRepresentative) {
+  return {
+    objectiveFunction: makeConstantScalarField(domainRepresentative, 0),
+    initialGuessFunction: (c) => mapScalars(x => x || 0, c)
+  };
+}
 
 function solveOptimizationProblem(optimizationProblem, constraints) {
   let { valueAt, gradientAt, domainRepresentative } = optimizationProblem.objectiveFunction;
@@ -63,4 +78,4 @@ function solveOptimizationProblem(optimizationProblem, constraints) {
   return unflattenPOJO(domainRepresentative, solutionFlat);
 }
 
-export { solveOptimizationProblem };
+export { solveOptimizationProblem, makeTrivialOptimizationProblem };
