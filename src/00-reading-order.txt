@@ -12,3 +12,4 @@ velement.js
 velements/padding-box.js
 scalar-fields/soft-constraint-field.js
 velements/hbox.js
+velements/grid.js
