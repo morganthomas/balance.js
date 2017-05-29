@@ -24,7 +24,7 @@ where:
 Makes an optimization problem with the given domain representative, where the objective function
 is constantly zero, and zero is used as the initial guess for all parameters.
 
-== solveOptimizationProblem(optimizationProblem, constraints) ==
+== solveOptimizationProblem(optimizationProblem) ==
 
 */
 
@@ -44,10 +44,10 @@ function makeTrivialOptimizationProblem(domainRepresentative) {
   };
 }
 
-function solveOptimizationProblem(optimizationProblem, constraints) {
+function solveOptimizationProblem(optimizationProblem) {
   let { valueAt, gradientAt, domainRepresentative } = optimizationProblem.objectiveFunction;
   assert(isPONJO(domainRepresentative));
-  constraints = constraints || mapScalars(() => null, domainRepresentative);
+  let constraints = mapScalars(() => null, domainRepresentative);
   let initialGuess = optimizationProblem.initialGuessFunction(constraints);
   assert(isPONJO(initialGuess));
   assert(POJOsAreStructurallyCongruent(initialGuess, domainRepresentative));

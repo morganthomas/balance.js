@@ -30,14 +30,14 @@ at the given width and height.
 */
 
 import { mapScalars } from './pojo.js';
+import { constrainOptimizationProblem } from './constrain-optimization-problem.js';
 import { solveOptimizationProblem } from './optimization-problem.js';
 
 function renderBoxVElement(velement, width, height) {
   let problem = velement.layoutProblem;
-  let constraints = mapScalars(() => null, problem.objectiveFunction.domainRepresentative);
-  constraints.width = width;
-  constraints.height = height;
-  let solution = solveOptimizationProblem(problem, constraints);
+  let constrainedProblem = constrainOptimizationProblem(problem, [[['width'], width], [['height'], height]]);
+  let constrainedSolution = solveOptimizationProblem(constrainedProblem);
+  let solution = constrainedProblem.unconstrainPONuNJO(constrainedSolution);
   let graphics = velement.render(solution);
   return graphics;
 }
