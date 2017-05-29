@@ -77,6 +77,7 @@ function makeHBox(...velements) {
   );
 
   function render(sln) {
+    sln = layoutProblem.unconstrainPONuNJO(sln);
     let childWidths = sln.children.map(a => a.width);
     let childStartPositions = [];
 
@@ -87,11 +88,9 @@ function makeHBox(...velements) {
     }
 
     return velements.map((e,i) => {
-      let childSln = mapScalars(x => x, sln.children[i]);
-      childSln.height = sln.height; // TODO: this is some kind of undoing constraints which should be automated probably
       return {
         translate: {
-          what: e.render(childSln),
+          what: e.render(sln.children[i]),
           by: { y: 0, x: childStartPositions[i] }
         }
       };
