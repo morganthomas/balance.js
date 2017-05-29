@@ -9,3 +9,5 @@ optimization-problem.js
 constrain-optimization-problem.js
 graphics.js
 velement.js
+velements/padding-box.js
+velements/hbox.js
