@@ -26,25 +26,34 @@ options is an object of the following form:
   {
     domainRepresentative: ...,
     subfields: [ ... ],
+    inputMappings: [ ... ],
     valueAt(x, subfieldValues),
     gradientAt(x, subfieldValues, subfieldGradients),
   }
 
  * domainRepresentative is a PONJO which will represent the domain of the produced scalar field.
- * subfields is an array of differentiable scalar fields with subfields[i].domainRepresentative
-   congruent to domainRepresentative for all i.
+ * subfields is an array of differentiable scalar fields.
+ * inputMappings is an array of functions. inputMappings[i] should expect as input a PONJO
+   congruent to domainRepresentative and should expect as output a PONJO congruent to
+   subfields[i].domainRepresentative.
  * valueAt and gradientAt are functions.
 
 The resulting composed differentiable scalar field can be described by the formula:
 
   f.valueAt(x) = options.valueAt(x,
-    [subfields[0].valueAt(x), ..., subfields[subfields.length-1].valueAt(x)])
+    [subfields[0].valueAt(inputMappings[0](x)),
+     ...,
+     subfields[subfields.length-1].valueAt(inputMappings[subfields.length-1](x))])
 
 And its gradient can be described by the formula:
 
   f.gradientAt(x) = options.gradientAt(x,
-    [subfields[0].valueAt(x), ..., subfields[subfields.length-1].valueAt(x)],
-    [subfields[0].gradientAt(x), ..., subfields[subfields.length-1].gradientAt(x)])
+    [subfields[0].valueAt(inputMappings[0](x)),
+     ...,
+     subfields[subfields.length-1].valueAt(inputMappings[subfields.length-1](x))],
+    [subfields[0].gradientAt(inputMappings[0](x)),
+     ...,
+     subfields[subfields.length-1].gradientAt(inputMappings[subfields.length-1](x))])
 
 A useful common case:
 
@@ -99,8 +108,8 @@ function composeDifferentiableScalarFields(options) {
       assert(POJOsAreStructurallyCongruent(x, options.domainRepresentative));
       return options.gradientAt(
         x, 
-        options.subfields.map(subfield => subfield.valueAt(x)),
-        options.subfields.map(subfield => subfield.gradientAt(x))
+        options.subfields.map((subfield, i) => subfield.valueAt(options.inputMappings[i](x))),
+        options.subfields.map((subfield, i) => subfield.gradientAt(options.inputMappings[i](x)))
       );
     }
   };
@@ -110,6 +119,7 @@ function sumDifferentiableScalarFields(...subfields) {
   return composeDifferentiableScalarFields({
     domainRepresentative: subfields[0].domainRepresentative,
     subfields: subfields,
+    inputMappings: subfields.map(() => (x => x)),
     valueAt: (a, vs) => vs.reduce((x,y) => x+y, 0),
     gradientAt: (a, vs, gs) => addPONJOs(...gs)
   });

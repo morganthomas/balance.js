@@ -35,11 +35,13 @@ describe('expandDomainOfDifferentiableScalarField', function() {
 });
 
 describe('composeDifferentiableScalarFields', function() {
+  let id = x => x;
   it('works on a typical case', function() {
     // (x,y) -> x + y + (x * y) + 1.5x + 2y
     let field = composeDifferentiableScalarFields({
       domainRepresentative: { x: 0, y: 0 },
       subfields: [littleField1, littleField2, littleField3],
+      inputMappings: [id, id, id],
       valueAt: (a, vs) => vs[0] + vs[1] + 0.5 * vs[2] + 2 * a.y,
       gradientAt: (a, vs, gs) => ({ 
         x: gs[0].x + gs[1].x + 0.5 * gs[2].x,
