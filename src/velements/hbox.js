@@ -7,13 +7,6 @@ const WIDTH_DEVIATION_BADNESS_INTENSITY = 1000;
 const INTENSITY = WIDTH_DEVIATION_BADNESS_INTENSITY;
 
 function makeHBox(...velements) {
-  // TODO: this is some kind of manually imposing constraints which should be automated probably
-  function stripHeight(g) {
-    let ng = mapScalars(x => x, g);
-    delete ng.height;
-    return ng;
-  }
-  
   let unconstrainedDomainRepresentative = {
     children: velements
       .map(el => el.layoutProblem.objectiveFunction.domainRepresentative),
