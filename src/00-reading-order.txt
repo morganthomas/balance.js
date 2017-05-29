@@ -10,4 +10,5 @@ constrain-optimization-problem.js
 graphics.js
 velement.js
 velements/padding-box.js
+scalar-fields/soft-constraint-field.js
 velements/hbox.js
