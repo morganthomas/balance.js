@@ -1,2 +1,8 @@
-// This file provides a way of making scalar fields which express soft constraints
-// on some of the parameters.
+/*
+
+This file provides a way of making scalar fields which express soft constraints
+on some of the parameters.
+
+
+
+*/
