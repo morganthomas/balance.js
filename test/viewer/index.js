@@ -3,6 +3,7 @@ import lineFixedSize from './cases/line-fixed-size.js';
 import lineVariableSize from './cases/line-variable-size.js';
 import testBox from './cases/test-box.js';
 import hbox from './cases/hbox.js';
+import hbox2 from './cases/hbox2.js';
 import paddingBox from './cases/padding-box.js';
 import { drawToCanvas } from '../../src/graphics.js';
 import { renderBoxVElement } from '../../src/velement.js';
@@ -12,7 +13,8 @@ const cases = {
   lineVariableSize,
   testBox,
   paddingBox,
-  hbox
+  hbox,
+  hbox2
 };
 
 const app = new Vue({

@@ -8,8 +8,11 @@ on some of the parameters.
 Creates a differentiable scalar field with the given domainRepresentative.
 This field will make the optimizer want to minimize the magnitude of the
 given linearCombination. A linear combination is an array of the form
-[[a1,p1],...,[an,pn]], where each of a1,...,an is a number, and each of
-p1,...,pn is a path in the given domain.
+[[a1,p1,c1],...,[an,pn1,c1]], where each of a1,...,an, c1,...,cn is a
+number, and each of p1,...,pn is a path in the given domain. The
+c1,...,cn are optional. Such an object represents the following formula:
+
+  a1*(p1-c1) + ... + an*(pn-cn)
 
 */
 
@@ -43,7 +46,7 @@ function makeSoftConstraintField(domainRepresentative, linearCombination, intens
 }
 
 function evaluateLinearCombination(combination, x) {
-  return combination.map(term => term[0] * getAtPath(x, term[1])).reduce((x,y)=>x+y, 0);
+  return combination.map(term => term[0] * (getAtPath(x, term[1]) - (term[2] || 0))).reduce((x,y)=>x+y, 0);
 }
 
 export { makeSoftConstraintField }
