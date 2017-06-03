@@ -72,13 +72,33 @@ object of the following form:
  * glueLengths is an array of numbers of length contents.length / 2 (the lengths of each glue object).
  * glueBadnesses is an array of numbers of length contents.length / 2 (the badnesses of each glue object).
 
+Lines satisfy the following conditions:
+
+ 1. length = sum of glueLengths + the lengths of the rigid boxes in contents.
+ 2. badness = sum of glueBadnesses.
+ 3. For all 0 <= i < (contents.length / 2) - 1:
+     glueBadnesses[i] =
+ 4. For i = (contents.length / 2) - 1:
+     glueBadnessis[i] =
+ 5. badness is minimized subject to the preceding constraints.
+
 == solveLinePackingProblem(contentList, lineLengthFunction) ==
 
 Expects contentList to be a content list, and lineLengthFunction to be a line length function.
-Produces as output an array of line objects 'lines,' such that:
+Produces as output an array of line objects 'lines,' each satisfying:
 
- * For all 0 <= i < lines.length, contentList.length === lineLengthFunction(i).
- * 'length' = sum of glueLengths + the lengths of the rigid boxes in 'contents'.
- * badness is equal to the sum of the glueBadnesses.
+1. For all 0 <= i < lines.length, contentList.length === lineLengthFunction(i).
+
+4. badness is minimized subject to the preceding constraints.
+
+
+4. Merging the contents of the lines gives you contentList.
+5. badness is (highly unlikely not to be) as low as possible, subject to the preceding constraints.
+
+== createLine(contentList, length) ==
+
+Returns a line object with contents = contentList and length = length, such that conditions
+1-3 under solveLinePackingProblem are met, and line.badness is minimized subject to those
+conditions.
 
 */
