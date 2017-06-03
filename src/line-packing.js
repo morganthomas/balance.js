@@ -142,7 +142,7 @@ In general solveLinePackingProblem needs to consider every breakpoint list bp
 each line for every such bp. That's a lot of work, though, and the algorithm uses
 heuristics to prune the search space.
 
-A "partial solution" to a line packing problem is an object of the following form:
+DEFINITION. A "partial solution" to a line packing problem is an object of the following form:
 
   {
     breakpointList,
@@ -151,7 +151,7 @@ A "partial solution" to a line packing problem is an object of the following for
     isTolerable,
     unusedBoxes,
     postBreakBox,
-    dead
+    isDead
   }
 
  * breakpointList is a breakpoint list.
@@ -160,9 +160,9 @@ A "partial solution" to a line packing problem is an object of the following for
  * badness is the sum of the badnesses of the lines.
  * isTolerable is a boolean, true iff all lines are tolerable.
  * unusedBoxes is an array of boxes (all the boxes that have yet to be packed into lines
-   in this partial solution).
+   in this partial solution). When unusedBoxes.length = 0, we call this partial solution "complete."
  * postBreakBox is any postBreakBox left over from the line break of the final line.
- * dead is a boolean, indicating whether this partial solution is greyed out as the root of
+ * isDead is a boolean, indicating whether this partial solution is greyed out as the root of
    a non-viable part of the solution tree, meaning that any way of extending this partial
    solution has been deemed non-viable by the algorithm.
 
@@ -232,4 +232,28 @@ In all other cases, we continue on without doing anything in this administrative
 Some condititions not covered should never arise: for example, it should never
 occur that isExhaustive = true and there are no non-dead threads.
 
+We map a complete partial solution to a complete solution, a return value of the algorithm,
+by simply dropping the following properties:
+ * unusedBoxes, which is necessarily [].
+ * isDead, which is necessarily false.
+
+DEFINITION. A "solution" to a line packing problem is an object of the following form:
+  {
+    breakpointList,
+    lines,
+    badness,
+    isTolerable,
+    postBreakBox
+  }
+
+See the definition of "partial solution" for the explanations of these properties.
+
 */
+
+function solveLinePackingProblem(boxes) {
+  return function(lineLengths) {
+    
+  };
+};
+
+export { solveLinePackingProblem }
