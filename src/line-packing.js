@@ -104,14 +104,16 @@ a scroll window where there is unconstrained vertical space; to give that scroll
 a layout problem which lets it compete for space in its ambient context;
 and then, in the render function for that scroll window, to solve the line packing
 problems for the paragraphs and generally the layout problems for whatever is in the
-vertical list that the scroll window displays.
+vertical list that the scroll window displays. In a variant of this approach, the window
+does not scroll, but ignores its height property and uses whatever vertical space it needs.
 
 The cheapest approach to paragraph layout is to give a paragraph box velement a layout problem
 whose objective function is constantly zero, which solves its own line packing problem
 when asked to render itself, using the width it is assigned to set the line lengths,
 and ignoring its height property while drawing in whatever vertical space it needs.
 This could be appropriate if you want to put a paragraph in some empty space where
-you are confident it will never need to scroll.
+you are confident it will never need to scroll, and where nothing will need to be
+positioned below it.
 
 In general solveLinePackingProblem needs to consider every breakpoint list bp
 (whose indices are less than boxes.length), and to look for optimal layout solutions for
