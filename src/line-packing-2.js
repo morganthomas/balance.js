@@ -75,7 +75,7 @@ such that breakpoints[i] < boxes.length for all i. Returns an array of arrays of
 the elements of the lines that are created by turning boxes[j] into a line break for all
 j in breakpoints.
 
-== solveLinePackingProblem(p) ==
+== solveLinePackingProblem(p, tolerance) ==
 
 Returns a nominally optimal solution to the line packing problem p. Specifically, it returns
 an array 'lines' of line objects such that:
@@ -84,5 +84,28 @@ an array 'lines' of line objects such that:
 2. For all i, lines[i].length = p.lineLengths(i).
 3. The sum of lines[i].badness over all i is (unlikely not to be) minimal, subject to the
    preceding constraints.
+
+In general solveLinePackingProblem needs to consider every breakpoint list bp
+(whose indices are less than p.boxes.length), and to look for optimal layout solutions for
+each line for every such bp.
+
+In practice we prune the search space by assuming that the best solution will have all lines
+possessing badness less than the number tolerance. When a line has badness less than tolerance,
+we call that line "feasible." We start by looking for a solution where all lines are feasible.
+If none can be found, then we fall back on considering all possible breakpoint lists.
+
+Here is how we begin searching the solution space. We start building a line by taking boxes off
+the shelf, adding up their optimal lengths and stopping after taking the first box with
+isBreakpoint true such that at that point the sum exceeds the required length of the first line.
+
+We start by considering the following options for the first breakpoint: the index i of the last 
+box we took in the preceding paragraph, and the highest index j < i such that boxes[j].isBreakpoint.
+By construction, the sum of the optimal lengths of boxes through j is less than the length of
+this line.
+
+We look for optimal layouts for the two lines that result from these two breakpoint choices,
+i and j. We hope that at least one of them is feasible. If one of the breakpoints makes a
+feasible line, then we take whichever of the two lines has the least badness (so necessarily
+we are taking a feasible line).
 
 */
