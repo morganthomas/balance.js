@@ -207,4 +207,24 @@ the first box unused in a with isBreakpoint true is the box at the end of the ne
 Prune will remove from the solution space all threads which are an initial segment of some other
 thread(s) in the solution space.
 
+If isExhaustive = false, then Prune will mark as dead all non-dead threads containing an intolerable
+line.
+
+If isExhaustive = false and the non-dead thread count is greater than settings.maxThreads, then
+Prune will mark as dead the most bad threads to bring the count of non-dead threads down to
+settings.maxThreads.
+
+After Prune and before the next Multiply, we check to see if we need, on the one hand,
+to terminate the algorithm, or, on the other hand, to switch from a non-exhaustive search to
+an exhaustive search.
+
+If isExhaustive = false, all non-dead threads are complete, and there is at least one non-dead 
+thread, then we terminate the algorithm and return the least bad thread as the solution.
+
+If isExhaustive = false and there are no non-dead threads, then we switch isExhaustive to true
+and mark all threads as non-dead. (Henceforth the algorithm should not mark any thread as dead.)
+
+If isExhaustive = true and all threads are complete, then we terminate the algorithm and return
+the least bad thread as the solution.
+
 */
