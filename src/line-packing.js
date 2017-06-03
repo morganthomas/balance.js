@@ -79,7 +79,7 @@ objects such that:
 3. The sum of lines[i].badness over all i is (unlikely not to be) minimal, subject to the
    preceding constraints.
 
-Conceptually, solveLinePacking problem can be thought of as a curried function. I will
+Conceptually, solveLinePackingProblem can be thought of as a curried function. I will
 talk about it like that. This currying order allows for easier and more optimized integration
 into the rest of the system (or that's the intent).
 
