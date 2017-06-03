@@ -257,7 +257,8 @@ needs to take.
 == createLine(boxes, length) ==
 
 Expects an array of boxes and a positive number. Returns a corresponding line, of the given
-length, whose velements are the velements of the boxes. 
+length, whose velements are the velements of the boxes. The layoutSolutions are chosen to
+minimize badness.
 
 */
 
