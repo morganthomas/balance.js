@@ -77,9 +77,14 @@ Lines satisfy the following conditions:
  1. length = sum of glueLengths + the lengths of the rigid boxes in contents.
  2. badness = sum of glueBadnesses.
  3. For all 0 <= i < (contents.length / 2) - 1:
-     glueBadnesses[i] =
- 4. For i = (contents.length / 2) - 1:
-     glueBadnessis[i] =
+     glueBadnesses[i] = contents[j].stretchiness * (glueLengths[i] - contents[j].optimalLength)^2
+      where j = 2*i+1
+ 4. For i = (contents.length / 2) - 1, j = contents.length - 1:
+     glueBadnesses[i] = contents[j].breakPenality + (
+       0                                                      if glueLengths[i] = 0
+       contents[j].underfillSensitivity * glueLengths[i]      if glueLengths[i] > 0
+       contents[j].overfillSensitivity * glueLengths[i]       if glueLengths[i] < 0
+     )
  5. badness is minimized subject to the preceding constraints.
 
 == solveLinePackingProblem(contentList, lineLengthFunction) ==
