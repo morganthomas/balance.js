@@ -115,6 +115,15 @@ This could be appropriate if you want to put a paragraph in some empty space whe
 you are confident it will never need to scroll, and where nothing will need to be
 positioned below it.
 
+If the rest of the layout depends on the height of the paragraph in a way not covered
+by the cheaper and cheapest approaches, then you may still be able to get the job done by
+telling the paragraph its width in advance of solving the main layout problem,
+fixing that as a constant of the layout problem, and letting the paragraph tell you its
+height as a function of its width, then fixing that width as a constant of the layout problem.
+I don't know if this will really come up or not. If this idea also doesn't work, you can
+fall back on entangling the paragraph layout problem with the ambient layout problem,
+as described at the start of this Note. End Note.
+
 In general solveLinePackingProblem needs to consider every breakpoint list bp
 (whose indices are less than boxes.length), and to look for optimal layout solutions for
 each line for every such bp.
