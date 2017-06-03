@@ -26,7 +26,7 @@ DEFINITION. A "box" is an object of the following form:
  * isRigid is a boolean, representing whether this velement needs to be its optimalLength
    or whether its length can vary.
  * isBreakpoint is a boolean, representing whether this velement can be replaced with a line
-   break preceded by preBreakBox and followed by postBreakBox.
+   break preceded by the box preBreakBox and followed by the box postBreakBox.
  * preBreakBox and postBreakBox are optional parameters which are only meaningful if isBreakpoint
    is true.
 
@@ -65,10 +65,23 @@ such that breakpoints[i] < boxes.length for all i. Returns an array of arrays of
 the elements of the lines that are created by turning boxes[j] into a line break for all
 j in breakpoints.
 
-== solveLinePackingProblem(boxes, tolerance) ==
+== solveLinePackingProblem(boxes, [settings]) ==
 
  * boxes is an array of boxes.
- * tolerance is a number.
+ * settings is an optional object configuring the optimization algorithm, with the following
+   optional properties:
+    * settings.tolerance is a maximum badness for lines. We say that a line is "tolerable"
+      iff either this setting is absent or the line's badness is less than settings.tolerance.
+      solveLinePackingProblem will not return a solution containing a line with badness
+      greater than settings.tolerance, if possible. The attempt to satisfy this requirement
+      may trigger an exhaustive search of the space of possible breakpoint lists.
+      settings.tolerance is a positive number or Infinity. Supplying settings.tolerance = Infinity
+      is equivalent to not supplying settings.tolerance.
+    * settings.maxThreads is the maximum number of possible solutions that solveLinePackingProblem
+      will concurrently explore (unless it is doing an exhaustive search triggered by an
+      inability to find solutions with tolerable lines). Default value is 7. The value must be
+      a positive integer or Infinity. If settings.maxThreads = Infinity, then solveLinePackingProblem 
+      will do an exhaustive search of the breakpoint list space in every case.
 
 Returns a nominally optimal solution to the given line packing problem. Specifically, it returns
 a function which expects a line length function lineLengths and returns an array 'lines' of line 
@@ -126,53 +139,19 @@ as described at the start of this Note. End Note.
 
 In general solveLinePackingProblem needs to consider every breakpoint list bp
 (whose indices are less than boxes.length), and to look for optimal layout solutions for
-each line for every such bp.
+each line for every such bp. That's a lot of work, though, and the algorithm uses
+heuristics to prune the search space.
 
-In practice we prune the search space by assuming that the best solution will have all lines
-possessing badness less than the number tolerance. When a line has badness less than tolerance,
-we call that line "tolerable." We start by looking for a solution where all lines are tolerable.
-If none can be found, then we fall back on considering all possible breakpoint lists.
-
-Here is how we begin searching the solution space. We start building a line by taking boxes off
-the shelf, adding up their optimal lengths and stopping after taking the first box with
-isBreakpoint true such that at that point the sum exceeds the required length of the first line.
-
-We start by considering the following options for the first breakpoint: the index i of the last 
-box we took in the preceding paragraph, and the highest index j < i such that boxes[j].isBreakpoint.
-By construction, the sum of the optimal lengths of boxes through j is less than the length of
-this line.
-
-We look for optimal layouts for the two lines that result from these two breakpoint choices,
-i and j. We hope that at least one of them is tolerable. If one of the breakpoints makes a
-tolerable line, then we take whichever of the two lines has the least badness (so necessarily
-we are taking a tolerable line).
-
-Supposing this procedure succeeds (i.e. produces a tolerable line), we continue taking off boxes
-in this way to form tolerable lines, until we have used all the boxes. If at any point neither
-of the two possible line breaks we are considering results in a tolerable line, then
-we fall back on brute force searching all possible breakpoint lists.
-
-This brute force search can be thought about as searching through a tree of breakpoint lists,
-where node/breakpoint list a is below b iff a is an initial segment of b. Since the optimal layout
-solution for each line is independent, one can propagate layout solutions for repeated lines
-up the tree. One knows that if one excludes the last line resulting from a breakpoint list a,
-then the sum of the remaining lines' badnesses is a lower bound on the badness of solutions above a
-on the tree. We can therefore prune from the search any node a and all nodes above it if we notice
-that this badness figure excluding the last line for that node is greater than the badness of
-some solution we are aware of.
-
-SECTION: Algorithm, next attempt
-
-The algorithm just sketched may be easier to think about/implement not in terms of a tree of
-breakpoint lists, but in terms of a tree of "partial solutions." A "partial solution" to a line
-packing problem is an object of the following form:
+A "partial solution" to a line packing problem is an object of the following form:
 
   {
     breakpointList,
     lines,
     badness,
     isTolerable,
-    unusedBoxes
+    unusedBoxes,
+    postBreakBox,
+    dead
   }
 
  * breakpointList is a breakpoint list.
@@ -182,28 +161,75 @@ packing problem is an object of the following form:
  * isTolerable is a boolean, true iff all lines are tolerable.
  * unusedBoxes is an array of boxes (all the boxes that have yet to be packed into lines
    in this partial solution).
+ * postBreakBox is any postBreakBox left over from the line break of the final line.
+ * dead is a boolean, indicating whether this partial solution is greyed out as the root of
+   a non-viable part of the solution tree, meaning that any way of extending this partial
+   solution has been deemed non-viable by the algorithm.
 
-Given two partial solutions to the same problem a and b, a is below b in the tree iff a.lines
-is an initial segment of b.lines.
+During problem-solving, the algorithm maintains a list 'threads' of partial solutions.
+Initially, this list contains one partial solution, with an empty breakpoint list,
+an empty array of lines, and unusedBoxes = boxes. The algorithm alternates between two basic steps:
+Multiply, and Prune. During Multiply, the number of threads increases. During Prune, threads are
+removed and marked as dead. There are also various administrative steps in the algorithm, such as
+checking whether the conditions for termination hold.
 
-A partial solution s is "complete" iff s.unusedBoxes.length == 0.
+The behavior of Multiply depends on an internal flag of the algorithm, isExhaustive. By default,
+isExhaustive = false. If settings.maxThreads = Infinity, then isExhaustive = true. Additionally,
+if the algorithm's non-exhaustive search finds no solutions where all lines are tolerable,
+it will set isExhaustive = true; but that step in the algorithm has yet to be described.
 
-The main step in the algorithm is to build as much of the tree as we need to find a
-complete solution with minimal badness.
+If isExhaustive = true, Multiply will add to the solution space all results b of extending one
+non-dead thread a to a partial solution b such that a.breakpointList is an initial segment of
+b.breakpointList, a.lines is an initial segment of b.lines, and b.lines.length = a.lines.length + 1.
+Call b a "one-step extension" of a.
 
-We start by adding the empty partial solution to the tree, which has an empty breakpoint list,
-an empty list of lines, badness 0, and unusedBoxes = boxes.
+If isExhaustive = true, Multiply will also add to the solution space all partial solutions b
+with b.breakpointList.length = 1 such that b is not an initial segment of any thread (in the sense
+described in the previous paragraph).
 
-We iterate the following step until there is at least one complete solution in the tree
-or the tree has no leaves whose lines are all tolerable. We look at all leaves in the tree 
-whose lines are all tolerable. For each one, we look at the two most plausible ways of building
-the next line, and add the corresponding tree elements. 
+If isExhaustive = false, then for each non-dead non-complete thread a, Multiply will add
+to the solution space up to two partial solutions b and c which are one-step extensions of a,
+such that:
 
-Suppose at the end of this process the tree contains a complete leaf with tolerable lines. Then we
-return the least bad leaf with tolerable lines.
+ * i is the new element of b.breakpointList. i is the least number such that the sum of
+   the optimalWidths of the boxes used to produce the new line in b is greater than or equal to 
+   the target length of the new line and such that isBreakpoint is true of the box that falls at
+   the end of the new line according to b.breakpointList. If these conditions on i are
+   unsatisfiable, then let i = boxes.length (representing a break after the end of the box
+   list, so that all the remaining unused boxes are packed into a line).
+ * j is the new element of c.breakpointList. j is the greatest number such that j < i
+   and isBreakpoint is true of the box that falls at the end of the new line according to
+   b.breakpointList. Consequent of the definition, the sum of the optimalWidths of the boxes
+   used to produce the new line in c is less than the target length of the new line.
 
-Suppose, on the other hand, that we end up with no complete leaves with tolerable lines. Then
-we set about doing an exhaustive search of the tree, pruning the branches rooted at any
-partial solution whose badness is greater than the badness of some complete solution.
+Such b will exist. Such c may not exist. For example, such a b may exist without such a c existing if
+the first box unused in a with isBreakpoint true is the box at the end of the new line of b.
+
+Prune will remove from the solution space all threads which are an initial segment of some other
+thread(s) in the solution space.
+
+If isExhaustive = false, then Prune will mark as dead all non-dead threads containing an intolerable
+line.
+
+If isExhaustive = false and the non-dead thread count is greater than settings.maxThreads, then
+Prune will mark as dead the most bad threads to bring the count of non-dead threads down to
+settings.maxThreads.
+
+After Prune and before the next Multiply, we check to see if we need, on the one hand,
+to terminate the algorithm, or, on the other hand, to switch from a non-exhaustive search to
+an exhaustive search.
+
+If isExhaustive = false, all non-dead threads are complete, and there is at least one non-dead 
+thread, then we terminate the algorithm and return the least bad thread as the solution.
+
+If isExhaustive = false and there are no non-dead threads, then we switch isExhaustive to true
+and mark all threads as non-dead. (Henceforth the algorithm should not mark any thread as dead.)
+
+If isExhaustive = true and all threads are complete, then we terminate the algorithm and return
+the least bad thread as the solution.
+
+In all other cases, we continue on without doing anything in this administrative step.
+Some condititions not covered should never arise: for example, it should never
+occur that isExhaustive = true and there are no non-dead threads.
 
 */
