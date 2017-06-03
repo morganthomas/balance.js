@@ -82,8 +82,8 @@ Lines satisfy the following conditions:
  4. For i = (contents.length / 2) - 1, j = contents.length - 1:
      glueBadnesses[i] = contents[j].breakPenality + (
        0                                                      if glueLengths[i] = 0
-       contents[j].underfillSensitivity * glueLengths[i]      if glueLengths[i] > 0
-       contents[j].overfillSensitivity * glueLengths[i]       if glueLengths[i] < 0
+       contents[j].underfillSensitivity * glueLengths[i]^2    if glueLengths[i] > 0
+       contents[j].overfillSensitivity * glueLengths[i]^2     if glueLengths[i] < 0
      )
  5. badness is minimized subject to the preceding constraints.
 
