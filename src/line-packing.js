@@ -74,4 +74,11 @@ object of the following form:
 
 == solveLinePackingProblem(contentList, lineLengthFunction) ==
 
+Expects contentList to be a content list, and lineLengthFunction to be a line length function.
+Produces as output an array of line objects 'lines,' such that:
+
+ * For all 0 <= i < lines.length, contentList.length === lineLengthFunction(i).
+ * 'length' = sum of glueLengths + the lengths of the rigid boxes in 'contents'.
+ * badness is equal to the sum of the glueBadnesses.
+
 */
