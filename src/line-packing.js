@@ -88,12 +88,8 @@ Expects contentList to be a content list, and lineLengthFunction to be a line le
 Produces as output an array of line objects 'lines,' each satisfying:
 
 1. For all 0 <= i < lines.length, contentList.length === lineLengthFunction(i).
-
-4. badness is minimized subject to the preceding constraints.
-
-
-4. Merging the contents of the lines gives you contentList.
-5. badness is (highly unlikely not to be) as low as possible, subject to the preceding constraints.
+2. Merging the contents of the lines gives you contentList.
+3. The sum of the badness of the lines is minimized subject to the preceding constraints.
 
 == createLine(contentList, length) ==
 
