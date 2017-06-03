@@ -12,7 +12,7 @@ given linearCombination. A linear combination is an array of the form
 number, and each of p1,...,pn is a path in the given domain. The
 c1,...,cn are optional. The following formula represents the returned scalar field:
 
-  intensity * (a1*(p1-c1) + ... + an*(pn-cn)) + base
+  intensity * ((a1*(p1-c1) + ... + an*(pn-cn)) + base)^2
 
 'intensity' is a coefficient applied to the whole formula.
 

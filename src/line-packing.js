@@ -264,8 +264,12 @@ the end of the line.
 
 */
 
-import { composeDifferentiableScalarFields } from './compose-differentiable-scalar-fields.js';
+import { 
+  sumDifferentiableScalarFields,
+  expandDomainOfDifferentiableScalarField 
+} from './compose-differentiable-scalar-fields.js';
 import { makeSoftConstraintField } from './scalar-fields/soft-constraint-field.js';
+import { solveOptimizationProblem } from './optimization-problem.js';
 
 function solveLinePackingProblem(boxes) {
   return function(lineLengths) {
@@ -286,12 +290,35 @@ function createLine(boxes, length) {
   // start building the optimization problem to find the layoutSolutions
   let domainRepresentative = velements.map(
     el => el.layoutProblem.objectiveFunction.domainRepresentative);
+  let totalLengthConstraint = 
+      makeSoftConstraintField(
+        domainRepresentative,
+        boxes2.map((box,i) => [1,[i].concat(box.lengthParameter),0]),
+        undefined,
+        -length);
 
-  let combinedObjectiveFunction = composeDifferentiableScalarFields({
-    domainRepresentative,
-    subfields: [
-    ]
-  });
+  let objectiveFunction = sumDifferentiableScalarFields(
+    totalLengthConstraint, 
+    ...velements.map(
+      (el,i) => expandDomainOfDifferentiableScalarField(
+        el.layoutProblem.objectiveFunction,
+        domainRepresentative,
+        [i]))
+  );
+
+  function initialGuessFunction(constraints) {
+    return constraints.map((c,i) => velements[i].layoutProblem.initialGuessFunction(c));
+  }
+
+  let optimizationProblem = {
+    objectiveFunction,
+    initialGuessFunction
+  };
+
+  let layoutSolutions = solveOptimizationProblem(optimizationProblem);
+
+  let solutionBadnesses = layoutSolutions.map((sol, i) => velements[i].layoutProblem.objectiveFunction.valueAt(sol));
+  let badness = solutionBadnesses.reduce((a,b) => a+b);
 
   return {
     velements,

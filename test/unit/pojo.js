@@ -79,6 +79,7 @@ describe('isPONJO', function() {
     expect(isPONJO({})).to.be.true;
     expect(isPONJO({ x: 5 })).to.be.true;
     expect(isPONJO({ x: { y: 0.13, z: [0.0, { x: -13.5 }] } })).to.be.true;
+    expect(isPONJO([{ width: 0, height: 0 }, { width: 0, height: 0 }, { width: 0, height: 0 }])).to.be.true;
   });
 
   it('should categorize non-PONJOs as non-PONJOs', function() {
