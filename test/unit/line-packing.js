@@ -6,6 +6,7 @@ const rigidBox100 = testBoxes.rigidBox100;
 const rigidBox200 = testBoxes.rigidBox200;
 const nonBreakingFillBox = testBoxes.nonBreakingFillBox;
 const breakingFillBox = testBoxes.breakingFillBox;
+const breakingFillBoxWithPreAndPost = testBoxes.breakingFillBoxWithPreAndPost;
 
 let velements = {};
 for (let boxName in testBoxes) {
@@ -96,6 +97,34 @@ describe('createLine', () => {
       length: 225,
       badness: 0,
       postBreakBox: undefined
+    });
+  });
+
+  it('works with a post break box', () => {
+    let boxes = [
+      rigidBox100,
+      nonBreakingFillBox,
+      rigidBox100,
+      breakingFillBoxWithPreAndPost
+    ];
+    let line = createLine(boxes, 400);
+    expect(line).to.eql({
+      velements: [
+        velements.rigidBox100,
+        velements.nonBreakingFillBox,
+        velements.rigidBox100,
+        velements.rigidBox100
+      ],
+      layoutSolutions: [
+        { height: 0, width: 100 },
+        { height: 0, width: 100 },
+        { height: 0, width: 100 },
+        { height: 0, width: 100 },
+      ],
+      solutionBadnesses: [0, 0, 0, 0],
+      length: 400,
+      badness: 0,
+      postBreakBox: rigidBox100
     });
   });
 });

@@ -271,7 +271,22 @@ function solveLinePackingProblem(boxes) {
 }
 
 function createLine(boxes, length) {
+  let lastBox = boxes[boxes.length - 1];
+  let postBreakBox = lastBox.isBreakpoint ? lastBox.postBreakBox : undefined;
+  let boxes2 = lastBox.isBreakpoint ?
+      boxes.map((box,i) => i === boxes.length - 1 ?
+                lastBox.preBreakBox :
+                box).filter(box => box !== undefined) :
+      boxes;
 
+  return {
+    velements,
+    layoutSolutions,
+    solutionBadnesses,
+    length,
+    badness,
+    postBreakBox
+  };
 }
 
 export { solveLinePackingProblem, createLine }
