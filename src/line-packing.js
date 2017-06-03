@@ -46,4 +46,21 @@ A "glue" object is an object of the following form:
  * postBreakInsertion is a content list, inserted at the beginning of any subsequent line directly 
    after any line for which this glue is a line break.
 
+The final output of the line packing algorithm is an array of "line" objects. A "line" is an
+object of the following form:
+
+  {
+    contents,
+    length,
+    badness,
+    glueLengths,
+    glueBadnesses
+  }
+
+ * 'contents' is a content list (what is in the line).
+ * 'length' is a non-negative number (the length of the line).
+ * 'badness' is a number (the badness of the line).
+ * glueLengths is an array of numbers of length contents.length / 2 (the lengths of each glue object).
+ * glueBadnesses is an array of numbers of length contents.length / 2 (the badnesses of each glue object).
+
 */
