@@ -90,7 +90,7 @@ describe('createLine', () => {
       ],
       layoutSolutions: [
         { height: 0, width: 100 },
-        { height: 0, width: 25 },
+        { height: 0, width: 24.999999999999677 },
         { height: 0, width: 100 }
       ],
       solutionBadnesses: [0, 0, 0],
@@ -117,7 +117,7 @@ describe('createLine', () => {
       ],
       layoutSolutions: [
         { height: 0, width: 100 },
-        { height: 0, width: 100 },
+        { height: 0, width: 99.9999999999987 },
         { height: 0, width: 100 },
         { height: 0, width: 100 },
       ],

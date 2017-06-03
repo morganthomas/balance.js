@@ -9,5 +9,9 @@ describe('makeSoftConstraintField', () => {
       undefined,
       -7);
     expect(field.valueAt([{ height: 0, width: 3.5 }, { height: 0, width: 3.5 }])).to.equal(0);
+    expect(field.gradientAt([{ height: 0, width: 3.5 }, { height: 0, width: 3.5 }])).to.eql([
+      { height: 0, width: 0 },
+      { height: 0, width: 0 }
+    ]);
   });
 });
