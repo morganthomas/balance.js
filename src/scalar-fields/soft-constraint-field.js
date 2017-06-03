@@ -3,16 +3,16 @@
 This file provides a way of making scalar fields which express soft constraints
 on some of the parameters.
 
-== makeSoftConstraintField(domainRepresentative, linearCombination, intensity) ==
+== makeSoftConstraintField(domainRepresentative, linearCombination, intensity, base) ==
 
 Creates a differentiable scalar field with the given domainRepresentative.
 This field will make the optimizer want to minimize the magnitude of the
 given linearCombination. A linear combination is an array of the form
 [[a1,p1,c1],...,[an,pn1,c1]], where each of a1,...,an, c1,...,cn is a
 number, and each of p1,...,pn is a path in the given domain. The
-c1,...,cn are optional. Such an object represents the following formula:
+c1,...,cn are optional. The following formula represents the returned scalar field:
 
-  a1*(p1-c1) + ... + an*(pn-cn)
+  intensity * (a1*(p1-c1) + ... + an*(pn-cn)) + base
 
 'intensity' is a coefficient applied to the whole formula.
 
@@ -24,13 +24,14 @@ import { getAtPath, setAtPath } from '../path.js';
 
 const DEFAULT_INTENSITY = 1000;
 
-function makeSoftConstraintField(domainRepresentative, linearCombination, intensity) {
+function makeSoftConstraintField(domainRepresentative, linearCombination, intensity, base) {
   intensity = intensity || DEFAULT_INTENSITY;
+  base = base || 0;
   return {
     domainRepresentative,
     valueAt(x) {
       assert(POJOsAreStructurallyCongruent(domainRepresentative, x));
-      let deviation = evaluateLinearCombination(linearCombination, x);
+      let deviation = evaluateLinearCombination(linearCombination, x) + base;
       return intensity * deviation * deviation;
     },
     gradientAt(x) {
