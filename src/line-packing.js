@@ -97,8 +97,6 @@ Produces as output an array of line objects 'lines,' each satisfying:
 
 == createLine(contentList, length) ==
 
-Returns a line object with contents = contentList and length = length, such that conditions
-1-3 under solveLinePackingProblem are met, and line.badness is minimized subject to those
-conditions.
+Returns a line object with contents = contentList and length = length.
 
 */
