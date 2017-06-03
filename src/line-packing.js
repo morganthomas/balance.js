@@ -130,7 +130,7 @@ each line for every such bp.
 
 In practice we prune the search space by assuming that the best solution will have all lines
 possessing badness less than the number tolerance. When a line has badness less than tolerance,
-we call that line "feasible." We start by looking for a solution where all lines are feasible.
+we call that line "tolerable." We start by looking for a solution where all lines are tolerable.
 If none can be found, then we fall back on considering all possible breakpoint lists.
 
 Here is how we begin searching the solution space. We start building a line by taking boxes off
@@ -143,13 +143,13 @@ By construction, the sum of the optimal lengths of boxes through j is less than 
 this line.
 
 We look for optimal layouts for the two lines that result from these two breakpoint choices,
-i and j. We hope that at least one of them is feasible. If one of the breakpoints makes a
-feasible line, then we take whichever of the two lines has the least badness (so necessarily
-we are taking a feasible line).
+i and j. We hope that at least one of them is tolerable. If one of the breakpoints makes a
+tolerable line, then we take whichever of the two lines has the least badness (so necessarily
+we are taking a tolerable line).
 
-Supposing this procedure succeeds (i.e. produces a feasible line), we continue taking off boxes
-in this way to form feasible lines, until we have used all the boxes. If at any point neither
-of the two possible line breaks we are considering results in a feasible line, then
+Supposing this procedure succeeds (i.e. produces a tolerable line), we continue taking off boxes
+in this way to form tolerable lines, until we have used all the boxes. If at any point neither
+of the two possible line breaks we are considering results in a tolerable line, then
 we fall back on brute force searching all possible breakpoint lists.
 
 This brute force search can be thought about as searching through a tree of breakpoint lists,
@@ -160,5 +160,50 @@ then the sum of the remaining lines' badnesses is a lower bound on the badness o
 on the tree. We can therefore prune from the search any node a and all nodes above it if we notice
 that this badness figure excluding the last line for that node is greater than the badness of
 some solution we are aware of.
+
+SECTION: Algorithm, next attempt
+
+The algorithm just sketched may be easier to think about/implement not in terms of a tree of
+breakpoint lists, but in terms of a tree of "partial solutions." A "partial solution" to a line
+packing problem is an object of the following form:
+
+  {
+    breakpointList,
+    lines,
+    badness,
+    isTolerable,
+    unusedBoxes
+  }
+
+ * breakpointList is a breakpoint list.
+ * lines is an array of lines, produced by applying breakpointList (with unusedBoxes possibly
+   containing the last line of velements from breakBoxes(boxes, breakpointList)).
+ * badness is the sum of the badnesses of the lines.
+ * isTolerable is a boolean, true iff all lines are tolerable.
+ * unusedBoxes is an array of boxes (all the boxes that have yet to be packed into lines
+   in this partial solution).
+
+Given two partial solutions to the same problem a and b, a is below b in the tree iff a.lines
+is an initial segment of b.lines.
+
+A partial solution s is "complete" iff s.unusedBoxes.length == 0.
+
+The main step in the algorithm is to build as much of the tree as we need to find a
+complete solution with minimal badness.
+
+We start by adding the empty partial solution to the tree, which has an empty breakpoint list,
+an empty list of lines, badness 0, and unusedBoxes = boxes.
+
+We iterate the following step until there is at least one complete solution in the tree
+or the tree has no leaves whose lines are all tolerable. We look at all leaves in the tree 
+whose lines are all tolerable. For each one, we look at the two most plausible ways of building
+the next line, and add the corresponding tree elements. 
+
+Suppose at the end of this process the tree contains a complete leaf with tolerable lines. Then we
+return the least bad leaf with tolerable lines.
+
+Suppose, on the other hand, that we end up with no complete leaves with tolerable lines. Then
+we set about doing an exhaustive search of the tree, pruning the branches rooted at any
+partial solution whose badness is greater than the badness of some complete solution.
 
 */
