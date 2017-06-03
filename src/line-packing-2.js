@@ -75,6 +75,7 @@ j in breakpoints.
       solveLinePackingProblem will not return a solution containing a line with badness
       greater than settings.tolerance, if possible. The attempt to satisfy this requirement
       may trigger an exhaustive search of the space of possible breakpoint lists.
+      settings.tolerance is a positive number.
     * settings.maxThreads is the maximum number of possible solutions that solveLinePackingProblem
       will concurrently explore (unless it is doing an exhaustive search triggered by an
       inability to find solutions with tolerable lines). Default value is 7. The value must be
@@ -160,6 +161,16 @@ A "partial solution" to a line packing problem is an object of the following for
 
 During problem-solving, the algorithm maintains a list 'threads' of partial solutions.
 Initially, this list contains one partial solution, with an empty breakpoint list,
-an empty array of lines, and unusedBoxes = boxes.
+an empty array of lines, and unusedBoxes = boxes. The algorithm alternates between two basic steps:
+Multiply, and Prune. During Multiply, the number of threads increases. During Prune, the number
+of threads decreases. There are also various administrative steps in the algorithm, such as
+checking whether the conditions for termination hold.
+
+The behavior of Multiply depends on an internal flag of the algorithm, isExhaustive. By default,
+isExhaustive = false. If settings.maxThreads = Infinity, then isExhaustive = true. Additionally,
+if the algorithm's non-exhaustive search finds no solutions where all lines are tolerable,
+it will set isExhaustive = true; but that step in the algorithm has yet to be described.
+
+
 
 */
