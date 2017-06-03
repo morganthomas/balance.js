@@ -108,4 +108,9 @@ i and j. We hope that at least one of them is feasible. If one of the breakpoint
 feasible line, then we take whichever of the two lines has the least badness (so necessarily
 we are taking a feasible line).
 
+Supposing this procedure succeeds (i.e. produces a feasible line), we continue taking off boxes
+in this way to form feasible lines, until we have used all the boxes. If at any point neither
+of the two possible line breaks we are considering results in a feasible line, then
+we fall back on brute force searching all possible breakpoint lists.
+
 */
