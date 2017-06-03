@@ -81,7 +81,14 @@ objects such that:
 
 Conceptually, solveLinePackingProblem can be thought of as a curried function. I will
 talk about it like that. This currying order allows for easier and more optimized integration
-into the rest of the system (or that's the intent).
+into the rest of the system (or that's the intent). When line packing problems are used
+as the basis of velement layout problems, they will need to be called repeatedly in the course
+of gradient descent optimization. This should be possible to do reasonably efficiently 
+by keeping track, within the closure returned by solveLinePackingProblem, of the most
+recently generated solution and various intermediate steps used to generate it. This
+record of the last solution can be used as a starting point and adjusted to produce the
+next solution, which should be inexpensive when the last input is close in value to the
+next input.
 
 In general solveLinePackingProblem needs to consider every breakpoint list bp
 (whose indices are less than boxes.length), and to look for optimal layout solutions for
