@@ -26,7 +26,7 @@ DEFINITION. A "box" is an object of the following form:
  * isRigid is a boolean, representing whether this velement needs to be its optimalLength
    or whether its length can vary.
  * isBreakpoint is a boolean, representing whether this velement can be replaced with a line
-   break preceded by preBreakBox and followed by postBreakBox.
+   break preceded by the box preBreakBox and followed by the box postBreakBox.
  * preBreakBox and postBreakBox are optional parameters which are only meaningful if isBreakpoint
    is true.
 
@@ -149,6 +149,7 @@ A "partial solution" to a line packing problem is an object of the following for
     badness,
     isTolerable,
     unusedBoxes,
+    postBreakBox,
     dead
   }
 
@@ -159,6 +160,7 @@ A "partial solution" to a line packing problem is an object of the following for
  * isTolerable is a boolean, true iff all lines are tolerable.
  * unusedBoxes is an array of boxes (all the boxes that have yet to be packed into lines
    in this partial solution).
+ * postBreakBox is any postBreakBox left over from the line break of the final line.
  * dead is a boolean, indicating whether this partial solution is greyed out as the root of
    a non-viable part of the solution tree, meaning that any way of extending this partial
    solution has been deemed non-viable by the algorithm.
@@ -184,12 +186,23 @@ If isExhaustive = true, Multiply will also add to the solution space all partial
 with b.breakpointList.length = 1 such that b is not an initial segment of any thread (in the sense
 described in the previous paragraph).
 
-If isExhaustive = false, then for each non-dead thred a, Multiply will add to the solution space
-up to two partial solutions b and c which are one-step extensions of a, such that:
+If isExhaustive = false, then for each non-dead non-complete thread a, Multiply will add
+to the solution space up to two partial solutions b and c which are one-step extensions of a,
+such that:
 
- * i is the  new element of b.breakpointList. i is the least number such that the sum of
-   the optimalWidths of the boxes used to produce the new line is greater than the target
-   length of the new line.
+ * i is the new element of b.breakpointList. i is the least number such that the sum of
+   the optimalWidths of the boxes used to produce the new line in b is greater than or equal to 
+   the target length of the new line and such that isBreakpoint is true of the box that falls at
+   the end of the new line according to b.breakpointList. If these conditions on i are
+   unsatisfiable, then let i = boxes.length (representing a break after the end of the box
+   list, so that all the remaining unused boxes are packed into a line).
+ * j is the new element of c.breakpointList. j is the greatest number such that j < i
+   and isBreakpoint is true of the box that falls at the end of the new line according to
+   b.breakpointList. Consequent of the definition, the sum of the optimalWidths of the boxes
+   used to produce the new line in c is less than the target length of the new line.
+
+Such b will exist. Such c may not exist. For example, such a b may exist without such a c existing if
+the first box with isBreakpoint true is the box at the end of the new line of b.
 
 Prune will remove from the solution space all threads which are an initial segment of some other
 thread(s) in the solution space.
