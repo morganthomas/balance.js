@@ -1,5 +1,5 @@
-import { makeTestBox } from '../make-test-box.js';
-import { BLACK } from '../colors.js';
+import { makeTestBox } from '../../lib/test-box.js';
+import { BLACK } from '../../lib/colors.js';
 import { makePaddingBox } from '../../../src/velements/padding-box.js';
 
 export default makePaddingBox(5, makeTestBox(BLACK));
