@@ -264,6 +264,9 @@ the end of the line.
 
 */
 
+import { composeDifferentiableScalarFields } from './compose-differentiable-scalar-fields.js';
+import { makeSoftConstraintField } from './scalar-fields/soft-constraint-field.js';
+
 function solveLinePackingProblem(boxes) {
   return function(lineLengths) {
     
@@ -279,6 +282,16 @@ function createLine(boxes, length) {
                 box).filter(box => box !== undefined) :
       boxes;
   let velements = boxes2.map(box => box.velement);
+
+  // start building the optimization problem to find the layoutSolutions
+  let domainRepresentative = velements.map(
+    el => el.layoutProblem.objectiveFunction.domainRepresentative);
+
+  let combinedObjectiveFunction = composeDifferentiableScalarFields({
+    domainRepresentative,
+    subfields: [
+    ]
+  });
 
   return {
     velements,
