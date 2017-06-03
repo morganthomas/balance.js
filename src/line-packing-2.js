@@ -227,4 +227,8 @@ and mark all threads as non-dead. (Henceforth the algorithm should not mark any 
 If isExhaustive = true and all threads are complete, then we terminate the algorithm and return
 the least bad thread as the solution.
 
+In all other cases, we continue on without doing anything in this administrative step.
+Some condititions not covered should never arise: for example, it should never
+occur that isExhaustive = true and there are no non-dead threads.
+
 */
