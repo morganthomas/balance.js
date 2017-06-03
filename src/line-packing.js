@@ -1,103 +1,116 @@
 /*
 
 This module solves the problem of "line packing." This is the problem of fitting a finite number
-of "rigid boxes" separated by variable-length "glue" into an initial segment of an infinite
-sequence of "lines," each of fixed length. Prototypical applications are breaking words into lines
-to form paragraphs, and breaking lines up across pages.
+of "boxes" into a finite sequence of lines whose lengths are drawn from a given infinite sequence
+of lengths. Prototypical applications are breaking words into lines to form paragraphs, and
+breaking lines up across pages.
 
-The line packing problem requires two things as input: a "content list," and a "line length function."
+To specify a line packing problem requires two things: an array of "boxes," and a "line length
+function."
 
-DEF:
-A "content list" is an array whose length is even, where every even-indexed element is a "rigid box,"
-and every odd-indexed element is a "glue" object.
-
-DEF:
-A "line length function" is a function which expects as input a non-negative integer, and produces
-as output a non-negative number. It represents an infinite sequence of line lengths.
-
-DEF:
-A "rigid box" is an object of the following form:
-
+DEFINITION. A "box" is an object of the following form:
   {
-    length,
-    content
-  }
-
- * 'length' is a positive number.
- * 'content' is a JavaScript object. This module doesn't care what it is. It's there for the
-   benefit of the users of the module. Typically this would be a velement.
-
-DEF:
-A "glue" object is an object of the following form:
-
-  {
+    velement,
+    lengthParameter,
     optimalLength,
-    stretchiness,
-    breakPenalty,
-    overfillSensitivity,
-    underfillSensitivity,
-    preBreakInsertion,
-    postBreakInsertion
+    isRigid,
+    isBreakpoint,
+    [preBreakBox,]
+    [postBreakBox]
   }
 
- * optimalLength is a positive number, representing the length which this glue would most like to be.
- * stretchiness is a non-negative number, which is used as a coefficient scaling the badness caused
-   by deviation of the glue's actual length from its optimalLength.
- * breakPenalty is a number, which is added to the badness of a solution for which this glue
-   is a line break (more on this later).
- * overfillSensitivity is a number, which is used as a coefficient scaling the badness caused by
-   overfilling a line for which this glue is a line break.
- * underfillSensitivity is a number, which is used as a coefficient scaling the badness caused by
-   underfilling a line for which this glue is a line break.
- * preBreakInsertion is a content list, inserted at the end of any line for which this glue is a 
-   line break.
- * postBreakInsertion is a content list, inserted at the beginning of any subsequent line directly 
-   after any line for which this glue is a line break.
+ * velement is a velement.
+ * lengthParameter is a path into velement.layoutProblem.objectiveFunction.domainRepresentative.
+   E.g. when line breaking English to make a paragraph, lengthParameter is ['width'].
+   When page breaking, lengthParameter is ['height'].
+ * optimalLength is a number, presumed to be an optimal setting for lengthParameter.
+ * isRigid is a boolean, representing whether this velement needs to be its optimalLength
+   or whether its length can vary.
+ * isBreakpoint is a boolean, representing whether this velement can be replaced with a line
+   break preceded by preBreakBox and followed by postBreakBox.
+ * preBreakBox and postBreakBox are optional parameters which are only meaningful if isBreakpoint
+   is true.
 
-DEF:
-The final output of the line packing algorithm is an array of "line" objects. A "line" is an
-object of the following form:
+DEFINITION. A "line length function" is a function which expects as input a non-negative integer,
+and produces as output a non-negative number. It represents an infinite sequence of line lengths.
 
+DEFINITION. A "line packing problem" is an object of the form
   {
-    contents,
-    length,
-    badness,
-    glueLengths,
-    glueBadnesses
+    boxes,
+    lineLengths
   }
 
- * 'contents' is a content list (what is in the line).
- * 'length' is a non-negative number (the length of the line).
- * 'badness' is a number (the badness of the line).
- * glueLengths is an array of numbers of length contents.length / 2 (the lengths of each glue object).
- * glueBadnesses is an array of numbers of length contents.length / 2 (the badnesses of each glue object).
+ * boxes is an array of boxes.
+ * lineLengths is a function expecting a non-negative integer and producing a number.
+   It represents an infinite sequence of lengths, the sequence used to set the line lengths.
 
-Lines satisfy the following conditions:
+A solution to a line packing problem is an array of "line" objects.
 
- 1. length = sum of glueLengths + the lengths of the rigid boxes in contents.
- 2. badness = sum of glueBadnesses.
- 3. For all 0 <= i < (contents.length / 2) - 1:
-     glueBadnesses[i] = contents[j].stretchiness * (glueLengths[i] - contents[j].optimalLength)^2
-      where j = 2*i+1
- 4. For i = (contents.length / 2) - 1, j = contents.length - 1:
-     glueBadnesses[i] = contents[j].breakPenality + (
-       0                                                      if glueLengths[i] = 0
-       contents[j].underfillSensitivity * glueLengths[i]^2    if glueLengths[i] > 0
-       contents[j].overfillSensitivity * glueLengths[i]^2     if glueLengths[i] < 0
-     )
- 5. badness is minimized subject to the preceding constraints.
+DEFINITION. A "line" is an object of the following form:
+  {
+    velements,
+    layoutSolutions,
+    solutionBadnesses,
+    length,
+    badness
+  }
 
-== solveLinePackingProblem(contentList, lineLengthFunction) ==
+such that:
 
-Expects contentList to be a content list, and lineLengthFunction to be a line length function.
-Produces as output an array of line objects 'lines,' each satisfying:
+1. velements is an array of velements.
+2. layoutSolutions is an array of PONJOs, the same length as velements, where for all i,
+   layoutSolutions[i] is a solution to velements[i].layoutProblem.
+3. solutionBadnesses is an array of numbers, the same length as velements, where for all i,
+   solutionBadnesses[i] = velements[i].layoutProblem.objectiveFunction(layoutSolutions[i]).
+4. length is a number, equal to the sum over all i of
+     getAtPath(layoutSolutions[i], boxes[i].lengthParameter).
+5. badness = sum of solutionBadnesses.
 
-1. For all 0 <= i < lines.length, contentList.length === lineLengthFunction(i).
-2. Merging the contents of the lines gives you contentList.
-3. The sum of the badnesses of the lines is minimized subject to the preceding constraints.
+DEFINITION. A "breakpoint list" is a list of non-negative integers in ascending order.
 
-== createLine(contentList, length) ==
+== breakBoxes(boxes, breakpoints) ==
 
-Returns a line object with contents = contentList and length = length.
+Expects 'boxes' to be an array of boxes and 'breakpoints' to be a breakpoint list,
+such that breakpoints[i] < boxes.length for all i. Returns an array of arrays of velements,
+the elements of the lines that are created by turning boxes[j] into a line break for all
+j in breakpoints.
+
+== solveLinePackingProblem(p, tolerance) ==
+
+Returns a nominally optimal solution to the line packing problem p. Specifically, it returns
+an array 'lines' of line objects such that:
+
+1. For some breakpoint list bp, lines.map(l => l.velements) = breakBoxes(p.boxes, bp).
+2. For all i, lines[i].length = p.lineLengths(i).
+3. The sum of lines[i].badness over all i is (unlikely not to be) minimal, subject to the
+   preceding constraints.
+
+In general solveLinePackingProblem needs to consider every breakpoint list bp
+(whose indices are less than p.boxes.length), and to look for optimal layout solutions for
+each line for every such bp.
+
+In practice we prune the search space by assuming that the best solution will have all lines
+possessing badness less than the number tolerance. When a line has badness less than tolerance,
+we call that line "feasible." We start by looking for a solution where all lines are feasible.
+If none can be found, then we fall back on considering all possible breakpoint lists.
+
+Here is how we begin searching the solution space. We start building a line by taking boxes off
+the shelf, adding up their optimal lengths and stopping after taking the first box with
+isBreakpoint true such that at that point the sum exceeds the required length of the first line.
+
+We start by considering the following options for the first breakpoint: the index i of the last 
+box we took in the preceding paragraph, and the highest index j < i such that boxes[j].isBreakpoint.
+By construction, the sum of the optimal lengths of boxes through j is less than the length of
+this line.
+
+We look for optimal layouts for the two lines that result from these two breakpoint choices,
+i and j. We hope that at least one of them is feasible. If one of the breakpoints makes a
+feasible line, then we take whichever of the two lines has the least badness (so necessarily
+we are taking a feasible line).
+
+Supposing this procedure succeeds (i.e. produces a feasible line), we continue taking off boxes
+in this way to form feasible lines, until we have used all the boxes. If at any point neither
+of the two possible line breaks we are considering results in a feasible line, then
+we fall back on brute force searching all possible breakpoint lists.
 
 */
