@@ -75,7 +75,8 @@ j in breakpoints.
       solveLinePackingProblem will not return a solution containing a line with badness
       greater than settings.tolerance, if possible. The attempt to satisfy this requirement
       may trigger an exhaustive search of the space of possible breakpoint lists.
-      settings.tolerance is a positive number.
+      settings.tolerance is a positive number or Infinity. Supplying settings.tolerance = Infinity
+      is equivalent to not supplying settings.tolerance.
     * settings.maxThreads is the maximum number of possible solutions that solveLinePackingProblem
       will concurrently explore (unless it is doing an exhaustive search triggered by an
       inability to find solutions with tolerable lines). Default value is 7. The value must be
