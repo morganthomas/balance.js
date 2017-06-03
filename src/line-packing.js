@@ -278,6 +278,7 @@ function createLine(boxes, length) {
                 lastBox.preBreakBox :
                 box).filter(box => box !== undefined) :
       boxes;
+  let velements = boxes2.map(box => box.velement);
 
   return {
     velements,
