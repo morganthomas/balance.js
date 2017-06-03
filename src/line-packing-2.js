@@ -57,7 +57,13 @@ DEFINITION. A "line" is an object of the following form:
 
 such that:
 
-1. 
+1. velements is an array of velements.
+2. layoutSolutions is an array of PONJOs, the same length as velements, where for all i,
+   layoutSolutions[i] is a solution to velements[i].layoutProblem.
+3. solutionBadnesses is an array of numbers, the same length as velements, where for all i,
+   solutionBadnesses[i] = velements[i].layoutProblem.objectiveFunction(layoutSolutions[i]).
+4. length is a number, equal to the sum over all i of
+     getAtPath(layoutSolutions[i], boxes[i].lengthParameter).
 
 == solveLinePackingProblem(p) ==
 
