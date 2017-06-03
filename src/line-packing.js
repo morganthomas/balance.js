@@ -258,7 +258,9 @@ needs to take.
 
 Expects an array of boxes and a positive number. Returns a corresponding line, of the given
 length, whose velements are the velements of the boxes. The layoutSolutions are chosen to
-minimize badness.
+minimize badness. If the last box is breakable, then it will be destroyed; any postBreakBox
+will be returned as a property of the returned line; and any preBreakBox will be inserted at
+the end of the line.
 
 */
 
