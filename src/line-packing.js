@@ -103,8 +103,8 @@ A cheaper approach to paragraph layout is to let a paragraph velement be embedde
 a scroll window where there is unconstrained vertical space; to give that scroll window
 a layout problem which lets it compete for space in its ambient context;
 and then, in the render function for that scroll window, to solve the line packing
-problems for the paragraphs and whatever else is in the vertical list that the scroll window
-displays.
+problems for the paragraphs and generally the layout problems for whatever is in the
+vertical list that the scroll window displays.
 
 In general solveLinePackingProblem needs to consider every breakpoint list bp
 (whose indices are less than boxes.length), and to look for optimal layout solutions for
