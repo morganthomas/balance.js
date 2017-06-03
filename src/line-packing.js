@@ -5,8 +5,7 @@ of "boxes" into a finite sequence of lines whose lengths are drawn from a given 
 of lengths. Prototypical applications are breaking words into lines to form paragraphs, and
 breaking lines up across pages.
 
-To specify a line packing problem requires two things: an array of "boxes," and a "line length
-function."
+To specify a line packing problem requires one thing: an array of "boxes."
 
 DEFINITION. A "box" is an object of the following form:
   {
@@ -34,17 +33,8 @@ DEFINITION. A "box" is an object of the following form:
 DEFINITION. A "line length function" is a function which expects as input a non-negative integer,
 and produces as output a non-negative number. It represents an infinite sequence of line lengths.
 
-DEFINITION. A "line packing problem" is an object of the form
-  {
-    boxes,
-    lineLengths
-  }
-
- * boxes is an array of boxes.
- * lineLengths is a function expecting a non-negative integer and producing a number.
-   It represents an infinite sequence of lengths, the sequence used to set the line lengths.
-
-A solution to a line packing problem is an array of "line" objects.
+A solution to a line packing problem is a function which takes a line length function and returns 
+an array of "line" objects.
 
 DEFINITION. A "line" is an object of the following form:
   {
@@ -75,18 +65,26 @@ such that breakpoints[i] < boxes.length for all i. Returns an array of arrays of
 the elements of the lines that are created by turning boxes[j] into a line break for all
 j in breakpoints.
 
-== solveLinePackingProblem(p, tolerance) ==
+== solveLinePackingProblem(boxes, tolerance) ==
 
-Returns a nominally optimal solution to the line packing problem p. Specifically, it returns
-an array 'lines' of line objects such that:
+ * boxes is an array of boxes.
+ * tolerance is a number.
 
-1. For some breakpoint list bp, lines.map(l => l.velements) = breakBoxes(p.boxes, bp).
-2. For all i, lines[i].length = p.lineLengths(i).
+Returns a nominally optimal solution to the given line packing problem. Specifically, it returns
+a function which expects a line length function lineLengths and returns an array 'lines' of line 
+objects such that:
+
+1. For some breakpoint list bp, lines.map(l => l.velements) = breakBoxes(boxes, bp).
+2. For all i, lines[i].length = lineLengths(i).
 3. The sum of lines[i].badness over all i is (unlikely not to be) minimal, subject to the
    preceding constraints.
 
+Conceptually, solveLinePacking problem can be thought of as a curried function. I will
+talk about it like that. This currying order allows for easier and more optimized integration
+into the rest of the system (or that's the intent).
+
 In general solveLinePackingProblem needs to consider every breakpoint list bp
-(whose indices are less than p.boxes.length), and to look for optimal layout solutions for
+(whose indices are less than boxes.length), and to look for optimal layout solutions for
 each line for every such bp.
 
 In practice we prune the search space by assuming that the best solution will have all lines
