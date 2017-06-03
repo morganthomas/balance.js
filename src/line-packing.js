@@ -113,7 +113,7 @@ in this way to form feasible lines, until we have used all the boxes. If at any 
 of the two possible line breaks we are considering results in a feasible line, then
 we fall back on brute force searching all possible breakpoint lists.
 
-This brute force search is easy to think about as searching through a tree of breakpoint lists,
+This brute force search can be thought about as searching through a tree of breakpoint lists,
 where node/breakpoint list a is below b iff a is an initial segment of b. Since the optimal layout
 solution for each line is independent, one can propagate layout solutions for repeated lines
 up the tree. One knows that if one excludes the last line resulting from a breakpoint list a,
