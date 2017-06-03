@@ -169,7 +169,7 @@ DEFINITION. A "partial solution" to a line packing problem is an object of the f
    a non-viable part of the solution tree, meaning that any way of extending this partial
    solution has been deemed non-viable by the algorithm.
 
-During problem-solving, the algorithm maintains a list 'threads' of partial solutions.
+During problem-solving, the algorithm maintains a list of 'threads' or partial solutions.
 Initially, this list contains one partial solution, with an empty breakpoint list,
 an empty array of lines, and unusedBoxes = boxes. The algorithm alternates between two basic steps:
 Multiply, and Prune. During Multiply, the number of threads increases. During Prune, threads are
