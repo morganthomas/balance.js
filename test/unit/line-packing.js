@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { testBoxes } from '../lib/line-packing.js';
-import { solveLinePackingProblem } from '../../src/line-packing.js';
+import { solveLinePackingProblem, createLine } from '../../src/line-packing.js';
 
 const rigidBox100 = testBoxes.rigidBox100;
 const rigidBox200 = testBoxes.rigidBox200;
@@ -68,6 +68,33 @@ describe('solveLinePackingProblem', () => {
       ],
       badness: 0,
       isTolerable: true,
+      postBreakBox: undefined
+    });
+  });
+});
+
+describe('createLine', () => {
+  it('works on a simple case', () => {
+    let boxes = [
+      rigidBox100,
+      nonBreakingFillBox,
+      rigidBox100
+    ];
+    let line = createLine(boxes, 225);
+    expect(line).to.eql({
+      velements: [
+        velements.rigidBox100,
+        velements.nonBreakingFillBox,
+        velements.rigidBox100
+      ],
+      layoutSolutions: [
+        { height: 0, width: 100 },
+        { height: 0, width: 25 },
+        { height: 0, width: 100 }
+      ],
+      solutionBadnesses: [0, 0, 0],
+      length: 225,
+      badness: 0,
       postBreakBox: undefined
     });
   });

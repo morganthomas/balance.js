@@ -268,6 +268,10 @@ function solveLinePackingProblem(boxes) {
   return function(lineLengths) {
     
   };
-};
+}
 
-export { solveLinePackingProblem }
+function createLine(boxes, length) {
+
+}
+
+export { solveLinePackingProblem, createLine }
