@@ -66,11 +66,23 @@ such that:
      getAtPath(layoutSolutions[i], boxes[i].lengthParameter).
 5. badness = sum of solutionBadnesses.
 
+DEFINITION. A "breakpoint list" is a list of non-negative integers in ascending order.
+
+== breakBoxes(boxes, breakpoints) ==
+
+Expects 'boxes' to be an array of boxes and 'breakpoints' to be a breakpoint list,
+such that breakpoints[i] < boxes.length for all i. Returns an array of arrays of velements,
+the elements of the lines that are created by turning boxes[j] into a line break for all
+j in breakpoints.
+
 == solveLinePackingProblem(p) ==
 
-Returns a solution to the line packing problem p. Specifically, it returns an array 'ls'
-of line objects such that:
+Returns a nominally optimal solution to the line packing problem p. Specifically, it returns
+an array 'lines' of line objects such that:
 
-1.
+1. For some breakpoint list bp, lines.map(l => l.velements) = breakBoxes(p.boxes, bp).
+2. For all i, lines[i].length = p.lineLengths(i).
+3. The sum of lines[i].badness over all i is (unlikely not to be) minimal, subject to the
+   preceding constraints.
 
 */
