@@ -5,10 +5,17 @@ of "rigid boxes" separated by variable-length "glue" into an initial segment of 
 sequence of "lines," each of fixed length. Prototypical applications are breaking words into lines
 to form paragraphs, and breaking lines up across pages.
 
-The setup for a line packing problem is a "content list." A content list is an array whose length
-is even, where every even-indexed element is a "rigid box," and every odd-indexed element is a
-"glue" object.
+The line packing problem requires two things as input: a "content list," and a "line length function."
 
+DEF:
+A "content list" is an array whose length is even, where every even-indexed element is a "rigid box,"
+and every odd-indexed element is a "glue" object.
+
+DEF:
+A "line length function" is a function which expects as input a non-negative integer, and produces
+as output a non-negative number. It represents an infinite sequence of line lengths.
+
+DEF:
 A "rigid box" is an object of the following form:
 
   {
@@ -20,6 +27,7 @@ A "rigid box" is an object of the following form:
  * 'content' is a JavaScript object. This module doesn't care what it is. It's there for the
    benefit of the users of the module. Typically this would be a velement.
 
+DEF:
 A "glue" object is an object of the following form:
 
   {
@@ -46,6 +54,7 @@ A "glue" object is an object of the following form:
  * postBreakInsertion is a content list, inserted at the beginning of any subsequent line directly 
    after any line for which this glue is a line break.
 
+DEF:
 The final output of the line packing algorithm is an array of "line" objects. A "line" is an
 object of the following form:
 
@@ -62,5 +71,7 @@ object of the following form:
  * 'badness' is a number (the badness of the line).
  * glueLengths is an array of numbers of length contents.length / 2 (the lengths of each glue object).
  * glueBadnesses is an array of numbers of length contents.length / 2 (the badnesses of each glue object).
+
+== solveLinePackingProblem(contentList, lineLengthFunction) ==
 
 */
