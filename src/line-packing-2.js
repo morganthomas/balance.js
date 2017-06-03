@@ -158,4 +158,8 @@ A "partial solution" to a line packing problem is an object of the following for
  * unusedBoxes is an array of boxes (all the boxes that have yet to be packed into lines
    in this partial solution).
 
+During problem-solving, the algorithm maintains a list 'threads' of partial solutions.
+Initially, this list contains one partial solution, with an empty breakpoint list,
+an empty array of lines, and unusedBoxes = boxes.
+
 */
