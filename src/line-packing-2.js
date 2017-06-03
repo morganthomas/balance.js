@@ -148,7 +148,8 @@ A "partial solution" to a line packing problem is an object of the following for
     lines,
     badness,
     isTolerable,
-    unusedBoxes
+    unusedBoxes,
+    dead
   }
 
  * breakpointList is a breakpoint list.
@@ -158,12 +159,15 @@ A "partial solution" to a line packing problem is an object of the following for
  * isTolerable is a boolean, true iff all lines are tolerable.
  * unusedBoxes is an array of boxes (all the boxes that have yet to be packed into lines
    in this partial solution).
+ * dead is a boolean, indicating whether this partial solution is greyed out as the root of
+   a non-viable part of the solution tree, meaning that any way of extending this partial
+   solution has been deemed non-viable by the algorithm.
 
 During problem-solving, the algorithm maintains a list 'threads' of partial solutions.
 Initially, this list contains one partial solution, with an empty breakpoint list,
 an empty array of lines, and unusedBoxes = boxes. The algorithm alternates between two basic steps:
-Multiply, and Prune. During Multiply, the number of threads increases. During Prune, the number
-of threads decreases. There are also various administrative steps in the algorithm, such as
+Multiply, and Prune. During Multiply, the number of threads increases. During Prune, threads are
+removed and marked as dead. There are also various administrative steps in the algorithm, such as
 checking whether the conditions for termination hold.
 
 The behavior of Multiply depends on an internal flag of the algorithm, isExhaustive. By default,
@@ -171,6 +175,23 @@ isExhaustive = false. If settings.maxThreads = Infinity, then isExhaustive = tru
 if the algorithm's non-exhaustive search finds no solutions where all lines are tolerable,
 it will set isExhaustive = true; but that step in the algorithm has yet to be described.
 
+If isExhaustive = true, Multiply will add to the solution space all results b of extending one
+non-dead thread a to a partial solution b such that a.breakpointList is an initial segment of
+b.breakpointList, a.lines is an initial segment of b.lines, and b.lines.length = a.lines.length + 1.
+Call b a "one-step extension" of a.
 
+If isExhaustive = true, Multiply will also add to the solution space all partial solutions b
+with b.breakpointList.length = 1 such that b is not an initial segment of any thread (in the sense
+described in the previous paragraph).
+
+If isExhaustive = false, then for each non-dead thred a, Multiply will add to the solution space
+up to two partial solutions b and c which are one-step extensions of a, such that:
+
+ * i is the  new element of b.breakpointList. i is the least number such that the sum of
+   the optimalWidths of the boxes used to produce the new line is greater than the target
+   length of the new line.
+
+Prune will remove from the solution space all threads which are an initial segment of some other
+thread(s) in the solution space.
 
 */
