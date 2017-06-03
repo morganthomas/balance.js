@@ -90,6 +90,21 @@ record of the last solution can be used as a starting point and adjusted to prod
 next solution, which should be inexpensive when the last input is close in value to the
 next input.
 
+Note: The approach described in the preceding paragraph is quite expensive. The approach
+in question is to make for example a paragraph element whose layout problem's objective
+function computes the badness of the optimal layout of the paragraph according to
+solveLinePackingProblem. Computationally, this is analogous to continually recomputing the 
+optimal layout of the paragraph as if while resizing the viewport, during the process of
+layout optimization. This kind of thing will result in a more interconnected layout optimization
+where the layout of the ambient context is sensitive to what is going on inside the paragraph.
+This seems expensive in general, and unnecessary for most use cases.
+
+A cheaper approach to paragraph layout is to let a paragraph velement be embedded in
+a scroll window where there is unconstrained vertical space; to give that scroll window
+a layout problem which lets it compete for space in its ambient context;
+and then, in the render function for that scroll window, to solve the line packing
+problems for the paragraphs.
+
 In general solveLinePackingProblem needs to consider every breakpoint list bp
 (whose indices are less than boxes.length), and to look for optimal layout solutions for
 each line for every such bp.
