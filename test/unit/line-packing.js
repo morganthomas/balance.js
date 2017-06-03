@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { makeTestBox } from '../viewer/make-test-box.js';
 import { BLACK } from '../viewer/colors.js';
+import { makeSoftConstraintField } from '../../src/scalar-fields/soft-constraint-field.js';
 
 const rigidBox100 = {
   velement: makeTestBox(BLACK),
