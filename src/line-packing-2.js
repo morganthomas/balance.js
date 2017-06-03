@@ -31,4 +31,39 @@ DEFINITION. A "box" is an object of the following form:
  * preBreakBox and postBreakBox are optional parameters which are only meaningful if isBreakpoint
    is true.
 
+DEFINITION. A "line length function" is a function which expects as input a non-negative integer,
+and produces as output a non-negative number. It represents an infinite sequence of line lengths.
+
+DEFINITION. A "line packing problem" is an object of the form
+  {
+    boxes,
+    lineLengths
+  }
+
+ * boxes is an array of boxes.
+ * lineLengths is a function expecting a non-negative integer and producing a number.
+   It represents an infinite sequence of lengths, the sequence used to set the line lengths.
+
+A solution to a line packing problem is an array of "line" objects.
+
+DEFINITION. A "line" is an object of the following form:
+  {
+    velements,
+    layoutSolutions,
+    solutionBadnesses,
+    length,
+    badness
+  }
+
+such that:
+
+1. 
+
+== solveLinePackingProblem(p) ==
+
+Returns a solution to the line packing problem p. Specifically, it returns an array 'ls'
+of line objects such that:
+
+1.
+
 */
