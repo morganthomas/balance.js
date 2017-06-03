@@ -202,7 +202,7 @@ such that:
    used to produce the new line in c is less than the target length of the new line.
 
 Such b will exist. Such c may not exist. For example, such a b may exist without such a c existing if
-the first box with isBreakpoint true is the box at the end of the new line of b.
+the first box unused in a with isBreakpoint true is the box at the end of the new line of b.
 
 Prune will remove from the solution space all threads which are an initial segment of some other
 thread(s) in the solution space.
