@@ -3,7 +3,7 @@
 This file provides a way of making scalar fields which express soft constraints
 on some of the parameters.
 
-== makeSoftConstraintField(domainRepresentative, linearCombination) ==
+== makeSoftConstraintField(domainRepresentative, linearCombination, intensity) ==
 
 Creates a differentiable scalar field with the given domainRepresentative.
 This field will make the optimizer want to minimize the magnitude of the
@@ -13,6 +13,8 @@ number, and each of p1,...,pn is a path in the given domain. The
 c1,...,cn are optional. Such an object represents the following formula:
 
   a1*(p1-c1) + ... + an*(pn-cn)
+
+'intensity' is a coefficient applied to the whole formula.
 
 */
 
