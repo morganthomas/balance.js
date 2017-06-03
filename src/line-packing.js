@@ -270,6 +270,7 @@ import {
 } from './compose-differentiable-scalar-fields.js';
 import { makeSoftConstraintField } from './scalar-fields/soft-constraint-field.js';
 import { solveOptimizationProblem } from './optimization-problem.js';
+import { constrainOptimizationProblem } from './constrain-optimization-problem.js';
 
 function solveLinePackingProblem(boxes) {
   return function(lineLengths) {
@@ -315,7 +316,17 @@ function createLine(boxes, length) {
     initialGuessFunction
   };
 
-  let layoutSolutions = solveOptimizationProblem(optimizationProblem);
+  let constraints = boxes2.map(
+    (box,i) => 
+      box.isRigid ?
+      [[i,...box.lengthParameter],box.optimalLength] :
+      null)
+      .filter(c => c !== null);
+
+  let constrainedOptimizationProblem = constrainOptimizationProblem(optimizationProblem, constraints);
+
+  let layoutSolutions = constrainedOptimizationProblem.unconstrainPONuNJO(
+    solveOptimizationProblem(constrainedOptimizationProblem));
 
   let solutionBadnesses = layoutSolutions.map((sol, i) => velements[i].layoutProblem.objectiveFunction.valueAt(sol));
   let badness = solutionBadnesses.reduce((a,b) => a+b);
