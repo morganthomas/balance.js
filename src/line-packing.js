@@ -42,7 +42,8 @@ DEFINITION. A "line" is an object of the following form:
     layoutSolutions,
     solutionBadnesses,
     length,
-    badness
+    badness,
+    postBreakBox
   }
 
 such that:
@@ -55,6 +56,8 @@ such that:
 4. length is a number, equal to the sum over all i of
      getAtPath(layoutSolutions[i], boxes[i].lengthParameter).
 5. badness = sum of solutionBadnesses.
+6. postBreakBox is a box: the box left over from breaking the breakpoint box at the end
+   of the line.
 
 DEFINITION. A "breakpoint list" is a list of non-negative integers in ascending order.
 
@@ -156,7 +159,7 @@ DEFINITION. A "partial solution" to a line packing problem is an object of the f
 
  * breakpointList is a breakpoint list.
  * lines is an array of lines, produced by applying breakpointList (with unusedBoxes possibly
-   containing the last line of velements from breakBoxes(boxes, breakpointList)).
+   containing the last array of velements from breakBoxes(boxes, breakpointList)).
  * badness is the sum of the badnesses of the lines.
  * isTolerable is a boolean, true iff all lines are tolerable.
  * unusedBoxes is an array of boxes (all the boxes that have yet to be packed into lines
@@ -247,6 +250,14 @@ DEFINITION. A "solution" to a line packing problem is an object of the following
   }
 
 See the definition of "partial solution" for the explanations of these properties.
+
+The remaining functions in this file are intermediate steps that solveLinePackingProblem
+needs to take.
+
+== createLine(boxes, length) ==
+
+Expects an array of boxes and a positive number. Returns a corresponding line, of the given
+length, whose velements are the velements of the boxes. 
 
 */
 
