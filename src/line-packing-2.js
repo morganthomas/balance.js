@@ -64,6 +64,7 @@ such that:
    solutionBadnesses[i] = velements[i].layoutProblem.objectiveFunction(layoutSolutions[i]).
 4. length is a number, equal to the sum over all i of
      getAtPath(layoutSolutions[i], boxes[i].lengthParameter).
+5. badness = sum of solutionBadnesses.
 
 == solveLinePackingProblem(p) ==
 
