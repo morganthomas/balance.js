@@ -106,6 +106,11 @@ and then, in the render function for that scroll window, to solve the line packi
 problems for the paragraphs and generally the layout problems for whatever is in the
 vertical list that the scroll window displays.
 
+The cheapest approach to paragraph layout is to give a paragraph box velement a layout problem
+whose objective function is constantly zero, which solves its own line packing problem
+when asked to render itself, using the width it is assigned to set the line lengths,
+and ignoring its height property while drawing in whatever vertical space it needs.
+
 In general solveLinePackingProblem needs to consider every breakpoint list bp
 (whose indices are less than boxes.length), and to look for optimal layout solutions for
 each line for every such bp.
