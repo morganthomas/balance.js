@@ -31,4 +31,10 @@ of ./line-packing.js. The difference is that the lengthParameter and optimalLeng
 found in the definition in line-packing.js are here replaced with the optimalWidth property,
 because we know that the length used for line packing is always the width.
 
+The velement that is returned has a trivial objective function which is always zero. Its
+initial guess function will give you a height if you give it a width constraint, but it will
+choke if you don't give it a width constraint. The render function will ignore the height it is
+given and use as much vertical space as it needs, but it will respect the width it
+is given.
+
 */
