@@ -418,7 +418,8 @@ function addLineToThread(boxes, lineLengths, tolerance, thread, nextBreakpointIn
   return newThread;
 }
 
-function createLine(boxes, length) {
+function createLine(boxes, length, userConstraints) {
+  userConstraints = userConstraints || [];
   let lastBox = boxes[boxes.length - 1];
   let postBreakBox = lastBox.isBreakpoint ? lastBox.postBreakBox : undefined;
   let boxes2 = lastBox.isBreakpoint ?
@@ -456,13 +457,15 @@ function createLine(boxes, length) {
     initialGuessFunction
   };
 
-  let constraints = boxes2.map(
+  let rigidityConstraints = boxes2.map(
     (box,i) => 
       box.isRigid ?
       [[i,...box.lengthParameter],box.optimalLength] :
       null)
       .filter(c => c !== null);
 
+  let constraints = userConstraints.concat(rigidityConstraints);
+  
   let constrainedOptimizationProblem = constrainOptimizationProblem(optimizationProblem, constraints);
 
   let solution = solveOptimizationProblem(constrainedOptimizationProblem);

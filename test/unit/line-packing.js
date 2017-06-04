@@ -96,7 +96,7 @@ describe('createLine', () => {
       nonBreakingFillBox,
       rigidBox100
     ];
-    let line = createLine(boxes, 225);
+    let line = createLine(boxes, 225, [[[0,'height'],[1,'height'],[2,'height'], 300]]);
     expect(line).to.eql({
       velements: [
         velements.rigidBox100,
@@ -104,9 +104,9 @@ describe('createLine', () => {
         velements.rigidBox100
       ],
       layoutSolutions: [
-        { height: 0, width: 100 },
-        { height: 0, width: 24.999999999999677 },
-        { height: 0, width: 100 }
+        { height: 300, width: 100 },
+        { height: 300, width: 24.999999999999677 },
+        { height: 300, width: 100 }
       ],
       solutionBadnesses: [0, 0, 0],
       length: 225,
