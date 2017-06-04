@@ -295,9 +295,9 @@ function solveLinePackingProblem(boxes, settings) {
         true; // TODO: implement non-exhaustive search
 
     while (true) {
+      // combine Multiply and Prune by building a list of extended threads and
+      // replacing the liveThreads with it.
       if (isExhaustive) {
-        // combine Multiply and Prune by building a list of extended threads and
-        // replacing the liveThreads with it.
         let extendedThreads = [];
 
         liveThreads.forEach(thread => {
@@ -337,7 +337,15 @@ function solveLinePackingProblem(boxes, settings) {
 
         liveThreads = extendedThreads;
       } else {
-        // TODO: non-exhaustive Multiply/Prune
+        let extendedThreads = [];
+
+        liveThreads.forEach(thread => {
+          if (thread.unusedBoxes.length === 0) {
+            extendedThreads.push(thread);
+          } else {
+            
+          }
+        });
       }
 
       // check for stopping condition and maybe return
