@@ -274,7 +274,19 @@ import { constrainOptimizationProblem } from './constrain-optimization-problem.j
 
 function solveLinePackingProblem(boxes) {
   return function(lineLengths) {
-    
+    let liveThreads = [
+      {
+        breakpointList: [],
+        lines: [],
+        badness: 0,
+        isTolerable: true,
+        unusedBoxes: boxes,
+        postBreakBox: undefined,
+        isDead: false
+      }
+    ];
+
+    let deadThreads = [];
   };
 }
 
