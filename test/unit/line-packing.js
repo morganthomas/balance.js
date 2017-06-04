@@ -74,29 +74,22 @@ describe('solveLinePackingProblem', () => {
     });
   }
 
+  function userConstraints(startIndex, endIndex, lineIndex) {
+    let numBoxes = countCreateLineVElements(boxes.slice(startIndex, endIndex));
+    return [...Array(numBoxes).keys()].map((i) => [[i,'height'],200]);
+  }
+
   // These two test cases take about the same time to run (and the time is too high,
   // around 100ms). Each calls addLineToThread three times, which is why exhaustive
   // vs. non-exhaustive makes no difference. The slowness here is probably due to slowness
   // of the lower level parts of the library that these are using.
   it('works on a simple case with non-exhaustive search', () => {
-    let solve = solveLinePackingProblem(boxes, {
-      maxThreads: 2,
-      userConstraints(startIndex, endIndex, lineIndex) {
-        let numBoxes = countCreateLineVElements(boxes.slice(startIndex, endIndex));
-        return [...Array(numBoxes).keys()].map((i) => [[i,'height'],200]);
-      }
-    });
+    let solve = solveLinePackingProblem(boxes, { maxThreads: 2, userConstraints });
     checkSolve(solve);
   });
 
   it('works on a simple case with exhaustive search', () => {
-    let solve = solveLinePackingProblem(boxes, {
-      maxThreads: Infinity,
-      userConstraints(startIndex, endIndex, lineIndex) {
-        let numBoxes = countCreateLineVElements(boxes.slice(startIndex, endIndex));
-        return [...Array(numBoxes).keys()].map((i) => [[i,'height'],200]);
-      }
-    });
+    let solve = solveLinePackingProblem(boxes, { maxThreads: Infinity, userConstraints });
     checkSolve(solve);
   });
 });
