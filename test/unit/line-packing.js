@@ -74,6 +74,10 @@ describe('solveLinePackingProblem', () => {
     });
   }
 
+  // These two test cases take about the same time to run (and the time is too high,
+  // around 100ms). Each calls addLineToThread three times, which is why exhaustive
+  // vs. non-exhaustive makes no difference. The slowness here is probably due to slowness
+  // of the lower level parts of the library that these are using.
   it('works on a simple case with non-exhaustive search', () => {
     let solve = solveLinePackingProblem(boxes, { maxThreads: 2 });
     checkSolve(solve);
