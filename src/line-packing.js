@@ -305,9 +305,7 @@ function solveLinePackingProblem(boxes, settings) {
             extendedThreads.push(thread);
           } else {
             // extend this thread in all possible ways
-            let minNextBreakpointIndex = thread.breakpointList.length === 0 ?
-                0 :
-                1 + thread.breakpointList[thread.breakpointList.length-1];
+            let minNextBreakpointIndex = computeMinNextBreakpointIndex(thread);
             for (let i = 0; i < thread.unusedBoxes.length; i++) {
               let nextBreakpointIndex = minNextBreakpointIndex+i;
               if (!boxes[nextBreakpointIndex].isBreakpoint && i+1 !== thread.unusedBoxes.length) {
@@ -357,10 +355,14 @@ function solveLinePackingProblem(boxes, settings) {
   };
 }
 
+function computeMinNextBreakpointIndex(thread) {
+  return thread.breakpointList.length === 0 ?
+    0 :
+    1 + thread.breakpointList[thread.breakpointList.length-1]
+}
+
 function addLineToThread(boxes, lineLengths, tolerance, thread, nextBreakpointIndex) {
-  let minNextBreakpointIndex = thread.breakpointList.length === 0 ?
-      0 :
-      1 + thread.breakpointList[thread.breakpointList.length-1];
+  let minNextBreakpointIndex = computeMinNextBreakpointIndex(thread);
   let nextLineBoxes = boxes.slice(minNextBreakpointIndex, nextBreakpointIndex+1);
   let nextLineLength = lineLengths(thread.lines.length);
   let nextLine = createLine(nextLineBoxes, nextLineLength);
