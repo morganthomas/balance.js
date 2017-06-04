@@ -305,7 +305,9 @@ function solveLinePackingProblem(boxes, settings) {
             extendedThreads.push(thread);
           } else {
             // extend this thread in all possible ways
-            let minNextBreakpointIndex = 1 + thread.breakpointList[thread.breakpointList.length-1];
+            let minNextBreakpointIndex = thread.breakpointList.length === 0 ?
+                0 :
+                1 + thread.breakpointList[thread.breakpointList.length-1];
             for (let i = 1; i <= thread.unusedBoxes.length; i++) {
               let nextLineBoxes = boxes.slice(minNextBreakpointIndex, i + minNextBreakpointIndex);
               let nextLineLength = lineLengths(thread.lines.length);
@@ -335,6 +337,23 @@ function solveLinePackingProblem(boxes, settings) {
       }
 
       // check for stopping condition and maybe return
+      let allAreComplete = liveThreads.every(thread => thread.unusedBoxes.length === 0);
+      if (allAreComplete) {
+        let minBadness = Infinity;
+        let bestOne = null;
+        liveThreads.forEach(thread => {
+          if (thread.badness < minBadness) {
+            bestOne = thread;
+            minBadness = thread.badness;
+          }
+        });
+        return {
+          breakpointList: bestOne.breakpointList,
+          lines: bestOne.lines,
+          isTolerable: bestOne.isTolerable,
+          postBreakBox: bestOne.postBreakBox
+        };
+      }
 
       // TODO: check if we need to switch to exhaustive search
     }
