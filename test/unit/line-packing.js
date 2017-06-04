@@ -46,12 +46,13 @@ describe('solveLinePackingProblem', () => {
           layoutSolutions: [
             { height: 0, width: 100 },
             { height: 0, width: 100 },
-            { height: 0, width: 50 },
+            { height: 0, width: 49.99999999999935 },
             { height: 0, width: 100 }
           ],
           solutionBadnesses: [0, 0, 0, 0],
           length: 350,
-          badness: 0
+          badness: 0,
+          postBreakBox: undefined
         },
         {
           velements: [
@@ -62,11 +63,12 @@ describe('solveLinePackingProblem', () => {
           layoutSolutions: [
             { height: 0, width: 100 },
             { height: 0, width: 200 },
-            { height: 0, width: 125 }
+            { height: 0, width: 124.99999999999838 }
           ],
           solutionBadnesses: [0, 0, 0],
           length: 425,
-          badness: 0
+          badness: 0,
+          postBreakBox: undefined
         }
       ],
       badness: 0,
