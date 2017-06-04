@@ -353,7 +353,12 @@ function solveLinePackingProblem(boxes, settings) {
               newThread = addLineToThread(boxes, lineLengths, tolerance, thread, i);
               sortNewThread(newThread);
             }
-            // TODO: kill threads to keep max thread count low
+
+            // kill live threads beyond maxThreads
+            if (newLiveThreads.length > maxThreads) {
+              newLiveThreads.sort((a,b) => b.badness - a.badness);
+              newLiveThreads = newLiveThreads.slice(0, maxThreads);
+            }
           }
         }
       });
