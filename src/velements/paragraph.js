@@ -40,4 +40,7 @@ is given.
 All velements on a given line are constrained to have the same height. On that basis the height
 of each line is optimized individually.
 
+See ./line-packing.js for more commentary on the line breaking algorithm and how the inputs
+are interpreted.
+
 */
