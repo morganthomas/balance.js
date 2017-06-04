@@ -16,20 +16,18 @@ for (let boxName in testBoxes) {
 debugger;
 
 describe('solveLinePackingProblem', () => {
-  it('works on a simple case', () => {
-    let boxes = [
-      rigidBox100,
-      rigidBox100,
-      nonBreakingFillBox,
-      rigidBox100,
-      breakingFillBox,
-      rigidBox100,
-      rigidBox200,
-      nonBreakingFillBox
-    ];
-
-    let solve = solveLinePackingProblem(boxes);
-
+  let boxes = [
+    rigidBox100,
+    rigidBox100,
+    nonBreakingFillBox,
+    rigidBox100,
+    breakingFillBox,
+    rigidBox100,
+    rigidBox200,
+    nonBreakingFillBox
+  ];
+  
+  function checkSolve(solve) {
     let lengths1 = (i) => i === 1 ? 425 : 350;
     let solution1 = solve(lengths1);
     expect(solution1).to.eql({
@@ -74,6 +72,16 @@ describe('solveLinePackingProblem', () => {
       isTolerable: true,
       postBreakBox: undefined
     });
+  }
+
+  it('works on a simple case with non-exhaustive search', () => {
+    let solve = solveLinePackingProblem(boxes);
+    checkSolve(solve);
+  });
+
+  it('works on a simple case with exhaustive search', () => {
+    let solve = solveLinePackingProblem(boxes, { maxThreads: Infinity });
+    checkSolve(solve);
   });
 });
 

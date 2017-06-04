@@ -291,8 +291,7 @@ function solveLinePackingProblem(boxes, settings) {
     ];
 
     let deadThreads = [];
-    let isExhaustive = //maxThreads === Infinity;
-        true; // TODO: implement non-exhaustive search
+    let isExhaustive = maxThreads === Infinity;
 
     while (!(liveThreads.every(thread => thread.unusedBoxes.length === 0))) {
       // combine Multiply and Prune by building a list of extended threads and
