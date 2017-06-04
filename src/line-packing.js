@@ -294,7 +294,7 @@ function solveLinePackingProblem(boxes, settings) {
     let isExhaustive = //maxThreads === Infinity;
         true; // TODO: implement non-exhaustive search
 
-    while (true) {
+    while (!(liveThreads.every(thread => thread.unusedBoxes.length === 0))) {
       // combine Multiply and Prune by building a list of extended threads and
       // replacing the liveThreads with it.
       let extendedThreads = [];
@@ -323,28 +323,26 @@ function solveLinePackingProblem(boxes, settings) {
 
       liveThreads = extendedThreads;
 
-      // check for stopping condition and maybe return
-      let allAreComplete = liveThreads.every(thread => thread.unusedBoxes.length === 0);
-      if (allAreComplete) {
-        let minBadness = Infinity;
-        let bestOne = null;
-        liveThreads.forEach(thread => {
-          if (thread.badness < minBadness) {
-            bestOne = thread;
-            minBadness = thread.badness;
-          }
-        });
-        return {
-          breakpointList: bestOne.breakpointList,
-          lines: bestOne.lines,
-          badness: bestOne.badness,
-          isTolerable: bestOne.isTolerable,
-          postBreakBox: bestOne.postBreakBox
-        };
-      }
-
-      // TODO: check if we need to switch to exhaustive search
+      // TODO: check if we need to switch to exhaustive search, which happens when
+      // all threads are dead
     }
+
+    // select the best solution and return it
+    let minBadness = Infinity;
+    let bestOne = null;
+    liveThreads.forEach(thread => {
+      if (thread.badness < minBadness) {
+        bestOne = thread;
+        minBadness = thread.badness;
+      }
+    });
+    return {
+      breakpointList: bestOne.breakpointList,
+      lines: bestOne.lines,
+      badness: bestOne.badness,
+      isTolerable: bestOne.isTolerable,
+      postBreakBox: bestOne.postBreakBox
+    };
   };
 }
 
