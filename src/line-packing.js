@@ -254,13 +254,14 @@ See the definition of "partial solution" for the explanations of these propertie
 The remaining functions in this file are intermediate steps that solveLinePackingProblem
 needs to take.
 
-== createLine(boxes, length) ==
+== createLine(boxes, length, [userConstraints]) ==
 
 Expects an array of boxes and a positive number. Returns a corresponding line, of the given
 length, whose velements are the velements of the boxes. The layoutSolutions are chosen to
 minimize badness. If the last box is breakable, then it will be destroyed; any postBreakBox
 will be returned as a property of the returned line; and any preBreakBox will be inserted at
-the end of the line.
+the end of the line. If userConstraints are provided, those constraints are applied to
+the optimization problem which createLine uses to compute the layoutSolutions.
 
 */
 
