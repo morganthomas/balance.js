@@ -19,8 +19,8 @@ DEFINITION. A "box" is an object of the following form:
 
  * velement is a box velement.
  * optimalWidth is a number, presumed to be an optimal setting for this box's width.
- * isRigid is a boolean, representing whether this velement needs to be its optimalLength
-   or whether its length can vary.
+ * isRigid is a boolean, representing whether this velement needs to be its optimalWidth
+   or whether its width can vary.
  * isBreakpoint is a boolean, representing whether this velement can be replaced with a line
    break preceded by the box preBreakBox and followed by the box postBreakBox.
  * preBreakBox and postBreakBox are optional parameters which are only meaningful if isBreakpoint
