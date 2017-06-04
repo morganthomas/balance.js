@@ -355,12 +355,14 @@ function solveLinePackingProblem(boxes, settings) {
   };
 }
 
+// The smallest breakpoint index which could be used to extend the given thread.
 function computeMinNextBreakpointIndex(thread) {
   return thread.breakpointList.length === 0 ?
     0 :
     1 + thread.breakpointList[thread.breakpointList.length-1]
 }
 
+// Returns a new thread whose breakpoint list is [...thread.breakpointList, nextBreakpointIndex].
 function addLineToThread(boxes, lineLengths, tolerance, thread, nextBreakpointIndex) {
   let minNextBreakpointIndex = computeMinNextBreakpointIndex(thread);
   let nextLineBoxes = boxes.slice(minNextBreakpointIndex, nextBreakpointIndex+1);
