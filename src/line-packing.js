@@ -425,6 +425,14 @@ function addLineToThread(boxes, lineLengths, tolerance, userConstraints, thread,
   return newThread;
 }
 
+// Returns the length of the velement list output by createLine for the given boxes.
+function countCreateLineVElements(boxes) {
+  let lastBox = boxes[boxes.length - 1];
+  return lastBox.isBreakpoint ?
+    (lastBox.preBreakBox ? boxes.length : boxes.length - 1) :
+    boxes.length;
+}
+
 function createLine(boxes, length, userConstraints) {
   userConstraints = userConstraints || [];
   let lastBox = boxes[boxes.length - 1];
@@ -491,4 +499,4 @@ function createLine(boxes, length, userConstraints) {
   };
 }
 
-export { solveLinePackingProblem, createLine }
+export { solveLinePackingProblem, createLine, countCreateLineVElements }

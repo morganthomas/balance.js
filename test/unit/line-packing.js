@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { testBoxes } from '../lib/line-packing.js';
-import { solveLinePackingProblem, createLine } from '../../src/line-packing.js';
+import { solveLinePackingProblem, createLine, countCreateLineVElements } from '../../src/line-packing.js';
 
 const rigidBox100 = testBoxes.rigidBox100;
 const rigidBox200 = testBoxes.rigidBox200;
@@ -82,7 +82,7 @@ describe('solveLinePackingProblem', () => {
     let solve = solveLinePackingProblem(boxes, {
       maxThreads: 2,
       userConstraints(startIndex, endIndex, lineIndex) {
-        let numBoxes = createLine(boxes.slice(startIndex, endIndex)).velements.length;
+        let numBoxes = countCreateLineVElements(boxes.slice(startIndex, endIndex));
         return [...Array(numBoxes).keys()].map((i) => [[i,'height'],200]);
       }
     });
@@ -93,7 +93,7 @@ describe('solveLinePackingProblem', () => {
     let solve = solveLinePackingProblem(boxes, {
       maxThreads: Infinity,
       userConstraints(startIndex, endIndex, lineIndex) {
-        let numBoxes = createLine(boxes.slice(startIndex, endIndex)).velements.length;
+        let numBoxes = countCreateLineVElements(boxes.slice(startIndex, endIndex));
         return [...Array(numBoxes).keys()].map((i) => [[i,'height'],200]);
       }
     });
