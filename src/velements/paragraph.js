@@ -28,7 +28,7 @@ DEFINITION. A "box" is an object of the following form:
 
 "Box" in the context of this file means approximately the same thing as it means in the context
 of ./line-packing.js. The difference is that the lengthParameter and optimalLength properties
-found in the definition of line-packing.js are here replaced with the optimalWidth property,
+found in the definition in line-packing.js are here replaced with the optimalWidth property,
 because we know that the length used for line packing is always the width.
 
 */
