@@ -273,6 +273,7 @@ import { solveOptimizationProblem } from './optimization-problem.js';
 import { constrainOptimizationProblem } from './constrain-optimization-problem.js';
 
 function solveLinePackingProblem(boxes, settings) {
+  settings = settings || {};
   let maxThreads = settings.maxThreads || 7;
   let tolerance = settings.tolerance || Infinity;
 
@@ -294,21 +295,48 @@ function solveLinePackingProblem(boxes, settings) {
         true; // TODO: implement non-exhaustive search
 
     while (true) {
-      // Multiply
       if (isExhaustive) {
+        // combine Multiply and Prune by building a list of extended threads and
+        // replacing the liveThreads with it.
+        let extendedThreads = [];
 
+        liveThreads.forEach(thread => {
+          if (thread.unusedBoxes.length === 0) {
+            extendedThreads.push(thread);
+          } else {
+            // extend this thread in all possible ways
+            let minNextBreakpointIndex = 1 + thread.breakpointList[thread.breakpointList.length-1];
+            for (let i = 1; i <= thread.unusedBoxes.length; i++) {
+              let nextLineBoxes = boxes.slice(minNextBreakpointIndex, i + minNextBreakpointIndex);
+              let nextLineLength = lineLengths(thread.lines.length);
+              let nextLine = createLine(nextLineBoxes, nextLineLength);
+              let lines = thread.lines.concat([nextLine]);
+              let badness = lines.map(line => line.badness).reduce((a,b)=>a+b, 0);
+              let isTolerable = badness < tolerance;
+              let unusedBoxes = thread.unusedBoxes.slice(nextLineBoxes.length);
+              let postBreakBox = nextLine.postBreakBox;
+              let newThread = {
+                breakpointList: thread.breakpointList.concat([i]),
+                lines,
+                badness,
+                isTolerable,
+                unusedBoxes,
+                postBreakBox,
+                isDead: false
+              };
+              extendedThreads.push(newThread);
+            }
+          }
+        });
+
+        liveThreads = extendedThreads;
       } else {
-        // TODO
+        // TODO: non-exhaustive Multiply/Prune
       }
-
-      // Prune
-      // TODO
-
-      // TODO: pruning for non-exhaustive search
 
       // check for stopping condition and maybe return
 
-      // check if we need to switch to exhaustive search
+      // TODO: check if we need to switch to exhaustive search
     }
   };
 }
@@ -364,7 +392,7 @@ function createLine(boxes, length) {
     solveOptimizationProblem(constrainedOptimizationProblem));
 
   let solutionBadnesses = layoutSolutions.map((sol, i) => velements[i].layoutProblem.objectiveFunction.valueAt(sol));
-  let badness = solutionBadnesses.reduce((a,b) => a+b);
+  let badness = solutionBadnesses.reduce((a,b) => a+b, 0);
 
   return {
     velements,
