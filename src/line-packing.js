@@ -308,28 +308,12 @@ function solveLinePackingProblem(boxes, settings) {
             let minNextBreakpointIndex = thread.breakpointList.length === 0 ?
                 0 :
                 1 + thread.breakpointList[thread.breakpointList.length-1];
-            for (let i = 1; i <= thread.unusedBoxes.length; i++) {
-              let nextLineBoxes = boxes.slice(minNextBreakpointIndex, i + minNextBreakpointIndex);
-              if (!nextLineBoxes[nextLineBoxes.length-1].isBreakpoint && 
-                  i !== thread.unusedBoxes.length) {
+            for (let i = 0; i < thread.unusedBoxes.length; i++) {
+              let nextBreakpointIndex = minNextBreakpointIndex+i;
+              if (!boxes[nextBreakpointIndex].isBreakpoint && i+1 !== thread.unusedBoxes.length) {
                 continue;
               }
-              let nextLineLength = lineLengths(thread.lines.length);
-              let nextLine = createLine(nextLineBoxes, nextLineLength);
-              let lines = thread.lines.concat([nextLine]);
-              let badness = lines.map(line => line.badness).reduce((a,b)=>a+b, 0);
-              let isTolerable = badness < tolerance;
-              let unusedBoxes = thread.unusedBoxes.slice(nextLineBoxes.length);
-              let postBreakBox = nextLine.postBreakBox;
-              let newThread = {
-                breakpointList: thread.breakpointList.concat([i-1+minNextBreakpointIndex]),
-                lines,
-                badness,
-                isTolerable,
-                unusedBoxes,
-                postBreakBox,
-                isDead: false
-              };
+              let newThread = addLineToThread(boxes, lineLengths, tolerance, thread, nextBreakpointIndex);
               extendedThreads.push(newThread);
             }
           }
@@ -371,6 +355,30 @@ function solveLinePackingProblem(boxes, settings) {
       // TODO: check if we need to switch to exhaustive search
     }
   };
+}
+
+function addLineToThread(boxes, lineLengths, tolerance, thread, nextBreakpointIndex) {
+  let minNextBreakpointIndex = thread.breakpointList.length === 0 ?
+      0 :
+      1 + thread.breakpointList[thread.breakpointList.length-1];
+  let nextLineBoxes = boxes.slice(minNextBreakpointIndex, nextBreakpointIndex+1);
+  let nextLineLength = lineLengths(thread.lines.length);
+  let nextLine = createLine(nextLineBoxes, nextLineLength);
+  let lines = thread.lines.concat([nextLine]);
+  let badness = lines.map(line => line.badness).reduce((a,b)=>a+b, 0);
+  let isTolerable = badness < tolerance;
+  let unusedBoxes = thread.unusedBoxes.slice(nextLineBoxes.length);
+  let postBreakBox = nextLine.postBreakBox;
+  let newThread = {
+    breakpointList: thread.breakpointList.concat([nextBreakpointIndex]),
+    lines,
+    badness,
+    isTolerable,
+    unusedBoxes,
+    postBreakBox,
+    isDead: false
+  };
+  return newThread;
 }
 
 function createLine(boxes, length) {
