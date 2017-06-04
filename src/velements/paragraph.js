@@ -37,4 +37,7 @@ choke if you don't give it a width constraint. The render function will ignore t
 given and use as much vertical space as it needs, but it will respect the width it
 is given.
 
+All velements on a given line are constrained to have the same height. On that basis the height
+of each line is optimized individually.
+
 */
