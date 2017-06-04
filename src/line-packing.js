@@ -296,11 +296,11 @@ function solveLinePackingProblem(boxes, settings) {
     while (!(liveThreads.every(thread => thread.unusedBoxes.length === 0))) {
       // combine Multiply and Prune by building a list of extended threads and
       // replacing the liveThreads with it.
-      let extendedThreads = [];
+      let newLiveThreads = [];
 
       liveThreads.forEach(thread => {
         if (thread.unusedBoxes.length === 0) {
-          extendedThreads.push(thread);
+          newLiveThreads.push(thread);
         } else {
           let minNextBreakpointIndex = computeMinNextBreakpointIndex(thread);
           if (isExhaustive) {
@@ -311,7 +311,7 @@ function solveLinePackingProblem(boxes, settings) {
                 continue;
               }
               let newThread = addLineToThread(boxes, lineLengths, tolerance, thread, nextBreakpointIndex);
-              extendedThreads.push(newThread);
+              newLiveThreads.push(newThread);
             }
           } else {
             // estimate up to two good ways to extend this thread based on optimal lengths
@@ -327,7 +327,7 @@ function solveLinePackingProblem(boxes, settings) {
               i++;
             }
             let newThread = addLineToThread(boxes, lineLengths, tolerance, thread, i);
-            extendedThreads.push(newThread);
+            newLiveThreads.push(newThread);
 
             // back up i until we run into a breakpoint before the one we just used,
             // that hasn't already been used by this thread. if we find one like that,
@@ -338,7 +338,7 @@ function solveLinePackingProblem(boxes, settings) {
 
             if (i >= minNextBreakpointIndex && boxes[i].isBreakpoint) {
               newThread = addLineToThread(boxes, lineLengths, tolerance, thread, i);
-              extendedThreads.push(newThread);
+              newLiveThreads.push(newThread);
             }
             // TODO: mark threads with intolerable lines as dead
             // TODO: kill threads to keep max thread count low
@@ -346,7 +346,7 @@ function solveLinePackingProblem(boxes, settings) {
         }
       });
 
-      liveThreads = extendedThreads;
+      liveThreads = newLiveThreads;
 
       // TODO: check if we need to switch to exhaustive search, which happens when
       // all threads are dead
