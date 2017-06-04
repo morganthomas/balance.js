@@ -294,9 +294,22 @@ function solveLinePackingProblem(boxes, settings) {
     let isExhaustive = maxThreads === Infinity;
 
     while (!(liveThreads.every(thread => thread.unusedBoxes.length === 0))) {
-      // combine Multiply and Prune by building a list of extended threads and
-      // replacing the liveThreads with it.
+      // combine Multiply and Prune
       let newLiveThreads = [];
+      let newDeadThreads = [];
+
+      function sortNewThread(newThread) {
+        if (isExhaustive) {
+          newLiveThreads.push(newThread);
+        } else {
+          let lastLine = newThread.lines[newThread.lines.length-1];
+          if (lastLine.badness > tolerance) {
+            newDeadThreads.push(newThread);
+          } else {
+            newLiveThreads.push(newThread);
+          }
+        }
+      }
 
       liveThreads.forEach(thread => {
         if (thread.unusedBoxes.length === 0) {
@@ -311,7 +324,7 @@ function solveLinePackingProblem(boxes, settings) {
                 continue;
               }
               let newThread = addLineToThread(boxes, lineLengths, tolerance, thread, nextBreakpointIndex);
-              newLiveThreads.push(newThread);
+              sortNewThread(newThread);
             }
           } else {
             // estimate up to two good ways to extend this thread based on optimal lengths
@@ -327,7 +340,7 @@ function solveLinePackingProblem(boxes, settings) {
               i++;
             }
             let newThread = addLineToThread(boxes, lineLengths, tolerance, thread, i);
-            newLiveThreads.push(newThread);
+            sortNewThread(newThread);
 
             // back up i until we run into a breakpoint before the one we just used,
             // that hasn't already been used by this thread. if we find one like that,
@@ -338,9 +351,8 @@ function solveLinePackingProblem(boxes, settings) {
 
             if (i >= minNextBreakpointIndex && boxes[i].isBreakpoint) {
               newThread = addLineToThread(boxes, lineLengths, tolerance, thread, i);
-              newLiveThreads.push(newThread);
+              sortNewThread(newThread);
             }
-            // TODO: mark threads with intolerable lines as dead
             // TODO: kill threads to keep max thread count low
           }
         }
