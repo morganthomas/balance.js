@@ -297,13 +297,13 @@ function solveLinePackingProblem(boxes, settings) {
     while (true) {
       // combine Multiply and Prune by building a list of extended threads and
       // replacing the liveThreads with it.
-      if (isExhaustive) {
-        let extendedThreads = [];
+      let extendedThreads = [];
 
-        liveThreads.forEach(thread => {
-          if (thread.unusedBoxes.length === 0) {
-            extendedThreads.push(thread);
-          } else {
+      liveThreads.forEach(thread => {
+        if (thread.unusedBoxes.length === 0) {
+          extendedThreads.push(thread);
+        } else {
+          if (isExhaustive) {
             // extend this thread in all possible ways
             let minNextBreakpointIndex = computeMinNextBreakpointIndex(thread);
             for (let i = 0; i < thread.unusedBoxes.length; i++) {
@@ -314,21 +314,14 @@ function solveLinePackingProblem(boxes, settings) {
               let newThread = addLineToThread(boxes, lineLengths, tolerance, thread, nextBreakpointIndex);
               extendedThreads.push(newThread);
             }
-          }
-        });
-
-        liveThreads = extendedThreads;
-      } else {
-        let extendedThreads = [];
-
-        liveThreads.forEach(thread => {
-          if (thread.unusedBoxes.length === 0) {
-            extendedThreads.push(thread);
           } else {
+            // estimate up to two good ways to extend this thread based on optimal lengths
             
           }
-        });
-      }
+        }
+      });
+
+      liveThreads = extendedThreads;
 
       // check for stopping condition and maybe return
       let allAreComplete = liveThreads.every(thread => thread.unusedBoxes.length === 0);
