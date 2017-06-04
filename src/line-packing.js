@@ -323,7 +323,7 @@ function solveLinePackingProblem(boxes, settings) {
             // the boxes taken into the next line exceed or equal lineLength and
             // boxes[i] is a breakpoint, or until we run out of room to advance.
             let runningLength = 0;
-            while (i < boxes.length && (runningLength < lineLength || !boxes.isBreakpoint)) {
+            while (i < boxes.length-1 && (runningLength < lineLength || !boxes.isBreakpoint)) {
               runningLength += boxes[i].optimalLength;
               i++;
             }
@@ -341,7 +341,8 @@ function solveLinePackingProblem(boxes, settings) {
               newThread = addLineToThread(boxes, lineLengths, tolerance, thread, i);
               extendedThreads.push(newThread);
             }
-            // TODO: mark intolerable lines as dead
+            // TODO: mark threads with intolerable lines as dead
+            // TODO: kill threads to keep max thread count low
           }
         }
       });
