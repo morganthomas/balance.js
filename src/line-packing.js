@@ -303,9 +303,9 @@ function solveLinePackingProblem(boxes, settings) {
         if (thread.unusedBoxes.length === 0) {
           extendedThreads.push(thread);
         } else {
+          let minNextBreakpointIndex = computeMinNextBreakpointIndex(thread);
           if (isExhaustive) {
             // extend this thread in all possible ways
-            let minNextBreakpointIndex = computeMinNextBreakpointIndex(thread);
             for (let i = 0; i < thread.unusedBoxes.length; i++) {
               let nextBreakpointIndex = minNextBreakpointIndex+i;
               if (!boxes[nextBreakpointIndex].isBreakpoint && i+1 !== thread.unusedBoxes.length) {
@@ -316,7 +316,32 @@ function solveLinePackingProblem(boxes, settings) {
             }
           } else {
             // estimate up to two good ways to extend this thread based on optimal lengths
+            let i = minNextBreakpointIndex;
+            let lineLength = lineLengths(thread.lines.length);
             
+            // advance i to point to the first index such that the optimal lengths of
+            // the boxes taken into the next line exceed or equal lineLength and
+            // boxes[i] is a breakpoint, or until we run out of room to advance.
+            let runningLength = 0;
+            while (i < boxes.length && (runningLength < lineLength || !boxes.isBreakpoint)) {
+              runningLength += boxes[i].optimalLength;
+              i++;
+            }
+            let newThread = addLineToThread(boxes, lineLengths, tolerance, thread, i);
+            extendedThreads.push(newThread);
+
+            // back up i until we run into a breakpoint before the one we just used,
+            // that hasn't already been used by this thread. if we find one like that,
+            // use it to make another thread.
+            do {
+              i--;
+            } while (i >= minNextBreakpointIndex && !boxes[i].isBreakpoint);
+
+            if (i >= minNextBreakpointIndex && boxes[i].isBreakpoint) {
+              newThread = addLineToThread(boxes, lineLengths, tolerance, thread, i);
+              extendedThreads.push(newThread);
+            }
+            // TODO: mark intolerable lines as dead
           }
         }
       });
