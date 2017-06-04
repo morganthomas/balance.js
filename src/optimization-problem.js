@@ -47,6 +47,11 @@ function makeTrivialOptimizationProblem(domainRepresentative) {
 function solveOptimizationProblem(optimizationProblem) {
   let { valueAt, gradientAt, domainRepresentative } = optimizationProblem.objectiveFunction;
   assert(isPONJO(domainRepresentative));
+
+  if (flattenPOJO(domainRepresentative).length === 0) {
+    return domainRepresentative;
+  }
+
   let constraints = mapScalars(() => null, domainRepresentative);
   let initialGuess = optimizationProblem.initialGuessFunction(constraints);
   assert(isPONJO(initialGuess));
