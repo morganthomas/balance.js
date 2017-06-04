@@ -41,10 +41,10 @@ describe('solveLinePackingProblem', () => {
             velements.rigidBox100
           ],
           layoutSolutions: [
-            { height: 0, width: 100 },
-            { height: 0, width: 100 },
-            { height: 0, width: 49.99999999999935 },
-            { height: 0, width: 100 }
+            { height: 200, width: 100 },
+            { height: 200, width: 100 },
+            { height: 200, width: 49.99999999999935 },
+            { height: 200, width: 100 }
           ],
           solutionBadnesses: [0, 0, 0, 0],
           length: 350,
@@ -58,9 +58,9 @@ describe('solveLinePackingProblem', () => {
             velements.nonBreakingFillBox
           ],
           layoutSolutions: [
-            { height: 0, width: 100 },
-            { height: 0, width: 200 },
-            { height: 0, width: 124.99999999999838 }
+            { height: 200, width: 100 },
+            { height: 200, width: 200 },
+            { height: 200, width: 124.99999999999838 }
           ],
           solutionBadnesses: [0, 0, 0],
           length: 425,
@@ -79,12 +79,24 @@ describe('solveLinePackingProblem', () => {
   // vs. non-exhaustive makes no difference. The slowness here is probably due to slowness
   // of the lower level parts of the library that these are using.
   it('works on a simple case with non-exhaustive search', () => {
-    let solve = solveLinePackingProblem(boxes, { maxThreads: 2 });
+    let solve = solveLinePackingProblem(boxes, {
+      maxThreads: 2,
+      userConstraints(startIndex, endIndex, lineIndex) {
+        let numBoxes = createLine(boxes.slice(startIndex, endIndex)).velements.length;
+        return [...Array(numBoxes).keys()].map((i) => [[i,'height'],200]);
+      }
+    });
     checkSolve(solve);
   });
 
   it('works on a simple case with exhaustive search', () => {
-    let solve = solveLinePackingProblem(boxes, { maxThreads: Infinity });
+    let solve = solveLinePackingProblem(boxes, {
+      maxThreads: Infinity,
+      userConstraints(startIndex, endIndex, lineIndex) {
+        let numBoxes = createLine(boxes.slice(startIndex, endIndex)).velements.length;
+        return [...Array(numBoxes).keys()].map((i) => [[i,'height'],200]);
+      }
+    });
     checkSolve(solve);
   });
 });

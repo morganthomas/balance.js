@@ -85,6 +85,9 @@ j in breakpoints.
       inability to find solutions with tolerable lines). Default value is 7. The value must be
       a positive integer or Infinity. If settings.maxThreads = Infinity, then solveLinePackingProblem 
       will do an exhaustive search of the breakpoint list space in every case.
+    * settings.userConstraints, if provided, is a function. It expects as input an array of boxes
+      and a length. The inputs to createLine are of the form:
+        createLine(boxes.slice(startIndex, endIndex), length, settings.userConstraints(startIndex, endIndex, lineIndex))
 
 Returns a nominally optimal solution to the given line packing problem. Specifically, it returns
 a function which expects a line length function lineLengths and returns an array 'lines' of line 
@@ -277,6 +280,7 @@ function solveLinePackingProblem(boxes, settings) {
   settings = settings || {};
   let maxThreads = settings.maxThreads || 7;
   let tolerance = settings.tolerance || Infinity;
+  let userConstraints = settings.userConstraints || (() => []);
 
   return function(lineLengths) {
     let liveThreads = [
@@ -324,7 +328,7 @@ function solveLinePackingProblem(boxes, settings) {
               if (!boxes[nextBreakpointIndex].isBreakpoint && i+1 !== thread.unusedBoxes.length) {
                 continue;
               }
-              let newThread = addLineToThread(boxes, lineLengths, tolerance, thread, nextBreakpointIndex);
+              let newThread = addLineToThread(boxes, lineLengths, tolerance, userConstraints, thread, nextBreakpointIndex);
               sortNewThread(newThread);
             }
           } else {
@@ -340,7 +344,7 @@ function solveLinePackingProblem(boxes, settings) {
               runningLength += boxes[i].optimalLength;
               i++;
             }
-            let newThread = addLineToThread(boxes, lineLengths, tolerance, thread, i);
+            let newThread = addLineToThread(boxes, lineLengths, tolerance, userConstraints, thread, i);
             sortNewThread(newThread);
 
             // back up i until we run into a breakpoint before the one we just used,
@@ -351,7 +355,7 @@ function solveLinePackingProblem(boxes, settings) {
             } while (i >= minNextBreakpointIndex && !boxes[i].isBreakpoint);
 
             if (i >= minNextBreakpointIndex && boxes[i].isBreakpoint) {
-              newThread = addLineToThread(boxes, lineLengths, tolerance, thread, i);
+              newThread = addLineToThread(boxes, lineLengths, tolerance, userConstraints, thread, i);
               sortNewThread(newThread);
             }
 
@@ -397,11 +401,13 @@ function computeMinNextBreakpointIndex(thread) {
 }
 
 // Returns a new thread whose breakpoint list is [...thread.breakpointList, nextBreakpointIndex].
-function addLineToThread(boxes, lineLengths, tolerance, thread, nextBreakpointIndex) {
+function addLineToThread(boxes, lineLengths, tolerance, userConstraints, thread, nextBreakpointIndex) {
   let minNextBreakpointIndex = computeMinNextBreakpointIndex(thread);
   let nextLineBoxes = boxes.slice(minNextBreakpointIndex, nextBreakpointIndex+1);
   let nextLineLength = lineLengths(thread.lines.length);
-  let nextLine = createLine(nextLineBoxes, nextLineLength);
+  let nextLine = createLine(
+    nextLineBoxes, nextLineLength, 
+    userConstraints(minNextBreakpointIndex, nextBreakpointIndex+1, thread.lines.length));
   let lines = thread.lines.concat([nextLine]);
   let badness = lines.map(line => line.badness).reduce((a,b)=>a+b, 0);
   let isTolerable = badness < tolerance;
