@@ -76,16 +76,12 @@ describe('solveLinePackingProblem', () => {
 
   it('works on a simple case with non-exhaustive search', () => {
     let solve = solveLinePackingProblem(boxes, { maxThreads: 2 });
-    for (let i = 0; i < 10; i++) {
-      checkSolve(solve);
-    }
+    checkSolve(solve);
   });
 
   it('works on a simple case with exhaustive search', () => {
     let solve = solveLinePackingProblem(boxes, { maxThreads: Infinity });
-    for (let i = 0; i < 10; i++) {
-      checkSolve(solve);
-    }
+    checkSolve(solve);
   });
 });
 
