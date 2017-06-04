@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "unit": "mocha --compilers js:babel-register test/unit/*.js test/unit/**/*.js",
+    "debug-unit": "mocha --compilers js:babel-register test/unit/*.js test/unit/**/*.js --debug-brk",
     "webpack": "webpack"
   },
   "repository": {

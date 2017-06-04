@@ -310,6 +310,10 @@ function solveLinePackingProblem(boxes, settings) {
                 1 + thread.breakpointList[thread.breakpointList.length-1];
             for (let i = 1; i <= thread.unusedBoxes.length; i++) {
               let nextLineBoxes = boxes.slice(minNextBreakpointIndex, i + minNextBreakpointIndex);
+              if (!nextLineBoxes[nextLineBoxes.length-1].isBreakpoint && 
+                  i !== thread.unusedBoxes.length) {
+                continue;
+              }
               let nextLineLength = lineLengths(thread.lines.length);
               let nextLine = createLine(nextLineBoxes, nextLineLength);
               let lines = thread.lines.concat([nextLine]);

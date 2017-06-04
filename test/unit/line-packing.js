@@ -13,6 +13,8 @@ for (let boxName in testBoxes) {
   velements[boxName] = testBoxes[boxName].velement;
 }
 
+debugger;
+
 describe('solveLinePackingProblem', () => {
   it('works on a simple case', () => {
     let boxes = [
