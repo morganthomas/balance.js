@@ -51,7 +51,7 @@ describe('solveLinePackingProblem', () => {
           ],
           solutionBadnesses: [0, 0, 0, 0],
           length: 350,
-          badness: 0,
+          badness: 4.652890945610781e-22,
           postBreakBox: undefined
         },
         {
@@ -67,11 +67,11 @@ describe('solveLinePackingProblem', () => {
           ],
           solutionBadnesses: [0, 0, 0],
           length: 425,
-          badness: 0,
+          badness: 2.5332406259436473e-21,
           postBreakBox: undefined
         }
       ],
-      badness: 0,
+      badness: 2.9985297205047253e-21,
       isTolerable: true,
       postBreakBox: undefined
     });
@@ -99,7 +99,7 @@ describe('createLine', () => {
       ],
       solutionBadnesses: [0, 0, 0],
       length: 225,
-      badness: 0,
+      badness: 1.1632227364026952e-22,
       postBreakBox: undefined
     });
   });
@@ -127,7 +127,7 @@ describe('createLine', () => {
       ],
       solutionBadnesses: [0, 0, 0, 0],
       length: 400,
-      badness: 0,
+      badness: 1.709291187658405e-21,
       postBreakBox: rigidBox100
     });
   });

@@ -412,11 +412,11 @@ function createLine(boxes, length) {
 
   let constrainedOptimizationProblem = constrainOptimizationProblem(optimizationProblem, constraints);
 
-  let layoutSolutions = constrainedOptimizationProblem.unconstrainPONuNJO(
-    solveOptimizationProblem(constrainedOptimizationProblem));
+  let solution = solveOptimizationProblem(constrainedOptimizationProblem);
+  let badness = constrainedOptimizationProblem.objectiveFunction.valueAt(solution);
+  let layoutSolutions = constrainedOptimizationProblem.unconstrainPONuNJO(solution);
 
   let solutionBadnesses = layoutSolutions.map((sol, i) => velements[i].layoutProblem.objectiveFunction.valueAt(sol));
-  let badness = solutionBadnesses.reduce((a,b) => a+b, 0);
 
   return {
     velements,
