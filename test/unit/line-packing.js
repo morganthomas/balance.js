@@ -30,8 +30,7 @@ describe('solveLinePackingProblem', () => {
 
     let solve = solveLinePackingProblem(boxes);
 
-    let lengths1array = [350, 425, 350, 350, 350, 350, 350, 350];
-    let lengths1 = (i) => lengths1array[i];
+    let lengths1 = (i) => i === 1 ? 425 : 350;
     let solution1 = solve(lengths1);
     expect(solution1).to.eql({
       breakpointList: [4,7],
