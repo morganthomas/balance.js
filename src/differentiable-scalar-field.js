@@ -21,7 +21,7 @@ where:
     * Assumes that as input it gets one PONJO congruent to domainRepresentative.
     * As output it produces a PONJO congruent to domainRepresentative.
 
-    */
+*/
 
 import { mapScalars } from './pojo.js';
 
