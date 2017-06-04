@@ -272,7 +272,10 @@ import { makeSoftConstraintField } from './scalar-fields/soft-constraint-field.j
 import { solveOptimizationProblem } from './optimization-problem.js';
 import { constrainOptimizationProblem } from './constrain-optimization-problem.js';
 
-function solveLinePackingProblem(boxes) {
+function solveLinePackingProblem(boxes, settings) {
+  let maxThreads = settings.maxThreads || 7;
+  let tolerance = settings.tolerance || Infinity;
+
   return function(lineLengths) {
     let liveThreads = [
       {
@@ -287,6 +290,26 @@ function solveLinePackingProblem(boxes) {
     ];
 
     let deadThreads = [];
+    let isExhaustive = //maxThreads === Infinity;
+        true; // TODO: implement non-exhaustive search
+
+    while (true) {
+      // Multiply
+      if (isExhaustive) {
+
+      } else {
+        // TODO
+      }
+
+      // Prune
+      // TODO
+
+      // TODO: pruning for non-exhaustive search
+
+      // check for stopping condition and maybe return
+
+      // check if we need to switch to exhaustive search
+    }
   };
 }
 
