@@ -322,7 +322,7 @@ function solveLinePackingProblem(boxes, settings) {
               let unusedBoxes = thread.unusedBoxes.slice(nextLineBoxes.length);
               let postBreakBox = nextLine.postBreakBox;
               let newThread = {
-                breakpointList: thread.breakpointList.concat([i]),
+                breakpointList: thread.breakpointList.concat([i-1+minNextBreakpointIndex]),
                 lines,
                 badness,
                 isTolerable,

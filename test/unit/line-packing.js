@@ -34,7 +34,7 @@ describe('solveLinePackingProblem', () => {
     let lengths1 = (i) => lengths1array[i];
     let solution1 = solve(lengths1);
     expect(solution1).to.eql({
-      breakpointList: [4],
+      breakpointList: [4,7],
       lines: [
         {
           velements: [
