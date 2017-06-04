@@ -30,7 +30,7 @@ describe('solveLinePackingProblem', () => {
 
     let solve = solveLinePackingProblem(boxes);
 
-    let lengths1array = [350, 425];
+    let lengths1array = [350, 425, 350, 350, 350, 350, 350, 350];
     let lengths1 = (i) => lengths1array[i];
     let solution1 = solve(lengths1);
     expect(solution1).to.eql({
@@ -65,7 +65,7 @@ describe('solveLinePackingProblem', () => {
             { height: 0, width: 125 }
           ],
           solutionBadnesses: [0, 0, 0],
-          length: 350,
+          length: 425,
           badness: 0
         }
       ],

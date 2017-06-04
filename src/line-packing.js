@@ -354,6 +354,7 @@ function solveLinePackingProblem(boxes, settings) {
         return {
           breakpointList: bestOne.breakpointList,
           lines: bestOne.lines,
+          badness: bestOne.badness,
           isTolerable: bestOne.isTolerable,
           postBreakBox: bestOne.postBreakBox
         };
