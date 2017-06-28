@@ -1,5 +1,5 @@
 import { makeParagraph } from '../../../src/velements/paragraph.js';
-import { BLACK } from '../../lib/colors.js';
+import { BLACK, WHITE } from '../../lib/colors.js';
 import { makeTestBox } from '../../lib/test-box.js';
 import { makeSoftConstraintField } from '../../../src/scalar-fields/soft-constraint-field.js';
 
@@ -23,32 +23,27 @@ const rigidBox200 = {
   isBreakpoint: false
 };
 
-const nonBreakingFillBox = {
-  velement: makeTestBox(BLACK),
-  optimalWidth: 200,
+const space = {
+  velement: makeTestBox(BLACK, makeSoftConstraintField({ height: 0, width: 0 },
+                                                       [[1,['width'],100]],
+                                                       100)),
+  optimalWidth: 100,
   isRigid: false,
-  isBreakpoint: false
-};
-
-const breakingFillBox = {
-  velement: makeTestBox(BLACK),
-  optimalWidth: 200,
-  isRigid: false,
-  isBreakpoint: false
+  isBreakpoint: true
 };
 
 export default makeParagraph([
   rigidBox100,
   rigidBox200,
-  nonBreakingFillBox,
+  space,
   rigidBox100,
-  breakingFillBox,
+  space,
   rigidBox100,
-  breakingFillBox,
   rigidBox100,
+  space,
   rigidBox200,
-  breakingFillBox,
+  space,
   rigidBox200,
   rigidBox100,
-  breakingFillBox
+  space
 ]);

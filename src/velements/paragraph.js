@@ -85,6 +85,7 @@ function makeParagraph(boxes) {
         }
       };
       heightUsed += Math.max(...line.layoutSolutions.map(sol => sol.height));
+      console.log('heightUsed', heightUsed);
       return result;
     });
   }
