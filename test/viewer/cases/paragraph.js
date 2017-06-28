@@ -30,7 +30,7 @@ const space = {
                         sumDifferentiableScalarFields([
                           makeSoftConstraintField({ height: 0, width: 0 },
                                                   [[1,['width'],100]],
-                                                  100),
+                                                  10),
                           makeNonNegativeConstraintField({ height: 0, width: 0 },
                                                          ['width'],
                                                          1000)
