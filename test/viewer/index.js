@@ -6,6 +6,7 @@ import hbox from './cases/hbox.js';
 import hbox2 from './cases/hbox2.js';
 import grid from './cases/grid.js';
 import paddingBox from './cases/padding-box.js';
+import paragraph from './cases/paragraph.js';
 import { drawToCanvas } from '../../src/graphics.js';
 import { renderBoxVElement } from '../../src/velement.js';
 
@@ -16,7 +17,8 @@ const cases = {
   paddingBox,
   hbox,
   hbox2,
-  grid
+  grid,
+  paragraph
 };
 
 const app = new Vue({

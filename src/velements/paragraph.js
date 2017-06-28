@@ -44,3 +44,55 @@ See ./line-packing.js for more commentary on the line breaking algorithm and how
 are interpreted.
 
 */
+
+import { solveLinePackingProblem } from '../line-packing.js';
+import { makeConstantScalarField } from '../differentiable-scalar-field.js';
+
+function makeParagraph(boxes) {
+  let solve = solveLinePackingProblem(boxes.map(box => Object.assign({}, box, {
+    lengthParameter: ['width'],
+    optimalLength: box.optimalWidth
+  })));
+
+  let layoutProblem = {
+    objectiveFunction: makeConstantScalarField({ width: 0, height: 0 }, 0),
+    initialGuessFunction(constraints) {
+      // TODO: implement properly
+      return { width: constraints.width || 0, height: constraints.height || 0 }
+    }
+  };
+
+  function render(solution) {
+    let width = solution.width;
+    let lines = solve(() => width).lines;
+    console.log(lines);
+    let heightUsed = 0;
+    return lines.map((line,i) => {
+      let widthUsed = 0;
+      let result = {
+        translate: {
+          what: line.velements.map((el,i) => {
+            let result = {
+              translate: {
+                what: el.render(line.layoutSolutions[i]),
+                by: { y: 0, x: widthUsed }
+              }
+            };
+            widthUsed += line.layoutSolutions[i].width;
+            return result;
+          }),
+          by: { x: 0, y: heightUsed }
+        }
+      };
+      heightUsed += Math.max(...line.layoutSolutions.map(sol => sol.height));
+      return result;
+    });
+  }
+
+  return {
+    layoutProblem,
+    render
+  };
+}
+
+export { makeParagraph }
