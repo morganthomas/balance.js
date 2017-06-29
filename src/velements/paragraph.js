@@ -48,11 +48,24 @@ are interpreted.
 import { solveLinePackingProblem } from '../line-packing.js';
 import { makeConstantScalarField } from '../differentiable-scalar-field.js';
 
+function paragraphBoxToLinePackingBox(box) {
+  let result = {};
+  result.velement = box.velement;
+  result.optimalLength = box.optimalWidth;
+  result.lengthParameter = ['width'];
+  result.isRigid = box.isRigid;
+  result.isBreakpoint = box.isBreakpoint;
+  if (box.preBreakBox) {
+    result.preBreakBox = paragraphBoxToLinePackingBox(box.preBreakBox);
+  }
+  if (box.postBreakBox) {
+    result.postBreakBox = paragraphBoxToLinePackingBox(box.postBreakBox);
+  }
+  return result;
+}
+
 function makeParagraph(boxes) {
-  let solve = solveLinePackingProblem(boxes.map(box => Object.assign({}, box, {
-    lengthParameter: ['width'],
-    optimalLength: box.optimalWidth
-  })));
+  let solve = solveLinePackingProblem(boxes.map(paragraphBoxToLinePackingBox));
 
   let layoutProblem = {
     objectiveFunction: makeConstantScalarField({ width: 0, height: 0 }, 0),
@@ -65,7 +78,6 @@ function makeParagraph(boxes) {
   function render(solution) {
     let width = solution.width;
     let lines = solve(() => width).lines;
-    console.log(lines);
     let heightUsed = 0;
     return lines.map((line,i) => {
       let widthUsed = 0;
@@ -85,7 +97,6 @@ function makeParagraph(boxes) {
         }
       };
       heightUsed += Math.max(...line.layoutSolutions.map(sol => sol.height));
-      console.log('heightUsed', heightUsed);
       return result;
     });
   }

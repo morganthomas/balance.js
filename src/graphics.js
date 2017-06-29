@@ -44,7 +44,8 @@ function drawToCanvasRecurse(ctx, graphics) {
   } else if (graphics.stroke) {
     let stroke = graphics.stroke;
     ctx.lineWidth = stroke.width;
-    ctx.strokeStyle = 'rgba(' + stroke.color.r * 100 + '%, ' + stroke.color.g * 100 + '%, ' + stroke.color.b * 100 + '%, '+ stroke.color.a + ')';
+    let color = 'rgba(' + stroke.color.r * 100 + '%, ' + stroke.color.g * 100 + '%, ' + stroke.color.b * 100 + '%, '+ stroke.color.a + ')';
+    ctx.strokeStyle = color;
     ctx.lineCap = stroke.lineCap;
     ctx.beginPath();
     ctx.moveTo(stroke.start.x, stroke.start.y);

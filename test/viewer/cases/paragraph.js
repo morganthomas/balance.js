@@ -1,9 +1,10 @@
 import { makeParagraph } from '../../../src/velements/paragraph.js';
-import { BLACK, WHITE } from '../../lib/colors.js';
+import { BLACK, WHITE, RED, GREEN } from '../../lib/colors.js';
 import { makeTestBox } from '../../lib/test-box.js';
 import { makeSoftConstraintField } from '../../../src/scalar-fields/soft-constraint-field.js';
 import { makeNonNegativeConstraintField } from '../../../src/scalar-fields/non-negative-constraint-field.js';
 import { sumDifferentiableScalarFields } from '../../../src/compose-differentiable-scalar-fields.js';
+import { makeConstantScalarField } from '../../../src/differentiable-scalar-field.js';
 
 let wantHeight = 
     makeSoftConstraintField(
@@ -12,7 +13,7 @@ let wantHeight =
       1);
 
 const rigidBox100 = {
-  velement: makeTestBox(BLACK, wantHeight),
+  velement: makeTestBox(GREEN, wantHeight),
   optimalWidth: 100,
   isRigid: true,
   isBreakpoint: false
@@ -25,19 +26,32 @@ const rigidBox200 = {
   isBreakpoint: false
 };
 
+let spaceWidthPreference = makeSoftConstraintField({ height: 0, width: 0 },
+                                                   [[1,['width'],100]],
+                                                   10);
+
+let spaceWidthNonNegative = makeNonNegativeConstraintField({ height: 0, width: 0 },
+                                                           ['width'],
+                                                           10000000)
+
+let spaceObjective = sumDifferentiableScalarFields(
+  //spaceWidthPreference, 
+  spaceWidthNonNegative, 
+  wantHeight);
+
+let fill = makeConstantScalarField({ height: 0, width: 0 }, 0);
+
 const space = {
-  velement: makeTestBox(BLACK,
-                        sumDifferentiableScalarFields([
-                          makeSoftConstraintField({ height: 0, width: 0 },
-                                                  [[1,['width'],100]],
-                                                  10),
-                          makeNonNegativeConstraintField({ height: 0, width: 0 },
-                                                         ['width'],
-                                                         1000)
-                        ])),
+  velement: makeTestBox(RED, spaceObjective),
   optimalWidth: 100,
   isRigid: false,
-  isBreakpoint: true
+  isBreakpoint: true,
+  preBreakBox: {
+    velement: makeTestBox(WHITE, fill),
+    optimalWidth: 0,
+    isRigid: false,
+    isBreakpoint: false
+  }
 };
 
 export default makeParagraph([
@@ -47,6 +61,7 @@ export default makeParagraph([
   rigidBox100,
   space,
   rigidBox100,
+  space,
   rigidBox100,
   space,
   rigidBox200,
