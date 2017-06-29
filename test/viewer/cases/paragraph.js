@@ -34,10 +34,15 @@ let spaceWidthNonNegative = makeNonNegativeConstraintField({ height: 0, width: 0
                                                            ['width'],
                                                            10000000)
 
+let breakWidthPreference = makeSoftConstraintField({ height: 0, width: 0 },
+                                                   [[1,['width'],0]],
+                                                   10000000);
+
 let spaceObjective = sumDifferentiableScalarFields(
   //spaceWidthPreference, 
   spaceWidthNonNegative, 
-  wantHeight);
+  wantHeight
+);
 
 let fill = makeConstantScalarField({ height: 0, width: 0 }, 0);
 
@@ -47,12 +52,19 @@ const space = {
   isRigid: false,
   isBreakpoint: true,
   preBreakBox: {
-    velement: makeTestBox(WHITE, fill),
+    velement: makeTestBox(WHITE, breakWidthPreference),
     optimalWidth: 0,
     isRigid: false,
     isBreakpoint: false
   }
 };
+
+const endingSpace = {
+  velement: makeTestBox(WHITE, fill),
+  optimalWidth: 0,
+  isRigid: false,
+  isBreakpoint: false
+}
 
 export default makeParagraph([
   rigidBox100,
