@@ -52,7 +52,7 @@ const space = {
   isRigid: false,
   isBreakpoint: true,
   preBreakBox: {
-    velement: makeTestBox(WHITE, breakWidthPreference),
+    velement: makeTestBox(WHITE, spaceWidthNonNegative),
     optimalWidth: 0,
     isRigid: false,
     isBreakpoint: false
