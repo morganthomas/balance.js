@@ -60,7 +60,7 @@ const space = {
 };
 
 const endingSpace = {
-  velement: makeTestBox(WHITE, fill),
+  velement: makeTestBox(WHITE, spaceWidthNonNegative),
   optimalWidth: 0,
   isRigid: false,
   isBreakpoint: false
@@ -80,5 +80,5 @@ export default makeParagraph([
   space,
   rigidBox200,
   rigidBox100,
-  space
+  endingSpace
 ]);
