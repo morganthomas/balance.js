@@ -164,7 +164,6 @@ DEFINITION. A "partial solution" to a line packing problem is an object of the f
  * lines is an array of lines, produced by applying breakpointList (with unusedBoxes possibly
    containing the last array of velements from breakBoxes(boxes, breakpointList)).
  * badness is the sum of the badnesses of the lines.
- * averageBadness = badness / lines.length.
  * isTolerable is a boolean, true iff all lines are tolerable.
  * unusedBoxes is an array of boxes (all the boxes that have yet to be packed into lines
    in this partial solution). When unusedBoxes.length = 0, we call this partial solution "complete."
@@ -289,7 +288,6 @@ function solveLinePackingProblem(boxes, settings) {
         breakpointList: [],
         lines: [],
         badness: 0,
-        averageBadness: 0,
         isTolerable: true,
         unusedBoxes: boxes,
         postBreakBox: undefined,
@@ -380,16 +378,15 @@ function solveLinePackingProblem(boxes, settings) {
     let minBadness = Infinity;
     let bestOne = null;
     liveThreads.forEach(thread => {
-      if (thread.averageBadness < minBadness) {
+      if (thread.badness < minBadness) {
         bestOne = thread;
-        minBadness = thread.averageBadness;
+        minBadness = thread.badness;
       }
     });
     return {
       breakpointList: bestOne.breakpointList,
       lines: bestOne.lines,
       badness: bestOne.badness,
-      averageBadness: bestOne.averageBadness,
       isTolerable: bestOne.isTolerable,
       postBreakBox: bestOne.postBreakBox
     };
@@ -413,7 +410,6 @@ function addLineToThread(boxes, lineLengths, tolerance, userConstraints, thread,
     userConstraints(minNextBreakpointIndex, nextBreakpointIndex+1, thread.lines.length));
   let lines = thread.lines.concat([nextLine]);
   let badness = lines.map(line => line.badness).reduce((a,b)=>a+b, 0);
-  let averageBadness = badness / lines.length;
   let isTolerable = badness < tolerance;
   let unusedBoxes = thread.unusedBoxes.slice(nextLineBoxes.length);
   let postBreakBox = nextLine.postBreakBox;
@@ -421,7 +417,6 @@ function addLineToThread(boxes, lineLengths, tolerance, userConstraints, thread,
     breakpointList: thread.breakpointList.concat([nextBreakpointIndex]),
     lines,
     badness,
-    averageBadness,
     isTolerable,
     unusedBoxes,
     postBreakBox,
