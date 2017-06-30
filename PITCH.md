@@ -1,6 +1,10 @@
+Dear IHS Markit colleagues,
+
+I wish to present a project proposal to you. I believe it has the potential to have a major impact on the information presentation industry, and to make us a lot of money.
+
 balance.js is a JavaScript frontend development framework. It aims to be an alternative to HTML, CSS, the DOM, and frameworks built on top of these. It uses basic HTML canvas drawing instructions to do low-level graphics rendering. Higher-level frontend development APIs are built from scratch based on a new document layout paradigm.
 
-balance.js aims to greatly simplify the process of frontend development while greatly increasing the creative options open to frontend designers. It has the potential to assist many aspects of our business, and to have a large impact on the frontend development industry.
+balance.js aims to greatly simplify the process of frontend development while greatly increasing the creative options open to frontend designers. 
 
 Initially I am targeting Web frontends, but balance.js can also be retargeted to produce PDFs, images, and mobile apps, and this should be pretty straightforward to do. Using balance.js to produce 3D/VR user interfaces would be less straightforward but also entirely possible.
 
