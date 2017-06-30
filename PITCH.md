@@ -10,11 +10,11 @@ Initially I am targeting Web frontends, but balance.js can also be retargeted to
 
 I have been working on balance.js for around two years. The basic objective of this R&D has been to simplify and modernize the design of the TeX typesetting engine, to produce a retargetable document rendering engine which is simpler and more flexible than existing alternatives. The purpose of doing so is to reduce the cost and suffering involved in developing frontends, while allowing for higher quality results and wider creative possibilities.
 
-My confidence is high that balance.js will deliver on these goals. To make my case concrete, I have attached design documentation and working code. These artifacts demonstrate a mathematical and philosophical theory of document layout which I am translating into production-ready JavaScript.
+My confidence is high that balance.js will deliver on these goals. To make my case concrete, I have attached design documentation and working code. These artifacts demonstrate a mathematical and philosophical theory of document layout which I am in the process of translating into production-ready JavaScript.
 
 I am proposing to make balance.js into an IHS Markit project. This is conditional on the two parties, IHS Markit and I, establishing mutual interest after appropriate due diligence, and agreeing on terms of such a relationship.
 
-I see the following value propositions for IHS Markit in pursuing my proposal. If balance.js delivers on its goals then it will empower us to provide higher quality, lower costs, and exciting new features to our clients, in the area of visual information presentation solutions. If balance.js delivers on its goals and IHS Markit receives credit for the achievement, then frontend developers who love balance.js are likely to be attracted to work at IHS Markit. 
+I see the following value propositions for IHS Markit in pursuing my proposal. If balance.js delivers on its goals then it will empower us to provide higher quality, lower costs, and exciting new features to our clients, in the area of information presentation solutions. If balance.js delivers on its goals and IHS Markit receives credit for the achievement, then frontend developers who love balance.js are likely to be attracted to work at IHS Markit. 
 
 It reflects my high regard for this audience that I'm presenting this proposal to IHS Markit. There are a number of high caliber people with companies who are quite interested in what I'm doing! This provides an additional reason to consider my proposal: if you do not, somebody else may!
 
