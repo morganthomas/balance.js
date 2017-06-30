@@ -10,7 +10,7 @@ My confidence is high that balance.js will deliver on these goals. To make my ca
 
 I am proposing to make balance.js into an IHS Markit project. This is conditional on the two parties, IHS Markit and I, establishing mutual interest after appropriate due diligence, and agreeing on terms of such a relationship.
 
-I see the following value propositions for IHS Markit in pursuing my proposal. balance.js would empower IHS Markit to provide more beautiful and innovative information presentation solutions to our clients, by bringing more design possibilities into the realm of the affordable. If IHS Markit receives credit for the achievement of balance.js, then frontend developers who love balance.js will be attracted to work at IHS Markit. I expect balance.js to be loved, eventually, by a significant proportion of frontend developers around the world.
+I see the following value propositions for IHS Markit in pursuing my proposal. balance.js would empower IHS Markit to provide more beautiful and innovative information presentation solutions to our clients, by bringing more and better design possibilities into the realm of the affordable. If IHS Markit receives credit for the achievement of balance.js, then frontend developers who love balance.js will be attracted to work at IHS Markit. I expect balance.js to be loved, eventually, by a significant proportion of frontend developers around the world.
 
 It reflects my high regard for this audience that I'm presenting this proposal to IHS Markit. There are a number of high caliber people with companies who are quite interested in what I'm doing! This provides an additional reason to consider my proposal: if you do not, somebody else may!
 
