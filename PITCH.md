@@ -1,4 +1,4 @@
-Dear IHS Markit colleagues,
+Dear colleagues,
 
 I wish to present a project proposal to you. I believe it has the potential to have a major impact on the information presentation industry, and to make us a lot of money.
 
