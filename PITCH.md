@@ -8,7 +8,7 @@ balance.js aims to greatly simplify the process of frontend development while gr
 
 Initially I am targeting Web frontends, but balance.js can also be retargeted to produce PDFs, images, and mobile apps, and this should be pretty straightforward to do. Using balance.js to produce 3D/VR user interfaces would be less straightforward but also entirely possible.
 
-I have been working on balance.js for around two years. The basic objective of this R&D has been to simplify and modernize the design of the TeX typesetting engine, to produce a retargetable document rendering engine which is simpler and more flexible than existing alternatives. The purpose of doing so is to reduce the cost and suffering involved in developing frontends, while allowing for higher quality results and wider creative possibilities.
+I have been working on balance.js for around two years. The basic objective of this R&D has been to simplify and modernize the design of the TeX typesetting engine, to produce a retargetable document rendering engine which is simpler and more flexible than existing alternatives. The purpose of doing so is to reduce the complexity and cost involved in developing frontends, while allowing for higher quality results and wider creative possibilities.
 
 My confidence is high that balance.js will deliver on these goals. To make my case concrete, I have attached design documentation and working code. These artifacts demonstrate a mathematical and philosophical theory of document layout which I am in the process of translating into production-ready JavaScript.
 
