@@ -130,4 +130,14 @@ Hboxes, vboxes, and grids provide some flexible and general rudiments of optimiz
 
 \section{Paragraph layout}
 
+Paragraph layout is a place where most document layout software does a sloppier job than humans did before the advent of computer typesetting.
+
+The most favored English paragraph layout paragraph convention before the advent of computer typesetting was \emph{justified type}. In justified type, each line of a paragraph (except possibly the last one) is completely filled with text. To achieve this, one stretches or shrinks the white space inside each line to match the line widths with each other. Justified type may be contrasted with \emph{flush left} type, the most common English paragraph layout convention in computer typesetting, where the spaces are kept at a constant width, and extra space is left at the right end of each line as needed.
+
+Making justified type look attractive involves some inherent challenges which most document layout software systems do not address. Approaching the problem in an unsophisticated way tends to lead to paragraphs which contain lines with very wide spaces that look bad. To achieve good quality when typesetting justified paragraphs, one needs to look for an optimal or near-optimal layout among the various ways of breaking the text into lines, including by hyphenating words.
+
+\TeX\ is a rare example of a computer typesetting system which can produce attractive justified type. The text you are reading has justified type, produced by \TeX's typesetting algorithm almost entirely without assistance from the docmunent author. You can observe that there are not lines with excessively wide spaces or other obvious defects of poorly justified type.
+
+The paragraph layout algorithm as the design stands is a special case of a more general \emph{line packing}\/ algorithm, which is a special case of a more general 
+
 \end{document}
