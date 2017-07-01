@@ -122,6 +122,8 @@ A ``horizontal box,'' or ``hbox,'' is what you get by composing a series of box 
 
 A ``vertical box,'' or ``vbox,'' is like an hbox except that it lays out its children vertically, not horizontally. All (immediate) children are constrained to have the same width, and the sum of their heights is equal to the height of the vbox.
 
-A ``grid'' is a type of box velement which generalizes both vboxes and hboxes. 
+A ``grid'' is a type of box velement which generalizes both vboxes and hboxes. It lays its children out in a tabular layout. All elements of a row are the same height, and all elements of a column are the same width. The width of the grid is the sum of the widths of the columns. The height of the grid is the sum of the heights of the rows. Subject to those constraints, the rows and columns are sized in whatever way minimizes the badnesses of the children, also taking into account the preferences in play in the surrounding context (if any).
+
+It is planned that it should be possible to have a child of a grid which spans multiple rows and/or multiple columns. This is not implemented.
 
 \end{document}
