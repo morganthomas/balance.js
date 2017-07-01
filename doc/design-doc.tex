@@ -1,5 +1,8 @@
 \documentclass{article}
 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
 \title{balance.js Design Document}
 \author{Morgan Thomas\footnote{This document is copyright 2017 Morgan Thomas. You may distribute this document to IHS Markit colleagues. All other rights reserved.}}
 
@@ -13,7 +16,7 @@ In its present form, balance.js is a JavaScript library which produces graphics 
 
 balance.js is an immature system. There is more theoretical progress than there is progress in implementation. There is significant progress in both areas, the result of over two years of R\&D Morgan has done. There remains much progress yet to be made. Morgan's primary focus has been on devising the core document layout algorithms. The primary area of issues remaining to be addressed, to achieve a production-ready product, is extending these core layout algorithms to create a developer-friendly API for creating information presentation solutions.
 
-This document aims to describe balance.js in high-level terms. The focus is on parts of balance.js that exist or are on the cusp of existing.
+This document aims to describe balance.js in high-level terms. The focus is on parts of balance.js that exist or are on the cusp of existing. This document is dense and technical.
 
 \section{Visual elements and semantic elements}
 
@@ -33,6 +36,30 @@ In the current implementation there is no concept of semantic elements. The fore
 
 \section{Visual elements}
 
-A visual element can be called, for short, a \emph{velement}. A velement is an object which must have two properties: a \emph{layout problem}, and a \emph{rendering function}. 
+A visual element can be called, for short, a \emph{velement}. A velement is an object which must have two properties: a \emph{layout problem}, and a \emph{rendering function}.
+
+The layout problem is an unconstrained numerical optimization problem over a real-valued, finite-dimensional Euclidean differentiable scalar field. In other words, a real-valued finite-dimensional Euclidean differentiable scalar field is a differentiable function $f : A \to \mathbb{R}$, where $A$ is a vector space isomorphic to $\mathbb{R}^n$ for some $\mathbb{R}$. Here $\mathbb{R}$ represents the set of real numbers, and $\mathbb{R}^n$ represents the set of sequences of real numbers of length $n$.
+
+In the implementation of balance.js, $A$ is the set of all plain old numerical JavaScript objects (PONJOs) which are structurally congruent to some PONJO $p$. A PONJO is a JavaScript object which can be constructed using only object literals, array literals, and numbers (excluding NaN, Infinity, and -Infinity). Here is an example of a PONJO:
+
+\verb`{ height: 100, width: 200, otherParams: [-3, 0] }`
+
+Two PONJOs are structurally congruent if and only if one can be transformed into the other by changing the values of numbers that are part of the PONJO. In other words, two structurally congruent PONJOs are the same shape, with corresponding subojects all having the same keys.
+
+The set of all PONJOs structurally congruent to some PONJO $p$ forms a vector space isomorphic to $\mathbb{R}^n$, where $n$ is the number of number values present in $p$.
+
+In the implementation of balance.js, a real-valued finite-dimensional Euclidean scalar field is represented by an object consisting of a PONJO $p$, the ``domain representative,'' which is representative of the domain vector space; a function valueAt from PONJOs congruent to $p$ to numbers; and a function gradientAt from PONJOs congruent to $p$ to PONJOs congruent to $p$. valueAt represents the function $f$ which the scalar field is, and gradientAt represents the gradient of $f$. See \texttt{src/differentiable-scalar-field} for more detail.
+
+Henceforth I will shorten ``real-valued finite-dimensional Euclidean scalar field'' to ``differentiable scalar field'' or just ``scalar field.''
+
+Henceforth I will shorten ``unconstrained numerical optimization problem over a differentiable scalar field'' to ``optimization problem.''
+
+The concept of optimization problems as implemented in balance.js is a general mathematical concept which is not specific to document layout. Document layout optimization is one application of this concept and implementation.
+
+An optimization problem, as represented in the implementation of balance.js, consists of two things: a differentiable scalar field called the \emph{objective function}, and an initial guess function.
+
+The domain of the objective function is the set of PONJOs congruent to the domain representative, considered as a vector space isomorphic to \mathbb{R}^n. This domain is the solution space of the optimization problem.
+
+The objective function maps any element of the solution space to a real number. This number is interpreted as a negative utility value. In other words, the higher the objective function's value on an element of the solution space, the less desirable that solution is considered to be. The values of the objective function can be called \emph{badness}\/ values.
 
 \end{document}
