@@ -58,7 +58,7 @@ The concept of optimization problems as implemented in balance.js is a general m
 
 An optimization problem, as represented in the implementation of balance.js, consists of two things: a differentiable scalar field called the \emph{objective function}, and an initial guess function.
 
-The domain of the objective function is the set of PONJOs congruent to the domain representative, considered as a vector space isomorphic to \mathbb{R}^n. This domain is the solution space of the optimization problem.
+The domain of the objective function is the set of PONJOs congruent to the domain representative, considered as a vector space isomorphic to $\mathbb{R}^n$. This domain is the solution space of the optimization problem.
 
 The objective function maps any element of the solution space to a real number. This number is interpreted as a negative utility value. In other words, the higher the objective function's value on an element of the solution space, the less desirable that solution is considered to be. The values of the objective function can be called \emph{badness}\/ values.
 
@@ -68,6 +68,22 @@ To solve an optimization problem is to find a solution whose badness or objectiv
 
 Iterative numerical optimization is not guaranteed to arrive at an approximation of an optimal solution to the optimization problem, in the sense that a local minimum of the objective function is not necessarily a global minimum. It is guaranteed to arrive at an approximation of an optimal solution in some special cases, such as when the objective function is convex. In practice one ought to construct objective functions and initial guess functions which will be well behaved in iterative numerical optimization. By choosing appropriate objective functions and initial guess functions one can avoid significant problems resulting from the limitations of iterative numerical optimization.
 
+An optimization problem is represented by a differentiable scalar field called the objective function, and an initial guess function. The initial guess function is used to produce initial guesses for iterative numerical optimization.
 
+The initial guess function accepts as input zero or more constraints on the solution, requiring specific numbers in the solution to have specific values. For the purposes of solving the optimization problem, you don't provide any constraints to the initial guess function. The reason the initial guess function accepts constraints is to ease the process of composing optimization problems (which is part of the process of composing velements).
+
+For more details on optimization problems, see \verb`src/optimization-problem.js`.
+
+Now we can circle back to the definition of velements. A velement consists of an optimization problem, called the \emph{layout problem}, and a \emph{rendering function}. I have just explained exactly what the layout problem is. The rendering function is a function which takes as input a solution to the layout problem, and produces as output an object representing vector graphics to be drawn on the screen.
+
+For more details, see \verb`src/velement.js`.
+
+\section{Box visual elements}
+
+\emph{Box velements} are a type of velement which is of special interest. A box velement is a velement whose layout problem's solution space has properties \verb`height` and \verb`width`. A box velement is assumed to be confined to a rectangular bounding box of the given height and width (though it can draw outside of the borders of its bounding box in the infrequent cases where this is appropriate).
+
+If you know that a velement is a box velement, then you can compose it with other box velements to create new box velements, in a variety of useful layout patterns.
+
+A ``horizontal box,'' or ``hbox,'' is what you get by composing a series of box velements in a horizontal row. Every (immediate) child of an hbox has the same height as the hbox, and the sum of the widths of the (immediate) children of the hbox is equal to the width of the hbox. Any series of box velements can be composed into an hbox. The optimization problem of the hbox will incorporate the optimization problems of its children. The hbox will therefore assume whatever height and width is optimal balancing the height and width preferences of its children, subject to the preferences in play in the surrounding context (when the hbox is a child of another velement).
 
 \end{document}
