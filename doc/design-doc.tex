@@ -62,4 +62,8 @@ The domain of the objective function is the set of PONJOs congruent to the domai
 
 The objective function maps any element of the solution space to a real number. This number is interpreted as a negative utility value. In other words, the higher the objective function's value on an element of the solution space, the less desirable that solution is considered to be. The values of the objective function can be called \emph{badness}\/ values.
 
+The purpose of the initial guess function is to provide a starting point or initial guess for iterative numerical optimization.
+
+To solve an optimization problem is to find a solution whose badness or objective function value is as low as possible. Iterative numerical optimization algorithms approximate this goal by starting with an initial guess (an element of the solution space) and flowing through the solution space in the direction of better solutions, progressively improving the solution at hand until one has (approximately) a solution that can't be improved by moving a short distance in any direction.
+
 \end{document}
