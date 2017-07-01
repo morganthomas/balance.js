@@ -32,7 +32,7 @@ Optimization-based layout can be contrasted with constraint-based layout, which 
 
 In constraint-based layout, one specifies a set of constraints that a layout must satisfy, and one looks for a layout satisfying all the constraints. Whereas the core algorithm class of optimization-based layout is numerical optimization, the core algorithm class of constraint-based layout is constraint solving.
 
-In my opinion, optimization-based layout promises to offer significant advantages compared to constraint-based layout. I see the following areas of advantage.
+In my opinion, optimization-based layout promises to offer significant advantages over constraint-based layout, and to be a better approach for most problems. I see the following areas of advantage.
 
 \begin{enumerate}
 \item \textbf{Run-time stability.} Constraint solving is in general highly computationally complex. It is not easy to predict how hard it will be for a constraint solving algorithm to solve a given set of constraints. It is easy when using constraint solving layout algorithms to unintentionally bump into cases which cause the algorithm to spin out into an excessively long-running search that hangs the UI. These comments are not based on my personal experiences; they are based on theoretical considerations and on experiences reported to me by a friend who is a well-regarded member of the local software community.
