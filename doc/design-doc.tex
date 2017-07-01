@@ -32,14 +32,20 @@ Optimization-based layout can be contrasted with constraint-based layout, which 
 
 In constraint-based layout, one specifies a set of constraints that a layout must satisfy, and one looks for a layout satisfying all the constraints. Whereas the core algorithm class of optimization-based layout is numerical optimization, the core algorithm class of constraint-based layout is constraint solving.
 
-In my opinion, optimization-based layout promises to offer significant advantages compared to constraint-based layout. There are two main areas of advantage I see:
+In my opinion, optimization-based layout promises to offer significant advantages compared to constraint-based layout. I see the following areas of advantage.
 
 \begin{enumerate}
-\item \textbf{Algorithmic complexity.} Constraint solving is in general highly computationally complex. It is not easy to predict how hard it will be for a constraint solving algorithm to solve a given set of constraints. It is easy when using constraint solving layout algorithms to unintentionally bump into cases which cause the algorithm to spin out into an excessively long-running search that hangs the UI. These comments are not based on my personal experiences; they are based on theoretical considerations and on experiences reported to me by a friend who is a well-regarded member of the local software community.
+\item \textbf{Run-time stability.} Constraint solving is in general highly computationally complex. It is not easy to predict how hard it will be for a constraint solving algorithm to solve a given set of constraints. It is easy when using constraint solving layout algorithms to unintentionally bump into cases which cause the algorithm to spin out into an excessively long-running search that hangs the UI. These comments are not based on my personal experiences; they are based on theoretical considerations and on experiences reported to me by a friend who is a well-regarded member of the local software community.
 
   In contrast to constraint solving algorithms, (iterative) numerical optimization algorithms are quite scalable and predictable in terms of CPU resource use. One can construct weird examples which will make them spin out, too, but in practice the run-time of the algorithm should not vary wildly between problems of around the same size. Small changes to the inputs to the algorithm should in general result in small changes to the CPU time consumption of the algorithm.
 
-\item \textbf{Flexibility.} 
+\item \textbf{Expressing preferences and not just requirements.} Constraint based layout paradigms allow you to express layout requirements. Optimization based layout paradigms allow you to express layout preferences. In constraint based layout, either the layout algorithm will meet all the layout requirements, or the layout algorithm will fail (and possibly spin out). Optimization based layout, in contrast, works on the assumption that it may be impossible to satisfy all the layout preferences perfectly, and looks to satisfy all preferences as well as it can subject to all other preferences, weighting the various preferences in a way the application developer can control.
+
+  This allows, for example, for the application developer to encode a preference against paragraphs with widows and orphans, which can then be weighed by the layout algorithm against all other preferences encoded in the visual document, and met if doing so allows the total badness of the layout to be minimized when taking into account all other preferences.
+
+\item \textbf{Adjustability of solutions.} Given a solution to a numerical optimization problem, one can make a small adjustment to the problem and use the solution as an initial guess for the adjusted problem. This allows for the adjusted problem to be solved much more quickly than if one were solving it from scratch. The nearer the initial guess is to the final solution, the less time it will take for an iterative numerical optimization algorithm to run. This means (as I have seen in practice) that adjusting a solution to account for a small change in the problem takes much less CPU time than computing a solution from scratch.
+
+  The great advantage of this property of iterative numerical optimization algorithms is that it assists animation. Animation is a use case where it is extremely valuable to be able to adjust a solution to solve an adjusted problem, and to do so very quickly.
 \end{enumerate}
 
 \section{Visual elements and semantic elements}
