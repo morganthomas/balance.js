@@ -72,7 +72,7 @@ In the design of balance.js, the semantic document and the visual document are g
 
 A visual element can be called, for short, a \emph{velement}. A velement is an object which must have two properties: a \emph{layout problem}, and a \emph{rendering function}.
 
-The layout problem is an unconstrained numerical optimization problem over a real-valued, finite-dimensional Euclidean differentiable scalar field. In other words, a real-valued finite-dimensional Euclidean differentiable scalar field is a differentiable function $f : A \to \mathbb{R}$, where $A$ is a vector space isomorphic to $\mathbb{R}^n$ for some $\mathbb{R}$. Here $\mathbb{R}$ represents the set of real numbers, and $\mathbb{R}^n$ represents the set of sequences of real numbers of length $n$.
+The layout problem is an unconstrained numerical optimization problem over a real-valued, finite-dimensional Euclidean differentiable scalar field. In other words, a real-valued finite-dimensional Euclidean differentiable scalar field is a differentiable function $f : A \to \mathbb{R}$, where $A$ is a vector space isomorphic to $\mathbb{R}^n$ for some positive integer $n$. Here $\mathbb{R}$ represents the set of real numbers, and $\mathbb{R}^n$ represents the set of sequences of real numbers of length $n$.
 
 In the implementation of balance.js, $A$ is the set of all plain old numerical JavaScript objects (PONJOs) which are structurally congruent to some PONJO $p$. A PONJO is a JavaScript object which can be constructed using only object literals, array literals, and numbers (excluding NaN, Infinity, and -Infinity). Here is an example of a PONJO:
 
