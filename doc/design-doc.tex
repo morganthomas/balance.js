@@ -203,4 +203,10 @@ Let $j^-$ be the greatest positive integer less than $j$ such that $c_{j^-}$ is 
 
 It is a fact not yet noted that $j$ itself may not exist. If $j$ does not exist, let $\text{advance}(p) = \{p\}$. If $j$ does exist, let $\text{advance}(p) = \{p+j, p+j^+, p+j^-\}$; this is a set of one to three paths, depending which of $j^+$ and $j^-$ exist. $p+a$ denotes the path resulting from adding $a$ to the end of $p$.
 
+That completes the definition of the advance function in the line packing specialization of the path optimization algorithm.
+
+Next let's define the utility function. This is a function $\text{utility} : P \to \mathbb{R}$ assigning a badness value to each path $p \in P$. $\text{utility}(p)$ is the sum of the badnesses of the lines in $p$. How do we compute the badness of a line?
+
+Recall that $p$ is a sequence of indices into the sequences of boxes $b_1,...,b_n$. A line will consist of a sequence $c,b_i,...,b_j,d$, where $b_i,...,b_j$ is some subsequence of $b_1,...,b_n$, $c$ is the (possibly non-existent) post-break box of $b_{i-1}$, and $d$ is the (possibly non-existent) pre-break box of $b_{j+1}$.
+
 \end{document}
