@@ -233,7 +233,7 @@ That completes the definition of the line packing specialization of the path opt
 
 Paragraph velements provide the first application of the line packing algorithm.
 
-To produce a paragraph velement, you need to provide as input a sequence of paragraph boxes, $b_1,...,b_n$. A paragraph box is very much like the boxes used in line packing, but it is not the same thing. A paragraph box is an object with the following properties:
+To produce a paragraph velement, you need to provide as input a sequence of paragraph boxes, $b_1,...,b_n$. A paragraph box is very much like the boxes used in line packing, but it is not quite the same thing. A paragraph box is an object with the following properties:
 
 \begin{enumerate}
 \item A velement.
@@ -243,6 +243,12 @@ To produce a paragraph velement, you need to provide as input a sequence of para
 \item If isBreakpoint, then optionally a preBreakBox and/or a postBreakBox, both paragraph boxes.
 \end{enumerate}
 
-A paragraph velement is a type of box velement. 
+A paragraph velement is a type of box velement. Its lines' heights are computed to fill the available height, and its lines all occupy all the available width. (You can get flush left type by giving all your breakpoint boxes a preBreakBox which is a whitespace fill box.)
+
+I'll sketch the rendering function of a paragraph velement. The goal is to lay out the velements of the boxes $b_1,...,b_n$ in lines of a given width $w$, while occupying a given height $h$, and to do so optimally.
+
+Apply line packing to figure out the best way to split the boxes $b_1,...,b_n$ into lines $l_1,...,l_m$, all of length $w$. On that basis, construct a vbox whose children are a series of hboxes, one hbox per line, where the children of the hboxes are the velements of the boxes $b_1,...,b_n$. Then render that vbox.
+
+TODO: layout problem
 
 \end{document}
