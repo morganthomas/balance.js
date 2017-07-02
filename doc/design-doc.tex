@@ -186,6 +186,6 @@ A path represents a way of breaking the input sequence into lines. A path is a s
 
 The initial path is the empty sequence.
 
-Suppose you have a path $p$. How do you compute $\text{advance}(p)$? Let $k$ be the final element of $p$, or let $k = 1$ if $p$ is the empty sequence. Let $c_1,...,c_m = b_k,...,b_n$. $c_1,...,c_m$ is the set of 
+Suppose you have a path $p$. How do you compute $\text{advance}(p)$? Let $k$ be the final element of $p$, or let $k = 1$ if $p$ is the empty sequence. Let $c_1,...,c_m = b_k,...,b_n$. $c_1,...,c_m$ is the sequence of boxes in the input sequence that come after the final break point in $p$. If $b_{k-1}$ exists and has a post-break box, let $d$ be its post-break box.
 
 \end{document}
