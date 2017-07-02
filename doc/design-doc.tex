@@ -178,10 +178,14 @@ A breakpoint box can have a ``pre-break box'' and/or a ``post-break box.'' When 
 
 A ``line'' is a sequence of boxes.
 
-The input to the line packing algorithm is a sequence of boxes. Fix a sequence of boxes $b_1,...,b_n$ to serve as the input. 
+The input to the line packing algorithm is a finite sequence of boxes and an infinite sequence of line lengths. To serve as the input, fix a sequence of boxes $b_1,...,b_n$, and a function $l : \mathbb{Z}^+ \to \mathbb{R}^+$ from positive integers to positive real numbers. $l$ represents the infinite sequence of line lengths.
 
 The line packing algorithm is an application of the path optimization algorithm. To specify the line packing algorithm, it suffices to specify the appropriate setup for the path optimization algorithm. We'll start with what paths are.
 
 A path represents a way of breaking the input sequence into lines. A path is a sequence of non-negative integers less than $n$, arranged in ascending order. It is understood as a sequence of zero-based indices into the input sequence $b_1,...,b_n$. It is understood as the series of indices of paths which are the points of line breaks.
+
+The initial path is the empty sequence.
+
+Suppose you have a path $p$. How do you compute $\text{advance}(p)$? Let $k$ be the final element of $p$, or let $k = 1$ if $p$ is the empty sequence. Let $c_1,...,c_m = b_k,...,b_n$. $c_1,...,c_m$ is the set of 
 
 \end{document}
