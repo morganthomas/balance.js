@@ -138,6 +138,22 @@ Making justified type look attractive involves some inherent challenges which mo
 
 \TeX\ is a rare example of a computer typesetting system which can produce attractive justified type. The text you are reading has justified type, produced by \TeX's typesetting algorithm almost entirely without assistance from the docmunent author. You can observe that there are not lines with excessively wide spaces or other obvious defects of poorly justified type (or at least, the level of such defects is low).
 
-The paragraph layout algorithm as the design stands is a special case of a more general \emph{line packing}\/ algorithm, which is a special case of a more general 
+The paragraph layout algorithm as the design stands is a special case of a more general \emph{line packing}\/ algorithm, which is a special case of a more general \emph{path optimization} algorithm. I'll start by outlining the path optimization algorithm.
+
+The setup for the path optimization algorithm is the following data:
+
+\begin{enumerate}
+\item A finite set $P$ of ``paths.''
+\item An initial path $\text{initial} \in P$.
+\item A function $\text{advance} : P \to \mathcal{P}(P)$ from paths to sets of paths. ($\mathcal{P}(P)$ is the set of subsets of $P$.)
+\item A function $\text{isFeasible} : P \to \{\text{true},\text{false}\}$ from paths to booleans. Call a path $p$ ``feasible'' if and only if $\text{isFeasible}(p) = \text{true}$.
+\item A function $\text{utility} : P \to \mathbb{R}$.
+\end{enumerate}
+
+Call a path $p \in P$ ``complete'' if and only if $\text{advance}(p) = \emptyset$ ($\emptyset$ is the empty set).
+
+The goal of the path optimization algorithm is to find a complete path $p \in P$ such that $\text{utility}(p)$ is as small as possible. The paths searched are the feasible paths that can be produced by advancing the initial path. In other words, the paths searched are:
+
+\[ \{\text{initial}\} \cup \text{advance}(\text{initial}) \cup \{\text{advance}(a) : a \in \text{advance}(\text{initial})\} \cup ... \]
 
 \end{document}
