@@ -82,7 +82,15 @@ Two PONJOs are structurally congruent if and only if one can be transformed into
 
 The set of all PONJOs structurally congruent to some PONJO $p$ forms a vector space isomorphic to $\mathbb{R}^n$, where $n$ is the number of number values present in $p$.
 
-In the implementation of balance.js, a real-valued finite-dimensional Euclidean scalar field is represented by an object consisting of a PONJO $p$, the ``domain representative,'' which is representative of the domain vector space; a function valueAt from PONJOs congruent to $p$ to numbers; and a function gradientAt from PONJOs congruent to $p$ to PONJOs congruent to $p$. valueAt represents the function $f$ which the scalar field is, and gradientAt represents the gradient of $f$. See \texttt{src/differentiable-scalar-field} for more detail.
+In the implementation a real-valued finite-dimensional Euclidean scalar field is represented by an object consisting of:
+
+\begin{enumerate}
+\item a PONJO $p$, the ``domain representative,'' which is representative of the domain vector space;
+\item a function valueAt from PONJOs congruent to $p$ to numbers;
+\item and a function gradientAt from PONJOs congruent to $p$ to PONJOs congruent to $p$.
+\end{enumerate}
+
+valueAt represents the function $f$ which the scalar field is, and gradientAt represents the gradient of $f$. See \texttt{src/differentiable-scalar-field} for more detail.
 
 Henceforth I will shorten ``real-valued finite-dimensional Euclidean scalar field'' to ``differentiable scalar field'' or just ``scalar field.''
 
