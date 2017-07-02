@@ -156,7 +156,7 @@ The setup for the path optimization algorithm is the following data:
 \begin{enumerate}
 \item A finite set $P$ of ``paths.''
 \item An initial path $\text{initial} \in P$. ($\in$, pronounced ``in,'' is the symbol for membership in a set.)
-\item A function $\text{advance} : P \to \mathcal{P}(P)$ from paths to sets of paths. ($\mathcal{P}(P)$ is the set of subsets of $P$.)
+\item A function $\text{advance} : P \to \mathcal{P}(P)$ from paths to sets of paths. ($\mathcal{P}(P)$ is the set of all subsets of $P$, i.e. the power set of $P$.)
 \item A function $\text{isFeasible} : P \to \{\text{true},\text{false}\}$ from paths to booleans. Call a path $p$ ``feasible'' if and only if $\text{isFeasible}(p) = \text{true}$.
 \item A function $\text{utility} : P \to \mathbb{R}$.
 \item A positive integer maxThreads which is the maximum number of paths that will be simultaneously explored.
