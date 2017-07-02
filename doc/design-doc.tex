@@ -26,7 +26,7 @@ I call the layout paradigm of balance.js \emph{optimization-based layout}. In th
 
 The function for computing the badness of a layout solution is specified as a consequence of the application developer's use of the API. Ordinarily the application developer would not specify the badness function explicitly; ordinarily, it would be a very complex function that is computed implicitly from the application developer's high level API instructions.
 
-The goal of the balance.js layout algorithm is to find a layout solution for the document whose badness is as low as possible. This is done via a numerical optimization algorithm. Numerical optimization is a pretty well-understood problem. The main technical challenge is to construct the badness function to be minimized.
+The goal of the balance.js layout algorithm is to find a layout solution for the document whose badness is as low as possible. This is done via an iterative numerical optimization algorithm. The main technical challenge is to construct the function to be minimized: i.e., the function which takes a layout solution and returns it badness.
 
 Optimization-based layout can be contrasted with constraint-based layout, which is a similar but importantly different layout paradigm. A representative example of a constraint-based layout paradigm is the layout paradigm of Apple's UIKit.
 
