@@ -168,4 +168,14 @@ Halt this loop when all threads are complete. This happens in other words when a
 
 Note that this path optimization algorithm will not necessarily halt. It will halt in the application of line packing, because every path will eventually be advanced into a complete path.
 
+Now let's move to a description of the line packing algorithm. The purpose of the line packing algorithm is to fit a finite number of ``boxes'' into a finite sequence of lines whose lengths are drawn from a given infinite sequence of lengths.
+
+Boxes are of three types: rigid, elastic, and fill. A rigid box has a fixed length. An elastic box has an optimal length but it can vary from that length. A fill box has no preferred length and can be any length.
+
+A box can be a breakpoint or not. If a box is a breakpoint, then it can be the position of a line break. When a box is the position of a line break, the box is destroyed.
+
+A breakpoint box can have a ``pre-break box'' and/or a ``post-break box.'' When a box is the point of a line break, any pre-break box it has is inserted at the end of the line before the break, and any post-break box it has is inserted at the start of the line after the break.
+
+
+
 \end{document}
