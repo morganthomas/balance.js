@@ -223,4 +223,12 @@ If the line contains no fill box and contains elastic boxes, then $\text{utility
 \item Let $r$ = stretchShrinkRatio = leftover / elasticTotal.
 \end{enumerate}
 
+That completes the definition of the utility function in the line packing specialization of the path optimization algorithm.
+
+Let's move on to the isFeasible function. Assume some feasibility threshold $t$ is given to us as an input of the procedure. For any path $p$, $\text{isFeasible}(p) = (\text{utility}(p) \leq t)$.
+
+maxThreads is given to us as an input of the procedure.
+
+That completes the definition of the line packing specialization of the path optimization algorithm.
+
 \end{document}
