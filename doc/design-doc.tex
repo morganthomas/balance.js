@@ -195,7 +195,7 @@ A path represents a way of breaking the input sequence into lines. A path is a s
 
 The initial path is the empty sequence.
 
-Suppose you have a path $p$. How do you compute $\text{advance}(p)$? Let $k$ be the final element of $p$, or let $k = 1$ if $p$ is the empty sequence. Let $c_1,...,c_m = b_{k+1},...,b_n$. $c_1,...,c_m$ is the sequence of boxes in the input sequence that come after the final break point in $p$. If $b_{k-1}$ exists and has a post-break box, let $d$ be its post-break box.
+Suppose you have a path $p$. How do you compute $\text{advance}(p)$? Let $k$ be the final element of $p$ plus one, or let $k = 1$ if $p$ is the empty sequence. Let $c_1,...,c_m = b_{k},...,b_n$. $c_1,...,c_m$ is the sequence of boxes in the input sequence that come after the final break point in $p$. If $b_{k-1}$ exists and has a post-break box, let $d$ be its post-break box.
 
 For non-negative integer $j$, let $w(j)$ be the sum of the lengths of $d, c_1,...,c_j$. Consider the length of an elastic box to be its optimal length, and the length of a fill box to be 0. Choose $j$ to be the greatest number such that $c_j$ is a breakpoint box and $w(j) < l$, where $l$ is short for $l(\text{length of $p$}+1)$, the length of the line we are currently forming.
 
