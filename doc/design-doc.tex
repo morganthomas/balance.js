@@ -138,6 +138,8 @@ Making justified type look attractive involves some inherent challenges which mo
 
 \TeX\ is a rare example of a computer typesetting system which can produce attractive justified type. The text you are reading has justified type, produced by \TeX's typesetting algorithm almost entirely without assistance from the docmunent author. You can observe that there are not lines with excessively wide spaces or other obvious defects of poorly justified type (or at least, the level of such defects is low).
 
+The algorithm sketched in this section is a simplification of \TeX's paragraph breaking algorithm, which I am working on implementing in balance.js. This algorithm doesn't capture all subtelties of \TeX's algorithm, but further iteration can address that.
+
 The paragraph layout algorithm as the design stands is a special case of a more general \emph{line packing}\/ algorithm, which is a special case of a more general \emph{path optimization} algorithm. I'll start by outlining the path optimization algorithm.
 
 The setup for the path optimization algorithm is the following data:
@@ -148,12 +150,22 @@ The setup for the path optimization algorithm is the following data:
 \item A function $\text{advance} : P \to \mathcal{P}(P)$ from paths to sets of paths. ($\mathcal{P}(P)$ is the set of subsets of $P$.)
 \item A function $\text{isFeasible} : P \to \{\text{true},\text{false}\}$ from paths to booleans. Call a path $p$ ``feasible'' if and only if $\text{isFeasible}(p) = \text{true}$.
 \item A function $\text{utility} : P \to \mathbb{R}$.
+\item A positive integer maxThreads which is the maximum number of paths that will be simultaneously explored.
 \end{enumerate}
 
-Call a path $p \in P$ ``complete'' if and only if $\text{advance}(p) = \emptyset$ ($\emptyset$ is the empty set).
+Call a path $p \in P$ ``complete'' if and only if $\text{advance}(p) = \{p\}$.
 
-The goal of the path optimization algorithm is to find a complete path $p \in P$ such that $\text{utility}(p)$ is as small as possible. The paths searched are the feasible paths that can be produced by advancing the initial path. In other words, the paths searched are:
+The goal of the path optimization algorithm is to find a complete path $p \in P$ such that $\text{utility}(p)$ is as small as possible. The paths searched are the feasible paths that can be produced by starting from the initial path, applying the ``advance'' function, choosing an element from the result, and repeating those two steps any number of times.
 
-\[ \{\text{initial}\} \cup \text{advance}(\text{initial}) \cup \{\text{advance}(a) : a \in \text{advance}(\text{initial})\} \cup ... \]
+The algorithm proceeds as follows. Maintain a set of paths called ``threads.'' Initially, $\text{threads} = \{\text{initial}\}$. Repeatedly perform the following steps:
+
+\begin{enumerate}
+\item Update $\text{threads} = \bigcup_{a \in \text{threads}} \{b \in \text{advance}(a) : \text{isFeasible}(b)\}$. That is, update the set of threads to the set of feasible paths resulting from advancing one of the current threads.
+\item If $|\text{threads}| > \text{maxThreads}$, then update $\text{threads}$ to the first of its maxThreads elements, when sorted in ascending order by the value of the utility function.
+\end{enumerate}
+
+Halt this loop when all threads are complete. This happens in other words when a pass through the loop does not change the threads. Provide as output the element $t \in \text{threads}$ such that $\text{utility}(t)$ is as small as possible.
+
+Observe that this path optimization algorithm will not necessarily halt. It will halt in the application of line packing, because every path will eventually be advanced into a complete path.
 
 \end{document}
