@@ -28,7 +28,7 @@ The function for computing the badness of a layout solution is specified as a co
 
 The goal of the balance.js layout algorithm is to find a layout solution for the document whose badness is as low as possible. This is done via an iterative numerical optimization algorithm. The main technical challenge is to construct the function to be minimized: i.e., the function which takes a layout solution and returns it badness.
 
-Optimization-based layout can be contrasted with constraint-based layout, which is a similar but importantly different layout paradigm. A representative example of a constraint-based layout paradigm is the layout paradigm of Apple's UIKit.
+Optimization-based layout can be contrasted with constraint-based layout, which is a similar but importantly different layout paradigm. A representative example of a constraint-based layout system is Apple's Auto Layout.
 
 In constraint-based layout, one specifies a set of constraints that a layout must satisfy, and one looks for a layout satisfying all the constraints. Whereas the core algorithm class of optimization-based layout is numerical optimization, the core algorithm class of constraint-based layout is constraint solving.
 
