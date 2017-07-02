@@ -209,4 +209,18 @@ Next let's define the utility function. This is a function $\text{utility} : P \
 
 Recall that $p$ is a sequence of indices into the sequences of boxes $b_1,...,b_n$. A line will consist of a sequence $c,b_i,...,b_j,d$, where $b_i,...,b_j$ is some subsequence of $b_1,...,b_n$, $c$ is the (possibly non-existent) post-break box of $b_{i-1}$, and $d$ is the (possibly non-existent) pre-break box of $b_{j+1}$.
 
+If the line contains only rigid boxes, then $\text{utility}(p)$ is equal to the difference between the length of the line and the sum of the lengths of the boxes.
+
+If the line contains a fill box, then $\text{utility}(p) = 0$.
+
+If the line contains no fill box and contains elastic boxes, then $\text{utility}(p) = r$, where $r$ is the stretch/shrink ratio of the elastic boxes. $r$ is computed as follows.
+
+\begin{enumerate}
+\item Let lineWidth be the line width.
+\item Let rigidTotal be the sum of the lengths of the rigid boxes.
+\item Let elmasticTotal be the sum of the optimal lengths of the elastic boxes.
+\item Let leftover = lineWidth - rigidTotal.
+\item Let $r$ = stretchShrinkRatio = leftover / elasticTotal.
+\end{enumerate}
+
 \end{document}
