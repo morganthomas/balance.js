@@ -201,6 +201,6 @@ For non-negative integer $j$, let $w(j)$ be the sum of the lengths of $d, c_1,..
 
 Let $j^-$ be the greatest positive integer less than $j$ such that $c_{j^-}$ is a breakpoint box. Note that $j^-$ may not exist, in which case it is undefined. Similarly let $j^+$ be the least positive integer than $j$ such that $c_{j^+}$ is a breakpoint box. Again $j^+$ may not exist.
 
-It is a fact not yet noted that $j$ itself may not exist. If $j$ does not exist, let $\text{advance}(p) = \{p\}$. If $j$ does exist, let $\text{advance}(p) = \{p \smallfrown j, p \smallfrown j^+, \smallfrown j^-\}$; this is a set of one to three paths, depending which of $j^+$ and $j^-$ exist. $p \smallfrown a$ is the path resulting from adding $a$ to the end of $p$.
+It is a fact not yet noted that $j$ itself may not exist. If $j$ does not exist, let $\text{advance}(p) = \{p\}$. If $j$ does exist, let $\text{advance}(p) = \{p+j, p+j^+, p+j^-\}$; this is a set of one to three paths, depending which of $j^+$ and $j^-$ exist. $p+a$ denotes the path resulting from adding $a$ to the end of $p$.
 
 \end{document}
