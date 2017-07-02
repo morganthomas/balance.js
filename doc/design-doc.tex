@@ -231,4 +231,18 @@ maxThreads is given to us as an input of the procedure.
 
 That completes the definition of the line packing specialization of the path optimization algorithm.
 
+Paragraph velements provide the first application of the line packing algorithm.
+
+To produce a paragraph velement, you need to provide as input a sequence of paragraph boxes, $b_1,...,b_n$. A paragraph box is very much like the boxes used in line packing, but it is not the same thing. A paragraph box is an object with the following properties:
+
+\begin{enumerate}
+\item A velement.
+\item A type: rigid, elastic, or fill.
+\item A length, if it is rigid, or an optimal length, if it is elastic. This is a positive real number.
+\item isBreakpoint (a boolean).
+\item If isBreakpoint, then optionally a preBreakBox and/or a postBreakBox.
+\end{enumerate}
+
+
+
 \end{document}
