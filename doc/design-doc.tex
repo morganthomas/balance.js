@@ -2,6 +2,7 @@
 
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{amssymb}
 
 \title{balance.js Design Document}
 \author{Morgan Thomas\footnote{This document is copyright 2017 Morgan Thomas. You may distribute this document to IHS Markit colleagues. All other rights reserved.}}
@@ -197,5 +198,9 @@ The initial path is the empty sequence.
 Suppose you have a path $p$. How do you compute $\text{advance}(p)$? Let $k$ be the final element of $p$, or let $k = 1$ if $p$ is the empty sequence. Let $c_1,...,c_m = b_k,...,b_n$. $c_1,...,c_m$ is the sequence of boxes in the input sequence that come after the final break point in $p$. If $b_{k-1}$ exists and has a post-break box, let $d$ be its post-break box.
 
 For non-negative integer $j$, let $w(j)$ be the sum of the lengths of $d, c_1,...,c_j$. Consider the length of an elastic box to be its optimal length, and the length of a fill box to be 0. Choose $j$ to be the greatest number such that $c_j$ is a breakpoint box and $w(j) < l$, where $l$ is short for $l(\text{length of $p$}+1)$, the length of the line we are currently forming.
+
+Let $j^-$ be the greatest positive integer less than $j$ such that $c_{j^-}$ is a breakpoint box. Note that $j^-$ may not exist, in which case it is undefined. Similarly let $j^+$ be the least positive integer than $j$ such that $c_{j^+}$ is a breakpoint box. Again $j^+$ may not exist.
+
+It is a fact not yet noted that $j$ itself may not exist. If $j$ does not exist, let $\text{advance}(p) = \{p\}$. If $j$ does exist, let $\text{advance}(p) = \{p \smallfrown j, p \smallfrown j^+, \smallfrown j^-\}$; this is a set of one to three paths, depending which of $j^+$ and $j^-$ exist. $p \smallfrown a$ is the path resulting from adding $a$ to the end of $p$.
 
 \end{document}
