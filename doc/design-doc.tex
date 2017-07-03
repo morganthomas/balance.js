@@ -27,7 +27,7 @@ I call the layout paradigm of balance.js \emph{optimization-based layout}. In th
 
 The function for computing the badness of a layout solution is specified as a consequence of the application developer's use of the API. Ordinarily the application developer would not specify the badness function explicitly; ordinarily, it would be a very complex function that is computed implicitly from the application developer's high level API instructions.
 
-The goal of the balance.js layout algorithm is to find a layout solution for the document whose badness is as low as possible. This is done via an iterative numerical optimization algorithm. The main technical challenge is to construct the function to be minimized: i.e., the function which takes a layout solution and returns it badness.
+The goal of the balance.js layout algorithm is to find a layout solution for the document whose badness is as low as possible. This is done via an iterative numerical optimization algorithm. The main technical challenge is to construct the function to be minimized: i.e., the function which takes a layout solution and returns its badness.
 
 Optimization-based layout can be contrasted with constraint-based layout, which is a similar but importantly different layout paradigm. A representative example of a constraint-based layout system is Apple's Auto Layout.
 
@@ -247,7 +247,7 @@ A paragraph velement is a type of box velement. Its lines' heights are computed 
 
 I'll sketch the rendering function of a paragraph velement. The goal is to lay out the velements of the boxes $b_1,...,b_n$ in lines of a given width $w$, while occupying a given height $h$, and to do so optimally.
 
-Apply line packing to figure out the best way to split the boxes $b_1,...,b_n$ into lines $l_1,...,l_m$, all of length $w$. On that basis, construct a vbox whose children are a series of hboxes, one hbox per line, where the children of the hboxes are the velements of the boxes $b_1,...,b_n$. Then render that vbox.
+Apply line packing to figure out the best way to split the boxes $b_1,...,b_n$ into lines $l_1,...,l_m$, all of length $w$.\footnote{To get the usual behavior of a final line that is allowed to be less than completely full, you should have a fill box at the end of your input sequence of boxes.} On that basis, construct a vbox whose children are a series of hboxes, one hbox per line, where the children of the hboxes are the velements of the boxes $b_1,...,b_n$. Then render that vbox.
 
 TODO: layout problem
 
