@@ -1,5 +1,14 @@
 A production ready version of balance.js would provide immediate benefits to IHS Markit. I believe that balance.js would empower us to raise quality and lower costs in our information presentation solution development process. In this office, the processes that could be positively impacted by balance.js include frontend Web development, Image Engineering work, and mobile development.
 
+Why can balance.js help us lower costs in our information presentation solutions?
+---------------------------------------------------------------------------------
+
+1. It can replace several complex and limited technologies which are part of our current workflows with one simple and powerful technology. It can replace the following technologies in our current workflows: HTML/CSS/the DOM, a lot of Image Engineering apps, and mobile UI SDKs. This would let anybody who knows balance.js work for us on any of these problem domains.
+
+2. By design it will make it easy and natural to make Web pages accessible.
+
+3. CSS and HTML are quite difficult and clunky to work with, as all Web developers are aware. Using CSS and HTML usually requires a lot of time spent manually tweaking stuff and being frustrated. With the advantage of preference-based layout, balance.js would probably eliminate the need for most of that manual tweaking.
+
 Why can balance.js help us raise quality in our information presentation solutions?
 -----------------------------------------------------------------------------------
 
@@ -12,13 +21,3 @@ Many examples can be given of how preference-based layout can enable us to impro
 3. balance.js would widen the space of creative options our designers can reasonably ask us to implement.
 
 4. balance.js can, given further research, be applied to making 3D/VR user interfaces, providing a plausible general way forward in that direction.
-
-
-Why can balance.js help us lower costs in our information presentation solutions?
----------------------------------------------------------------------------------
-
-1. It can replace several complex and limited technologies which are part of our current workflows with one simple and powerful technology. It can replace the following technologies in our current workflows: HTML/CSS/the DOM, a lot of Image Engineering apps, and mobile UI SDKs. This would let anybody who knows balance.js work for us on any of these problem domains.
-
-2. By design it will make it easy and natural to make Web pages accessible.
-
-3. CSS and HTML are quite difficult and clunky to work with, as all Web developers are aware. Using CSS and HTML usually requires a lot of time spent manually tweaking stuff and being frustrated. With the advantage of preference-based layout, balance.js would probably eliminate the need for most of that manual tweaking.
