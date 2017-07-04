@@ -1,4 +1,4 @@
-A production ready version of balance.js would provide immediate benefits to IHS Markit. I believe that balance.js would empower us to raise quality and lower costs in our information presentation solution development process. In this office, the processes that could be positively impacted by balance.js include frontend Web development, Image Engineering work, and mobile development.
+A production ready version of balance.js would provide immediate benefits to IHS Markit. I argue that balance.js would empower us to raise quality and lower costs in our information presentation solution development process. In this office, the processes that could be positively impacted by balance.js include frontend Web development, Image Engineering work, and mobile development.
 
 Why can balance.js help us lower costs in our information presentation solutions?
 ---------------------------------------------------------------------------------
