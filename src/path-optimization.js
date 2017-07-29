@@ -27,7 +27,7 @@ function solvePathOptimizationProblem(problem) {
     allThreadsAreComplete = true; // assume true until falsified
     threads.forEach(thread => {
       let advancedThreads = problem.advance(thread);
-      // if this thread is complete, then allThreadsAreComplete is falsified
+      // if thread is not complete, then allThreadsAreComplete is falsified
       if (!(advancedThreads.length === 1 && problem.pathsAreEqual(advancedThreads[0], thread))) {
         allThreadsAreComplete = false;
       }
