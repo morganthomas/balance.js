@@ -35,6 +35,7 @@ DEFINITION. A "line" is an object of the following form:
   {
     boxes,
     length,
+    elasticBoxStretchShrinkRatio,
     badness,
     postBreakBox
   }
@@ -42,8 +43,8 @@ DEFINITION. A "line" is an object of the following form:
 such that:
 
 1. boxes is an array of boxes.
-2. length is a number, equal to the sum over all i of
-     getAtPath(layoutSolutions[i], boxes[i].lengthParameter).
+2. length is a number.
+3. elasticBoxStretchShrinkRatio is a number greater than 0.
 3. badness is a number (the badness of the line).
 4. postBreakBox is a box: the box left over from breaking the breakpoint box at the end
    of the line.
