@@ -156,7 +156,7 @@ The setup for the path optimization algorithm is the following data:
 \begin{enumerate}
 \item A finite set $P$ of ``paths.''
 \item An initial path $\text{initial} \in P$. ($\in$, pronounced ``in,'' is the symbol for membership in a set.)
-\item A function $\text{advance} : P \to \mathcal{P}(P)$ from paths to sets of paths. ($\mathcal{P}(P)$ is the set of all subsets of $P$, i.e. the power set of $P$.)
+\item A function $\text{advance} : P \to \mathcal{P}(P)$ from paths to finite sets of paths. ($\mathcal{P}(P)$ is the set of all subsets of $P$, i.e. the power set of $P$.)
 \item A function $\text{isFeasible} : P \to \{\text{true},\text{false}\}$ from paths to booleans. Call a path $p$ ``feasible'' if and only if $\text{isFeasible}(p) = \text{true}$.
 \item A function $\text{utility} : P \to \mathbb{R}$.
 \item A positive integer maxThreads which is the maximum number of paths that will be simultaneously explored.
@@ -173,7 +173,7 @@ The algorithm proceeds as follows. Maintain a set of paths called ``threads.'' I
 \item If $|\text{threads}| > \text{maxThreads}$, then update $\text{threads}$ to the first of its maxThreads elements, when sorted in ascending order by the value of the utility function.
 \end{enumerate}
 
-Halt this loop when all threads are complete. This happens in other words when a pass through the loop does not change the threads. Provide as output the element $t \in \text{threads}$ such that $\text{utility}(t)$ is as small as possible.
+Halt this loop when all threads are complete. This happens in other words when a pass through the loop does not change the threads. Provide as output an element $t \in \text{threads}$ such that $\text{utility}(t)$ is as small as possible.
 
 Note that this path optimization algorithm will not necessarily halt. It will halt in the application of line packing, because every path will eventually be advanced into a complete path.
 
@@ -195,7 +195,7 @@ A path represents a way of breaking the input sequence into lines. A path is a s
 
 The initial path is the empty sequence.
 
-Suppose you have a path $p$. How do you compute $\text{advance}(p)$? Let $k$ be the final element of $p$ plus one, or let $k = 1$ if $p$ is the empty sequence. Let $c_1,...,c_m = b_{k},...,b_n$. $c_1,...,c_m$ is the sequence of boxes in the input sequence that come after the final break point in $p$. If $b_{k-1}$ exists and has a post-break box, let $d$ be its post-break box.
+Suppose you have a path $p$. How do you compute $\text{advance}(p)$? Let $k$ be one plus the final element of $p$, or let $k = 1$ if $p$ is the empty sequence. Let $c_1,...,c_m = b_{k},...,b_n$. $c_1,...,c_m$ is the sequence of boxes in the input sequence that come after the final break point in $p$. If $b_{k-1}$ exists and has a post-break box, let $d$ be its post-break box.
 
 For non-negative integer $j$, let $w(j)$ be the sum of the lengths of $d, c_1,...,c_j$. Consider the length of an elastic box to be its optimal length, and the length of a fill box to be 0. Choose $j$ to be the greatest number such that $c_j$ is a breakpoint box and $w(j) < l$, where $l$ is short for $l(\text{length of $p$}+1)$, the length of the line we are currently forming.
 
@@ -205,15 +205,17 @@ It is a fact not yet noted that $j$ itself may not exist. If $j$ does not exist,
 
 That completes the definition of the advance function in the line packing specialization of the path optimization algorithm.
 
+Let's move on to the isFeasible function. Assume some feasibility threshold $t$ is given to us as an input of the procedure. For any path $p$, $\text{isFeasible}(p) = (\text{utility}(p) \leq t)$.
+
 Next let's define the utility function. This is a function $\text{utility} : P \to \mathbb{R}$ assigning a badness value to each path $p \in P$. $\text{utility}(p)$ is the sum of the badnesses of the lines in $p$. How do we compute the badness of a line?
 
 Recall that $p$ is a sequence of indices into the sequences of boxes $b_1,...,b_n$. A line will consist of a sequence $c,b_i,...,b_j,d$, where $b_i,...,b_j$ is some subsequence of $b_1,...,b_n$, $c$ is the (possibly non-existent) post-break box of $b_{i-1}$, and $d$ is the (possibly non-existent) pre-break box of $b_{j+1}$.
 
-If the line contains only rigid boxes, then $\text{utility}(p)$ is equal to the difference between the length of the line and the sum of the lengths of the boxes.
+If the line contains only rigid boxes, then the utility of the line is equal to a constant times the difference between the length of the line and the sum of the lengths of the boxes.
 
-If the line contains a fill box, then $\text{utility}(p) = 0$.
+If the line contains a fill box, then the utility of the line is 0, unless the line is overfilled. A line is overfilled when the sum of the lengths of its boxes is greater than the length of the line. In this case the utility of the line is equal to a constant times the difference between the length of the line and the sum of the lengths of the boxes.
 
-If the line contains no fill box and contains elastic boxes, then $\text{utility}(p) = r$, where $r$ is the stretch/shrink ratio of the elastic boxes. $r$ is computed as follows.
+If the line contains no fill box and contains elastic boxes, then the utility of the line is $r$, where $r$ is the stretch/shrink ratio of the elastic boxes. $r$ is computed as follows.
 
 \begin{enumerate}
 \item Let lineWidth be the line width.
@@ -224,8 +226,6 @@ If the line contains no fill box and contains elastic boxes, then $\text{utility
 \end{enumerate}
 
 That completes the definition of the utility function in the line packing specialization of the path optimization algorithm.
-
-Let's move on to the isFeasible function. Assume some feasibility threshold $t$ is given to us as an input of the procedure. For any path $p$, $\text{isFeasible}(p) = (\text{utility}(p) \leq t)$.
 
 maxThreads is given to us as an input of the procedure.
 
