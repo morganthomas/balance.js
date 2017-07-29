@@ -1,0 +1,254 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\title{balance.js Design Document}
+\author{Morgan Thomas\footnote{This document is copyright 2017 Morgan Thomas. You may distribute this document to IHS Markit colleagues. All other rights reserved.}}
+
+\begin{document}
+
+\maketitle
+
+balance.js is an implementation in progress of a general information presentation solution making solution. It addresses the problem of drawing graphics on the basis of a high-level description of an information presentation. It addresses the same basic problem addressed, for example, by Web browser implementations of the HTML, CSS, and DOM standards.
+
+In its present form, balance.js is a JavaScript library which produces graphics in Web pages by sending drawing instructions to an HTML canvas element. The same ideas and code can in theory be adapted to address information presentation problems in other contexts, such as mobile apps, PDF and image generation, and (with more research) 3D/VR user interfaces.
+
+balance.js is an immature system. There is more theoretical progress than there is progress in implementation. There is significant progress in both areas, the result of over two years of R\&D Morgan has done. There remains much progress yet to be made. Morgan's primary focus has been on devising the core document layout algorithms. The primary area of issues remaining to be addressed, to achieve a production-ready product, is extending these core layout algorithms to create a developer-friendly API for creating information presentation solutions.
+
+This document aims to describe balance.js in high-level terms. The focus is on parts of balance.js that exist or are on the cusp of existing. This document is dense and technical.
+
+\section{Optimization-based layout}
+
+balance.js is based on a layout paradigm which is partly new, and partly an imitation of existing systems. The most important intellectual ancestor of balance.js is the \TeX\ typesetting engine (which has been used to produce the document you are reading). balance.js is also influenced in other ways by the paradigm of HTML, CSS, and the DOM.
+
+I call the layout paradigm of balance.js \emph{optimization-based layout}. In this paradigm, the problem of laying out a document is considered to be a numerical optimization problem. Each way of laying out a document is assigned a number indicating how bad it looks. This number is called a \emph{badness}. The higher it is, the worse the solution is considered to be by the layout optimization algorithm.
+
+The function for computing the badness of a layout solution is specified as a consequence of the application developer's use of the API. Ordinarily the application developer would not specify the badness function explicitly; ordinarily, it would be a very complex function that is computed implicitly from the application developer's high level API instructions.
+
+The goal of the balance.js layout algorithm is to find a layout solution for the document whose badness is as low as possible. This is done via an iterative numerical optimization algorithm. The main technical challenge is to construct the function to be minimized: i.e., the function which takes a layout solution and returns its badness.
+
+Optimization-based layout can be contrasted with constraint-based layout, which is a similar but importantly different layout paradigm. A representative example of a constraint-based layout system is Apple's Auto Layout.
+
+In constraint-based layout, one specifies a set of constraints that a layout must satisfy, and one looks for a layout satisfying all the constraints. Whereas the core algorithm class of optimization-based layout is numerical optimization, the core algorithm class of constraint-based layout is constraint solving.
+
+In my opinion, optimization-based layout promises to offer significant advantages over constraint-based layout. I see the following areas of advantage.
+
+\begin{enumerate}
+\item \textbf{Expressing preferences and not just requirements.} Constraint based layout allows you to express layout requirements. Optimization based layout allows you to express layout preferences. In constraint based layout, either the layout algorithm will meet all the layout requirements, or the layout algorithm will fail. Optimization based layout, in contrast, works on the assumption that it may be impossible to satisfy all the layout preferences perfectly, and looks to satisfy all preferences as well as it can subject to all other preferences, weighting the various preferences in a way the application developer can control.
+
+  In theory this allows, for example, for the application developer to encode a preference against paragraphs with widows and orphans, which can then be weighed by the layout algorithm against all other preferences encoded in the visual document, and met if doing so allows the total badness of the layout to be minimized when taking into account all other preferences.
+
+  Optimization based layout, as implemented in balance.js, does not allow for a wide variety of hard layout requirements to be expressed. It doesn't provide any mechanisms which could result in an unsatisfiable set of hard requirements. Instead, one has the notion of \emph{soft requirements}. A soft requirement is simply a very strong preference. The layout algorithm should result in all soft requirements being satisfied, unless this is not possible to do, in which case the layout algorithm will do its best to minimize the badness resulting from violating some of the soft requirements.
+  
+\item \textbf{Run-time stability.} Constraint solving is hard to do. It is not easy to predict how much computation it will take for a constraint solving algorithm to solve a given set of constraints. It is easy when using constraint solving layout algorithms to unintentionally bump into cases which cause the algorithm to spin out into an excessively long-running search that hangs the UI. These comments are not based on my personal experiences; they are based on theoretical considerations and on experiences reported to me by a friend who has experience as a UX architect and lead of frontend development at a large local software employer.
+
+  In comparison to constraint solving algorithms, (iterative) numerical optimization algorithms are easy to do. They are quite scalable and predictable in terms of CPU resource use. One can construct weird examples which will make them spin out, too, but in practice the run-time of the algorithm should not vary wildly between well-formed problems of around the same size. Small changes to the inputs to the algorithm should in general result in small changes to the CPU time consumption of the algorithm.
+
+\item \textbf{Adjustability of solutions.} Given a solution to an unconstrained numerical optimization problem, one can make a small adjustment to the problem and use the solution as an initial guess for iterative numerical optimization of the adjusted problem. This allows for the adjusted problem to be solved much more quickly than if one were solving it from scratch. The nearer the initial guess is to the final solution, the less time it will take for an iterative numerical optimization algorithm to run. This means (as I have seen in practice) that adjusting a solution to account for a small change in the problem takes much less CPU time than computing a solution from scratch.
+
+  The great advantage of this property of iterative numerical optimization algorithms is that it assists animation, and similar processes such as window resizing. Animation is a use case where it is extremely valuable to be able to adjust a solution to solve an adjusted problem, and to do so very quickly.
+\end{enumerate}
+
+\TeX\ is an optimization-based layout engine (the only widely used one I'm aware of). The basic idea of optimization-based layout is not new. As far as I'm aware, Donald Knuth has the best claim to credit for conceiving the idea. The conception of optimization-based layout which forms the basis of balance.js is new in very many particulars. I don't propose to dissect what's new and what's old; if you're really curious, you can understand how \TeX\ works by reading the \TeX book, and compare it to balance.js. \TeX\ is different from balance.js in part due to numerous limitations in \TeX's design which appear to have been motivated by the need to make \TeX\ run on 1980s computers. balance.js employs a design which is much more abstract and flexible than \TeX's, while being less conservative with CPU and memory resources.
+
+\section{Visual elements and semantic elements}
+
+balance.js has two core concepts: the concepts of \emph{visual elements}\/ and \emph{semantic elements}. A semantic element is a meaningful unit of information which is not tied to any specific form of presentation. A visual element is a unit of visual information presentation, or in other words a unit of information tied to a specific visual presentation thereof.
+
+In the current implementation there is only a concept of visual elements. Therefore the following comments on semantic elements are describing a design, not an implementation.
+
+Like HTML elements, semantic elements and visual elements are both composable. You can compose semantic elements to make new semantic elements. You can compose visual elements to make new visual elements. A semantic document is a semantic element which represents a complete document (divorced from a specific form of presentation). A visual document, similarly, is a visual element which represents a complete document (in a specific visual presentation form).
+
+The basic reason for this distinction between semantic and visual elements is to assist in making information presentation solutions which are accessible to non-visual users. A semantic element can be transformed into a visual element which is a presentation of the semantic element. Alternatively, a semantic element can be presented in a form which is accessible to screen readers and other non-graphical software. (Ideally this would happen automatically as a feature of the framework, without requiring additional coding from the application developer.)
+
+The distinction between semantic and visual elements is analogous to the conceptual separation between semantics and presentation in the HTML and CSS standards. The W3C recommends that one should write one's HTML to represent the semantic meaning of one's document, and that one should use CSS to encode the information about how to present it visually.
+
+In practice, in HTML and CSS, it's difficult to achieve a perfect separation between meaning and presentation concerns. This has to do with facts about the design of HTML and CSS. In HTML/CSS, the semantic document structure is the same hierarchical structure used to generate a visual presentation. The DOM is the semantic document, and it is also the hierarchical structure of the visual document. This means that one is sometimes constrained by assumptions implicitly built into the HTML/CSS standards about how the semantic meaning and the visual presentation of HTML/CSS documents are connected. This is an obstacle to achieving in practice the separation between semantics and presentation which the W3C recommends.
+
+In the design of balance.js, the semantic document and the visual document are generated by different element trees. The visual element hierarchy can be generated by any function on the semantic element hierarchy. There are therefore no constraints on how one derives a visual document from a semantic document. This should allow the separation between semantic and presentation concerns to approach completeness in complicated scenarios more easily and more perfectly than in HTML and CSS.
+
+\section{Visual elements}
+
+A visual element can be called, for short, a \emph{velement}. A velement is an object which must have two properties: a \emph{layout problem}, and a \emph{rendering function}.
+
+The layout problem is an unconstrained numerical optimization problem over a real-valued, finite-dimensional Euclidean differentiable scalar field. In other words, a real-valued finite-dimensional Euclidean differentiable scalar field is a differentiable function $f : A \to \mathbb{R}$, where $A$ is a vector space isomorphic to $\mathbb{R}^n$ for some positive integer $n$. Here $\mathbb{R}$ represents the set of real numbers, and $\mathbb{R}^n$ represents the set of sequences of real numbers of length $n$.
+
+In the implementation of balance.js, $A$ is the set of all plain old numerical JavaScript objects (PONJOs) which are structurally congruent to some PONJO $p$. A PONJO is a JavaScript object which can be constructed using only object literals, array literals, and numbers (excluding NaN, Infinity, and -Infinity). Here is an example of a PONJO:
+
+\verb`{ height: 100, width: 200, otherParams: [-3, 0] }`
+
+Two PONJOs are structurally congruent if and only if one can be transformed into the other by changing the values of numbers that are part of the PONJO. In other words, two structurally congruent PONJOs are the same shape, with corresponding subojects all having the same keys.
+
+The set of all PONJOs structurally congruent to some PONJO $p$ forms a vector space isomorphic to $\mathbb{R}^n$, where $n$ is the number of number values present in $p$.
+
+In the implementation a real-valued finite-dimensional Euclidean scalar field is represented by an object consisting of:
+
+\begin{enumerate}
+\item a PONJO $p$, the ``domain representative,'' which is representative of the domain vector space;
+\item a function valueAt from PONJOs congruent to $p$ to numbers;
+\item and a function gradientAt from PONJOs congruent to $p$ to PONJOs congruent to $p$.
+\end{enumerate}
+
+valueAt represents the function $f$ which the scalar field is, and gradientAt represents the gradient of $f$. See \texttt{src/differentiable-scalar-field.js} for more detail.
+
+Henceforth I will shorten ``real-valued finite-dimensional Euclidean differentiable scalar field'' to ``differentiable scalar field'' or just ``scalar field.''
+
+Henceforth I will shorten ``unconstrained numerical optimization problem over a differentiable scalar field'' to ``optimization problem.''
+
+The concept of optimization problems as implemented in balance.js is a general mathematical concept which is not specific to document layout.
+
+An optimization problem, as represented in the implementation, consists of two things: a differentiable scalar field called the \emph{objective function}, and an initial guess function.
+
+The domain of the objective function is the set of PONJOs congruent to the domain representative, considered as a vector space isomorphic to $\mathbb{R}^n$. This domain is the solution space of the optimization problem.
+
+The objective function maps any element of the solution space to a real number. This number is interpreted as a negative utility value. In other words, the higher the objective function's value on an element of the solution space, the less desirable that solution is considered to be. The values of the objective function can be called \emph{badness}\/ values.
+
+The purpose of the initial guess function is to provide a starting point or initial guess for iterative numerical optimization.
+
+To solve an optimization problem is to find a solution whose badness or objective function value is as low as possible. Iterative numerical optimization algorithms approximate this goal by starting with an initial guess (an element of the solution space) and flowing through the solution space in the direction of better solutions with lower badnesses, progressively improving the solution at hand until one has (approximately) a solution that can't be improved by moving a short distance in any direction. Such a solution is an approximation of a local minimum of the objective function.
+
+Iterative numerical optimization is not guaranteed to arrive at an approximation of an optimal solution to the optimization problem, in the sense that a local minimum of the objective function is not necessarily a global minimum. It is guaranteed to arrive at an approximation of an optimal solution in some special cases, such as when the objective function is convex. One ought to construct objective functions and initial guess functions which will be well behaved in iterative numerical optimization. At least in my experience and reasoning so far, this is not hard.
+
+An optimization problem is represented by a differentiable scalar field called the objective function, and an initial guess function. The initial guess function is used to produce initial guesses for iterative numerical optimization.
+
+The initial guess function accepts as input zero or more constraints on the solution, requiring specific numbers in the solution to have specific values. For the purposes of solving the optimization problem, you don't provide any constraints to the initial guess function. The reason the initial guess function accepts constraints is to ease the process of composing optimization problems (which is part of the process of composing velements).
+
+For more details on optimization problems, see \verb`src/optimization-problem.js`.
+
+Now we can circle back to the definition of velements. A velement consists of an optimization problem, called the \emph{layout problem}, and a \emph{rendering function}. I have just explained exactly what the layout problem is. The rendering function is a function which takes as input a solution to the layout problem, and produces as output an object representing vector graphics to be drawn on the screen.
+
+For more details, see \verb`src/velement.js`.
+
+\section{Box visual elements}
+
+\emph{Box velements} are a type of velement which is of special interest. A box velement is a velement whose layout problem's solution space objects have (scalar, numerical) properties \verb`height` and \verb`width`. A box velement is assumed to be confined to a rectangular bounding box of the given height and width (though it can draw outside of the borders of its bounding box in the infrequent cases where this is appropriate).
+
+If you know that a velement is a box velement, then you can compose it with other box velements to create new box velements, in a variety of useful layout patterns.
+
+A ``horizontal box,'' or ``hbox,'' is what you get by composing a series of box velements in a horizontal row. Every (immediate) child of an hbox has the same height as the hbox, and the sum of the widths of the (immediate) children of the hbox is equal to the width of the hbox. Any series of box velements can be composed into an hbox. The optimization problem of the hbox will incorporate the optimization problems of its children. The hbox will therefore assume whatever height and width is optimal considering the height and width preferences of its children, and the preferences in play in the surrounding context (when the hbox is a child of another velement).
+
+A ``vertical box,'' or ``vbox,'' is like an hbox except that it lays out its children vertically, not horizontally. All (immediate) children are constrained to have the same width, and the sum of their heights is equal to the height of the vbox.
+
+A ``grid'' is a type of box velement which generalizes both vboxes and hboxes. It lays its children out in a tabular layout. All elements of a row are the same height, and all elements of a column are the same width. The width of the grid is the sum of the widths of the columns. The height of the grid is the sum of the heights of the rows. Subject to those constraints, the rows and columns are sized in whatever way minimizes the badnesses of the children, also taking into account the preferences in play in the surrounding context (if any).
+
+It is planned that it should be possible to have a child of a grid which spans multiple rows and/or multiple columns. This is not implemented.
+
+Hboxes, vboxes, and grids provide some flexible and general rudiments of optimization-based document layout.
+
+\section{Paragraph layout}
+
+Paragraph layout is a place where most document layout software does a sloppier job than humans did before the advent of computer typesetting.
+
+The most favored English paragraph layout paragraph convention before the advent of computer typesetting was \emph{justified type}. In justified type, each line of a paragraph (except possibly the last one) is completely filled with text. To achieve this, one stretches or shrinks the white space inside each line to match the line widths with each other. Justified type may be contrasted with \emph{flush left} type, the most common English paragraph layout convention in computer typesetting, where the spaces are kept at a constant width, and extra space is left at the right end of each line as needed.
+
+Making justified type look attractive involves some inherent challenges which most document layout software systems do not address. Approaching the problem in an unsophisticated way tends to lead to paragraphs which contain lines with very wide spaces that look bad. To achieve good quality when typesetting justified paragraphs, one needs to look for an optimal or near-optimal layout among the various ways of breaking the text into lines, including by hyphenating words.
+
+\TeX\ is a rare example of a computer typesetting system which can produce attractive justified type. The text you are reading has justified type, produced by \TeX's typesetting algorithm almost entirely without assistance from the document author. You can observe that there are not lines with excessively wide spaces or other obvious defects of poorly justified type (or at least, the level of such defects is low).
+
+The algorithm sketched in this section is a simplification of \TeX's paragraph breaking algorithm, which I am working on implementing in balance.js. This algorithm doesn't capture all subtleties of \TeX's algorithm, but further iteration can address that.
+
+The paragraph layout algorithm as the design stands is a special case of a more general \emph{line packing}\/ algorithm, which is a special case of a more general \emph{path optimization} algorithm. I'll start by outlining the path optimization algorithm.
+
+The setup for the path optimization algorithm is the following data:
+
+\begin{enumerate}
+\item A finite set $P$ of ``paths.''
+\item An initial path $\text{initial} \in P$. ($\in$, pronounced ``in,'' is the symbol for membership in a set.)
+\item A function $\text{advance} : P \to \mathcal{P}(P)$ from paths to finite sets of paths. ($\mathcal{P}(P)$ is the set of all subsets of $P$, i.e. the power set of $P$.)
+\item A function $\text{isFeasible} : P \to \{\text{true},\text{false}\}$ from paths to booleans. Call a path $p$ ``feasible'' if and only if $\text{isFeasible}(p) = \text{true}$.
+\item A function $\text{utility} : P \to \mathbb{R}$.
+\item A positive integer maxThreads which is the maximum number of paths that will be simultaneously explored.
+\end{enumerate}
+
+Call a path $p \in P$ ``complete'' if and only if $\text{advance}(p) = \{p\}$.
+
+The goal of the path optimization algorithm is to find a complete path $p \in P$ such that $\text{utility}(p)$ is as small as possible. The paths searched are the feasible paths that can be produced by starting from the initial path, applying the ``advance'' function, choosing an element from the result, and repeating those two steps any number of times.
+
+The algorithm proceeds as follows. Maintain a set of paths called ``threads.'' Initially, $\text{threads} = \{\text{initial}\}$. Repeatedly perform the following steps:
+
+\begin{enumerate}
+\item Update $\text{threads} = \bigcup_{a \in \text{threads}} \{b \in \text{advance}(a) : \text{isFeasible}(b)\}$. That is, update the set of threads to the set of feasible paths resulting from advancing one of the current threads.
+\item If $|\text{threads}| > \text{maxThreads}$, then update $\text{threads}$ to the first of its maxThreads elements, when sorted in ascending order by the value of the utility function.
+\end{enumerate}
+
+Halt this loop when all threads are complete. This happens in other words when a pass through the loop does not change the threads. Provide as output an element $t \in \text{threads}$ such that $\text{utility}(t)$ is as small as possible.
+
+Note that this path optimization algorithm will not necessarily halt. It will halt in the application of line packing, because every path will eventually be advanced into a complete path.
+
+Now let's move to a description of the line packing algorithm. The purpose of the line packing algorithm is to fit a finite number of ``boxes'' into a finite sequence of lines whose lengths are drawn from a given infinite sequence of lengths.
+
+Boxes are of three types: rigid, elastic, and fill. A rigid box has a fixed length. An elastic box has an optimal length but it can vary from that length. A fill box has no preferred length and can be any length.
+
+A box can be a breakpoint or not. If a box is a breakpoint, then it can be the position of a line break. When a box is the position of a line break, the box is destroyed.
+
+A breakpoint box can have a ``pre-break box'' and/or a ``post-break box.'' When a box is the point of a line break, any pre-break box it has is inserted at the end of the line before the break, and any post-break box it has is inserted at the start of the line after the break.
+
+A ``line'' is a sequence of boxes.
+
+The input to the line packing algorithm is a finite sequence of boxes and an infinite sequence of line lengths. To serve as the input, fix a sequence of boxes $b_1,...,b_n$, and a function $l : \mathbb{Z}^+ \to \mathbb{R}^+$ from positive integers to positive real numbers. $l$ represents the infinite sequence of line lengths.
+
+The line packing algorithm is an application of the path optimization algorithm. To specify the line packing algorithm, it suffices to specify the appropriate setup for the path optimization algorithm. Let's start with what paths are.
+
+A path represents a way of breaking the input sequence into lines. A path is a sequence of positive integers less than or equal to $n$, arranged in ascending order. It is understood as a sequence of indices into the input sequence $b_1,...,b_n$. It is understood as the series of indices of paths which are the points of line breaks.
+
+The initial path is the empty sequence.
+
+Suppose you have a path $p$. How do you compute $\text{advance}(p)$? Let $k$ be one plus the final element of $p$, or let $k = 1$ if $p$ is the empty sequence. Let $c_1,...,c_m = b_{k},...,b_n$. $c_1,...,c_m$ is the sequence of boxes in the input sequence that come after the final break point in $p$. If $b_{k-1}$ exists and has a post-break box, let $d$ be its post-break box.
+
+For non-negative integer $j$, let $w(j)$ be the sum of the lengths of $d, c_1,...,c_j$. Consider the length of an elastic box to be its optimal length, and the length of a fill box to be 0. Choose $j$ to be the greatest number such that $c_j$ is a breakpoint box and $w(j) < l$, where $l$ is short for $l(\text{length of $p$}+1)$, the length of the line we are currently forming.
+
+Let $j^-$ be the greatest positive integer less than $j$ such that $c_{j^-}$ is a breakpoint box. Note that $j^-$ may not exist, in which case it is undefined. Similarly let $j^+$ be the least positive integer than $j$ such that $c_{j^+}$ is a breakpoint box. Again $j^+$ may not exist.
+
+It is a fact not yet noted that $j$ itself may not exist. If $j$ does not exist, let $\text{advance}(p) = \{p\}$. If $j$ does exist, let $\text{advance}(p) = \{p+j, p+j^+, p+j^-\}$; this is a set of one to three paths, depending which of $j^+$ and $j^-$ exist. $p+a$ denotes the path resulting from adding $a$ to the end of $p$.
+
+That completes the definition of the advance function in the line packing specialization of the path optimization algorithm.
+
+Let's move on to the isFeasible function. Assume some feasibility threshold $t$ is given to us as an input of the procedure. For any path $p$, $\text{isFeasible}(p) = (\text{utility}(p) \leq t)$.
+
+Next let's define the utility function. This is a function $\text{utility} : P \to \mathbb{R}$ assigning a badness value to each path $p \in P$. $\text{utility}(p)$ is the sum of the badnesses of the lines in $p$. How do we compute the badness of a line?
+
+Recall that $p$ is a sequence of indices into the sequences of boxes $b_1,...,b_n$. A line will consist of a sequence $c,b_i,...,b_j,d$, where $b_i,...,b_j$ is some subsequence of $b_1,...,b_n$, $c$ is the (possibly non-existent) post-break box of $b_{i-1}$, and $d$ is the (possibly non-existent) pre-break box of $b_{j+1}$.
+
+If the line contains only rigid boxes, then the utility of the line is equal to a constant times the difference between the length of the line and the sum of the lengths of the boxes.
+
+If the line contains a fill box, then the utility of the line is 0, unless the line is overfilled. A line is overfilled when the sum of the lengths of its boxes is greater than the length of the line. In this case the utility of the line is equal to a constant times the difference between the length of the line and the sum of the lengths of the boxes.
+
+If the line contains no fill box and contains elastic boxes, then the utility of the line is $r$, where $r$ is the stretch/shrink ratio of the elastic boxes. $r$ is computed as follows.
+
+\begin{enumerate}
+\item Let lineWidth be the line width.
+\item Let rigidTotal be the sum of the lengths of the rigid boxes.
+\item Let elasticTotal be the sum of the optimal lengths of the elastic boxes.
+\item Let leftover = lineWidth - rigidTotal.
+\item Let $r$ = stretchShrinkRatio = leftover / elasticTotal.
+\end{enumerate}
+
+That completes the definition of the utility function in the line packing specialization of the path optimization algorithm.
+
+maxThreads is given to us as an input of the procedure.
+
+That completes the definition of the line packing specialization of the path optimization algorithm.
+
+Paragraph velements provide the first application of the line packing algorithm.
+
+To produce a paragraph velement, you need to provide as input a sequence of paragraph boxes, $b_1,...,b_n$. A paragraph box is very much like the boxes used in line packing, but it is not quite the same thing. A paragraph box is an object with the following properties:
+
+\begin{enumerate}
+\item A velement.
+\item A type: rigid, elastic, or fill.
+\item A length, if it is rigid, or an optimal length, if it is elastic. This is a positive real number.
+\item isBreakpoint (a boolean).
+\item If isBreakpoint, then optionally a preBreakBox and/or a postBreakBox, both paragraph boxes.
+\end{enumerate}
+
+A paragraph velement is a type of box velement. Its lines' heights are computed to fill the available height, and its lines all occupy all the available width. (You can get flush left type by giving all your breakpoint boxes a preBreakBox which is a whitespace fill box.)
+
+I'll sketch the rendering function of a paragraph velement. The goal is to lay out the velements of the boxes $b_1,...,b_n$ in lines of a given width $w$, while occupying a given height $h$, and to do so optimally.
+
+Apply line packing to figure out the best way to split the boxes $b_1,...,b_n$ into lines $l_1,...,l_m$, all of length $w$.\footnote{To get the usual behavior of a final line that is allowed to be less than completely full, you should have a fill box at the end of your input sequence of boxes.} On that basis, construct a vbox whose children are a series of hboxes, one hbox per line, where the children of the hboxes are the velements of the boxes $b_1,...,b_n$. Then render that vbox.
+
+TODO: layout problem
+
+\end{document}
