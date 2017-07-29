@@ -9,22 +9,23 @@ To specify a line packing problem requires one thing: an array of "boxes."
 
 DEFINITION. A "box" is an object of the following form:
   {
+    boxType,
     velement,
     lengthParameter,
     optimalLength,
-    isRigid,
     isBreakpoint,
     [preBreakBox,]
     [postBreakBox]
   }
 
+ * boxType is one of 'rigid', 'fill', or 'elastic'. Rigid boxes must be exactly their
+   optimalLength. Elastic boxes can vary from their optimalLength with a penalty. Fill 
+   can be any length and they ignore their optimal length.
  * velement is a velement.
  * lengthParameter is a path into velement.layoutProblem.objectiveFunction.domainRepresentative.
    E.g. when line breaking English to make a paragraph, lengthParameter is ['width'].
    When page breaking, lengthParameter is ['height'].
  * optimalLength is a number, presumed to be an optimal setting for lengthParameter.
- * isRigid is a boolean, representing whether this velement needs to be its optimalLength
-   or whether its length can vary.
  * isBreakpoint is a boolean, representing whether this velement can be replaced with a line
    break preceded by the box preBreakBox and followed by the box postBreakBox.
  * preBreakBox and postBreakBox are optional parameters which are only meaningful if isBreakpoint
@@ -59,7 +60,7 @@ such that:
 6. postBreakBox is a box: the box left over from breaking the breakpoint box at the end
    of the line.
 
-DEFINITION. A "breakpoint list" is a list of non-negative integers in ascending order.
+DEFINITION. A "breakpoint list" is an array of non-negative integers in ascending order.
 
 == breakBoxes(boxes, breakpoints) ==
 
