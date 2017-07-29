@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { solvePathOptimizationProblem } from '../../src/path-optimization.js';
+import { deepEquals } from '../../src/pojo.js';
 
 describe('solvePathOptimizationProblem', () => {
   it('works on a simple case', () => {
@@ -33,7 +34,9 @@ describe('solvePathOptimizationProblem', () => {
         return path.reduce((a,b) => a + b, 0);
       },
 
-      maxThreads: Infinity
+      maxThreads: Infinity,
+
+      pathsAreEqual: deepEquals
     };
 
     let solution = solvePathOptimizationProblem(pathOptimizationProblem);
