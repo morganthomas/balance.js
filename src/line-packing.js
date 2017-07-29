@@ -81,24 +81,23 @@ DEFINITION. A "partial solution" to a line packing problem is an object of the f
   {
     breakpointList,
     lines,
+    lineBadnesses,
     badness,
     isTolerable,
     unusedBoxes,
-    postBreakBox,
-    isDead
+    postBreakBox
   }
 
  * breakpointList is a breakpoint list.
  * lines is an array of lines, produced by applying breakpointList (with unusedBoxes possibly
    containing the last array of velements from breakBoxes(boxes, breakpointList)).
+ * lineBadnesses is an array of numbers, of the same length as lines, giving the badness of
+   each line.
  * badness is the sum of the badnesses of the lines.
  * isTolerable is a boolean, true iff all lines are tolerable.
  * unusedBoxes is an array of boxes (all the boxes that have yet to be packed into lines
    in this partial solution). When unusedBoxes.length = 0, we call this partial solution "complete."
  * postBreakBox is any postBreakBox left over from the line break of the final line.
- * isDead is a boolean, indicating whether this partial solution is greyed out as the root of
-   a non-viable part of the solution tree, meaning that any way of extending this partial
-   solution has been deemed non-viable by the algorithm.
 
 DEFINITION. A "solution" to a line packing problem is an object of the following form:
   {
@@ -114,7 +113,7 @@ See the definition of "partial solution" for the explanations of these propertie
 The remaining functions in this file are intermediate steps that solveLinePackingProblem
 needs to take.
 
-== createLine(boxes, length, [userConstraints]) ==
+== createLine(boxes, length) ==
 
 Expects an array of boxes and a positive number. Returns a corresponding line, of the given
 length. 
