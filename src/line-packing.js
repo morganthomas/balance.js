@@ -76,6 +76,21 @@ j in breakpoints.
       a positive integer or Infinity. If settings.maxThreads = Infinity, then solveLinePackingProblem 
       will do an exhaustive search of the breakpoint list space in every case.
 
+DEFINITION. A "solution" to a line packing problem is an object of the following form:
+  {
+    breakpointList,
+    lines,
+    badness,
+    isTolerable,
+    postBreakBox
+  }
+
+See the definition of "partial solution," below, for the explanations of these properties.
+
+solveLinePackingProblem returns a function which expects as input a line length function
+(a function from non-negative integers to positive numbers) and produces as output a solution.
+TODO: what properties does the solution satisfy?
+
 DEFINITION. A "partial solution" to a line packing problem is an object of the following form:
 
   {
@@ -99,19 +114,16 @@ DEFINITION. A "partial solution" to a line packing problem is an object of the f
    in this partial solution). When unusedBoxes.length = 0, we call this partial solution "complete."
  * postBreakBox is any postBreakBox left over from the line break of the final line.
 
-DEFINITION. A "solution" to a line packing problem is an object of the following form:
-  {
-    breakpointList,
-    lines,
-    badness,
-    isTolerable,
-    postBreakBox
-  }
-
-See the definition of "partial solution" for the explanations of these properties.
+The line packing algorithm uses path optimization, where the paths are partial solutions.
+See ./path-optimization.js. The path optimization problem is created by the function
+createLinePackingPathOptimizationProblem.
 
 The remaining functions in this file are intermediate steps that solveLinePackingProblem
 needs to take.
+
+== createLinePackingPathOptimizationProblem(boxes, [settings]) ==
+
+Creates the path optimization problem used in the implementation of solveLinePackingProblem.
 
 == createLine(boxes, length) ==
 
