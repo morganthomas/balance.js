@@ -122,7 +122,8 @@ needs to take.
 
 == createLinePackingPathOptimizationProblem(boxes, [settings]) ==
 
-Creates the path optimization problem used in the implementation of solveLinePackingProblem.
+Creates the path optimization problem configuration object used in the implementation
+of solveLinePackingProblem, and passed internally to solvePathOptimizationProblem.
 
 == createLine(boxes, length) ==
 
