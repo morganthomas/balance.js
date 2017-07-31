@@ -17,8 +17,8 @@ DEFINITION. A "box" is an object with the following data (and it can have additi
   }
 
  * boxType is one of 'rigid', 'fill', or 'elastic'. Rigid boxes must be exactly their
-   optimalLength. Elastic boxes can vary from their optimalLength with a penalty. Fill 
-   can be any length and they ignore their optimal length.
+   optimalLength. Elastic boxes can vary from their optimalLength with a penalty. Fill boxes
+   can be any length, and they ignore their optimalLength.
  * optimalLength is a number, presumed to be an optimal setting for lengthParameter.
  * isBreakpoint is a boolean, representing whether this velement can be replaced with a line
    break preceded by the box preBreakBox and followed by the box postBreakBox.
@@ -88,8 +88,7 @@ DEFINITION. A "solution" to a line packing problem is an object of the following
 See the definition of "partial solution," below, for the explanations of these properties.
 
 solveLinePackingProblem returns a function which expects as input a line length function
-(a function from non-negative integers to positive numbers) and produces as output a solution.
-TODO: what properties does the solution satisfy?
+and produces as output a solution. TODO: what properties does the solution satisfy?
 
 DEFINITION. A "partial solution" to a line packing problem is an object of the following form:
 
