@@ -54,7 +54,7 @@ DEFINITION. A "breakpoint list" is an array of non-negative integers in ascendin
 == breakBoxes(boxes, breakpoints) ==
 
 Expects 'boxes' to be an array of boxes and 'breakpoints' to be a breakpoint list,
-such that breakpoints[i] < boxes.length for all i. Returns an array of arrays of velements,
+such that breakpoints[i] < boxes.length for all i. Returns an array of arrays of boxes,
 the elements of the lines that are created by turning boxes[j] into a line break for all
 j in breakpoints.
 
