@@ -1,0 +1,13 @@
+I, ____, speaking in my capacity as an official representative of IHS Markit:
+
+* Do certify that IHS Markit is committed to the position that balance.js is an open source project available to everybody under the Apache License 2.0, with the copyright held by the balance.js contributors, as defined by https://github.com/morganthomas/balance.js/blob/master/CONTRIBUTORS.txt
+* Do certify that IHS Markit is committed to the position that Morgan Thomas is the leader of the balance.js project, with total authority over all decisions pertaining to the intellectual property which is part of the balance.js project, at least until such time as Morgan Thomas and IHS Markit negotiate an agreement superseding this one.
+* Do certify that IHS Markit shall make no claim to copyright over balance.js, in whole or in part, and that regardless of any further developments, IHS Markit shall not seek compensatory or punitive damages for any course of action which Morgan Thomas takes pertaining to balance.js.
+* Do certify that IHS Markit will not pursue legal action or suit against Morgan Thomas for any reason related to balance.js, regardless of whether or not Morgan Thomas continues employment at IHS Markit, and at least until such time as Morgan Thomas and IHS Markit negotiate an agreement superseding this one.
+
+All statements of this document form part of a legally binding contract which exists between IHS Markit and Morgan Thomas in virtue of our signing of this document. This agreement supersedes all other agreements between IHS Markit and Morgan Thomas, if they conflict, until such time as Morgan Thomas and IHS Markit negotiate an agreement superseding this one.
+
+Signatures:
+
+Morgan Thomas
+____
