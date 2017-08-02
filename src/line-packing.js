@@ -63,6 +63,10 @@ j in breakpoints.
  * boxes is an array of boxes.
  * settings is an optional object configuring the optimization algorithm, with the following
    optional properties:
+    * elasticBadnessCoefficient is the coefficient used in computing the badness resulting
+      from stretching or shrinking an elastic box. It has a default (TODO: where?)
+    * lineMisfillBadnessCoefficient is the coefficient used in computing the badness resulting
+      from underfilling or overfilling a line. It has a default (TODO: where?)
     * settings.tolerance is a maximum badness for lines. We say that a line is "tolerable"
       iff either this setting is absent or the line's badness is less than settings.tolerance.
       solveLinePackingProblem will not return a solution containing a line with badness
