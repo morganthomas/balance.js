@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { breakBoxes } from '../../src/line-packing.js';
 
 const boxes1 = [
   { // 0
@@ -109,6 +110,7 @@ describe('breakBoxes', () => {
         boxes1[5],
         boxes1[6],
         boxes1[7],
+        boxes1[8],
         boxes1[9],
         boxes1[10].preBreakBox
       ],
@@ -128,6 +130,7 @@ describe('breakBoxes', () => {
         boxes1[5],
         boxes1[6],
         boxes1[7],
+        boxes1[8],
         boxes1[9],
         boxes1[10].preBreakBox
       ],

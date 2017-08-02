@@ -136,3 +136,45 @@ length.
 
 */
 
+import assert from 'assert';
+
+function breakBoxes(boxes1, breakpoints) {
+  let lines = [];
+
+  let breakpointIndex = 0;
+  let nextLine = [];
+
+  for (let i = 0; i < boxes1.length; i++) {
+    if (breakpointIndex < breakpoints.length) {
+      let breakpoint = breakpoints[breakpointIndex];
+      if (breakpoint === i) {
+        let box = boxes1[i];
+        assert(box.isBreakpoint);
+        if (box.preBreakBox) {
+          nextLine.push(box.preBreakBox);
+        }
+        lines.push(nextLine);
+        nextLine = [];
+        if (box.postBreakBox) {
+          nextLine.push(box.postBreakBox);
+        }
+        breakpointIndex++;
+      } else {
+        assert(i < breakpoint);
+        nextLine.push(boxes1[i]);
+      }
+    } else {
+      nextLine.push(boxes1[i]);
+    }
+  }
+
+  if (nextLine.length > 0) {
+    lines.push(nextLine);
+  }
+
+  return lines;
+}
+
+export {
+  breakBoxes
+}
