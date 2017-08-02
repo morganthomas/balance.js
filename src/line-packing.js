@@ -19,7 +19,7 @@ DEFINITION. A "box" is an object with the following data (and it can have additi
  * boxType is one of 'rigid', 'fill', or 'elastic'. Rigid boxes must be exactly their
    optimalLength. Elastic boxes can vary from their optimalLength with a penalty. Fill boxes
    can be any length, and they ignore their optimalLength.
- * optimalLength is a number, presumed to be an optimal setting for lengthParameter.
+ * optimalLength is a number, presumed to be an optimal length for this box.
  * isBreakpoint is a boolean, representing whether this velement can be replaced with a line
    break preceded by the box preBreakBox and followed by the box postBreakBox.
  * preBreakBox and postBreakBox are optional parameters which are only meaningful if isBreakpoint
@@ -67,7 +67,7 @@ j in breakpoints.
       iff either this setting is absent or the line's badness is less than settings.tolerance.
       solveLinePackingProblem will not return a solution containing a line with badness
       greater than settings.tolerance, if possible. The attempt to satisfy this requirement
-      may trigger an exhaustive search of the space of possible breakpoint lists.
+      may trigger an exhaustive search of the space of possible breakpoint lists (TODO: not true).
       settings.tolerance is a positive number or Infinity. Supplying settings.tolerance = Infinity
       is equivalent to not supplying settings.tolerance.
     * settings.maxThreads is the maximum number of possible solutions that solveLinePackingProblem
@@ -75,6 +75,9 @@ j in breakpoints.
       inability to find solutions with tolerable lines). Default value is 7. The value must be
       a positive integer or Infinity. If settings.maxThreads = Infinity, then solveLinePackingProblem 
       will do an exhaustive search of the breakpoint list space in every case.
+
+solveLinePackingProblem returns a function which expects as input a line length function
+and produces as output a solution. TODO: what properties does the solution satisfy?
 
 DEFINITION. A "solution" to a line packing problem is an object of the following form:
   {
@@ -86,9 +89,6 @@ DEFINITION. A "solution" to a line packing problem is an object of the following
   }
 
 See the definition of "partial solution," below, for the explanations of these properties.
-
-solveLinePackingProblem returns a function which expects as input a line length function
-and produces as output a solution. TODO: what properties does the solution satisfy?
 
 DEFINITION. A "partial solution" to a line packing problem is an object of the following form:
 
